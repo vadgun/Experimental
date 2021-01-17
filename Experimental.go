@@ -1,7 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"github.com/kataras/iris/v12"
+)
 
 func main() {
-	fmt.Println("Hola mundo")
+	app := iris.New()
+	app.Get("/", func(ctx iris.Context) {
+
+		ctx.HTML("Hola Server en Go")
+	})
+	app.Run(iris.Addr(":8080"))
 }
