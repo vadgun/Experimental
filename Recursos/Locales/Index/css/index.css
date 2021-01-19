@@ -1,0 +1,153 @@
+/* The sidebar menu */
+
+#menu {
+  display: none;
+}
+
+
+.icoMenu{
+  display: none!important;
+}
+
+
+.sidenav {
+    height: 100%; /* Full-height: remove this if you want "auto" height */
+    width: 185px; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    top: 0; /*Stay at the top */
+    left: 0;
+    background-color: #111; /* Black */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 20px;
+    font-family: "Lato", sans-serif;
+  }
+  
+  /* The navigation menu links */
+ 
+  .sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 15px;
+    color: #818181;
+    display: block;
+  }
+  
+  /* When you mouse over the navigation links, change their color */
+  .sidenav a:hover {
+    color: #f1f1f1;
+  }
+
+  @media (min-width: 451px) and (max-width: 770px){
+    #menu{
+      display: block;
+    }
+    .d-none{
+      display: block!important;
+    }
+    .icoMenu{
+      display: flex!important;
+      justify-content: flex-end!important;
+      padding-right: 12px!important;
+    }
+    .menuTitle{
+      font-size: 16px;
+    }
+    
+
+    .sidenav{
+      display: none;
+      height: auto; /* Full-height: remove this if you want "auto" height */
+      width: 100%; /* Set the width of the sidebar */
+      position: fixed; /*Fixed Sidebar (stay in place on scroll) */
+      /* z-index: 1; Stay on top */
+      top: 0; /*Stay at the top */
+      /* left: 0; */
+      background-color: #111; /* Black */
+      /* overflow-x: hidden; Disable horizontal scroll */
+      padding-top: 5px;
+      font-family: "Lato", sans-serif;
+    }
+
+
+    #clientesContainer{
+      overflow-x: scroll;
+    }
+  }
+  
+  
+  /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
+  @media (max-width: 450px) {
+    #menu{
+      display: block;
+    }
+    .d-none{
+      display: block!important;
+    }
+    .icoMenu{
+      display: flex!important;
+      justify-content: flex-end!important;
+      padding-right: 12px!important;
+    }
+    .menuTitle{
+      font-size: 16px;
+    }
+    
+
+    .sidenav{
+      display: none;
+      height: auto; /* Full-height: remove this if you want "auto" height */
+      width: 100%; /* Set the width of the sidebar */
+      position: fixed; /*Fixed Sidebar (stay in place on scroll) */
+      /* z-index: 1; Stay on top */
+      top: 0; /*Stay at the top */
+      /* left: 0; */
+      background-color: #111; /* Black */
+      /* overflow-x: hidden; Disable horizontal scroll */
+      padding-top: 5px;
+      font-family: "Lato", sans-serif;
+    }
+
+
+    #clientesContainer{
+      overflow-x: scroll;
+    }
+
+  }
+
+  /* +++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
+a.selected{
+    color: white;
+}
+  
+.selected{
+  border-bottom: #f1f1f1 3px solid;
+}
+
+.centrado {
+  display: flex;
+  justify-content: center;
+}
+
+.textocentrado{
+  text-align: center;
+}
+
+.textomayus{
+  text-transform: uppercase;
+}
+
+.border-bottoms-c {
+  color: #243e8c;
+  font-size: 1em;
+  border-bottom: 1px solid #243e8c;
+}
+
+.negrita {
+  font-weight: bold;
+}
+
+.small-font-label{
+  font-size: 0.4em;
+}
