@@ -1,67 +1,38 @@
-<!DOCTYPE html>
-<html lang="es">
+<!-- H E A D    H T M L -->
+{{template "headTemplate"}}
+{{template "navbartemplate" .}}
+<div class="col-lg-10 col-md-10 rouded-lg">
+    <div class="container mt-4">
+<h1 class="text-center">Bienvenido {{.Usuario.Nombre}} {{.Usuario.Apellidos}}</h1>
+<hr>
+<div class="" id="IndexContainer">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio | Experimental</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="Recursos/Generales/Plugins/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="Recursos/Generales/Plugins/Dropify/css/dropify.css">
-    <link rel="stylesheet" type="text/css" href="Recursos/Generales/Plugins/sweetalert/css/sweetalert2.css">
-    <link rel="stylesheet" type="text/css" href="Recursos/Locales/Index/css/index.css">
-</head>
+    <div class="centrado">
+        <a href="/calificaciones">
+            {{if .Usuario.Alumno}}
+            <img src="/Recursos/Imagenes/calif3.png" class="img-fluid" alt="VerCalificacioneslogo">
+            {{end}}
 
-<body>
+            {{if .Usuario.Docente}}
+            <img src="/Recursos/Imagenes/calif2.png" class="img-fluid" alt="VerCalificacioneslogo">
+            {{end}}
 
-    <div class="col-lg-12">
-        <div class="row">
-            <div class="col-lg-2 col-md-2 rouded-lg">
-                <div id=menu>
-                    <div class="d-flex justify-content-end align-items-center mt-2">
-                        <b class="my-auto mr-1 menuTitle">MENU</b>
-                        <a id="menu">
-                            <img src="Recursos/Imagenes/icoMenu.png" width="35" alt="menu">
-                        </a>
-                    </div>
-                </div>
-                <hr class="bg-dark d-none">
-                <div class="sidenav navbar-nav">
-                    <a class="icoMenu">
-                        <img id="closeMenu" src="Recursos/Generales/Plugins/icons/build/svg/x2.svg" alt="">
-                    </a>
-                    <hr class="bg-white d-none">
-                    <a href="/index" id="indexit" class="">Inicio</a>
-                    <a href="/clientes" id="clientesit" class="">Calificaciones</a>
-                    <a href="/catalogos" id="catalogosit" class="">Alumnos</a>
-                    <a href="/empleados" id="empleadosit" class="">Docentes</a>
-                    <a href="/empresas" id="empresasit" class="">Directorio</a>
-                    <a href="/materiales" id="materialesit" class="">Buscador</a>
-                    <a href="/espectaculares" id="espectacularesit" class="">Horarios</a>
-                    <a href="/ventas" id="ventasit" class="">Kardex</a>
-                    <div class="mt-auto">
-                        <a href="/perfil?id={{.Usuario.ID.Hex}}" class="useron">{{.Usuario.Nombre}} {{.Usuario.Apellidos}}</a>
-                        <a href="/logout" class="username">Cerrar Sesión</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-10 col-md-10 rouded-lg">
-                <div class="container mt-4">
-                    <h1 class="text-center">Bienvenido {{.Usuario.Nombre}}</h1>
-                    <hr>
-                </div>
-            </div>
-        </div>
+        </a>
+
+        {{if .Usuario.Alumno}}
+        <a href="/inscripcion">
+            <img src="/Recursos/Imagenes/inscribirse.png" class="img-fluid" alt="VerCalificaciones1logo">
+        </a>
+        {{end}}
+
+
+
+
     </div>
-</body>
-<script src="Recursos/Generales/Plugins/jquery/jquery-3.2.1.min.js"></script>
-<script src="Recursos/Generales/Plugins/bootstrap4/js/popper.min.js"></script>
-<script src="Recursos/Generales/Plugins/bootstrap4/js/bootstrap.min.js"></script>
-<script src="Recursos/Generales/Plugins/Dropify/js/dropify.js"></script>
-<script src="Recursos/Locales/Index/js/index.js"></script>
-<script src="Recursos/Locales/Index/js/navbar.js"></script>
-<script src="Recursos/Generales/Plugins/sweetalert/js/sweetalert2.all.js"></script>
-<script>indexit.classList.add("selected");</script>
 
-</html>
+
+
+</div>
+</div>
+<script>indexit.classList.add("selected");</script>
+{{template "footerTemplate" .}}

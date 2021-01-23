@@ -121,7 +121,9 @@ a.selected{
     color: white;
 }
   
+  
 .selected{
+    font-size: 2em;
   border-bottom: #f1f1f1 3px solid;
 }
 

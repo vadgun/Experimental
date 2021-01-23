@@ -1,18 +1,46 @@
-let clientes = document.getElementById("clientesit");
-let empleados = document.getElementById("empleadosit");
-let espectaculares = document.getElementById("espectacularesit");
-let materiales = document.getElementById("materialesit");
-let empresas = document.getElementById("empresasit");
-let indexit = document.getElementById("indexit");
-let catalogosit = document.getElementById("catalogosit");
+let calificacionesit = document.getElementById("calificacionesit");
+let alumnosit= document.getElementById("alumnosit");
+let docentesit= document.getElementById("docentesit");
+let directorioit= document.getElementById("directorioit");
+let buscadorit= document.getElementById("buscadorit");
+let horariosit= document.getElementById("horariosit");
+let kardexit= document.getElementById("kardexit");
+let inscripcionit= document.getElementById("inscripcionit");
 
 
+//  $('.dropify').dropify();
 
- $('.dropify').dropify();
- function BuscaClientes() {
-     inputvalue = document.getElementById("buscadorcliente").value;
-     console.log(inputvalue+" AQUI");
- }
+
+//  function VerificarDatosInscripcion(){
+
+//     var formulario = document.getElementById("altaPagoInscripcion");
+
+//     if (confirm("Confirma Opción")) {
+//         formulario.submit();
+//         // return true;
+//       } else {
+//         Swal.fire({
+//             title: 'Los datos son correctos?',
+//             text: "Verifica una vez mas",
+//             icon: 'warning',
+//             showCancelButton: true,
+//             confirmButtonColor: '#3085d6',
+//             cancelButtonColor: '#d33',
+//             confirmButtonText: 'Yes, delete it!'
+//           }).then((result) => {
+//             if (result.isConfirmed) {
+//               Swal.fire(
+//                 'Deleted!',
+//                 'Your file has been deleted.',
+//                 'success'
+//               )
+//             }
+//           })
+//           return false;
+//       }
+      
+
+//  }
 
 // var input = document.getElementById("buscadorcliente");
 // console.log(input);
