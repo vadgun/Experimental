@@ -7,6 +7,7 @@ import (
 	indexcontroller "github.com/vadgun/Experimental/Controladores/IndexController"
 	inscripcioncontroller "github.com/vadgun/Experimental/Controladores/InscripcionController"
 	logincontroller "github.com/vadgun/Experimental/Controladores/LoginController"
+	usuarioscontroller "github.com/vadgun/Experimental/Controladores/UsuariosController.go"
 )
 
 func main() {
@@ -34,6 +35,12 @@ func main() {
 	app.Post("/obtenerMaterias", asignacioncontroller.ObtenerMaterias)
 
 	app.Post("/asignarMateriaADocente", asignacioncontroller.AsignarMaterias)
+	app.Post("/revocarMateriaADocente", asignacioncontroller.RevocarMaterias)
+
+	app.Post("/usuarios", usuarioscontroller.Usuarios)
+	app.Get("/usuarios", usuarioscontroller.Usuarios)
+
+	app.Post("/solicitudUsuario", usuarioscontroller.SolicitarUsuario)
 
 	app.Post("/alumnos", indexcontroller.Index)
 	app.Get("/alumnos", indexcontroller.Index)

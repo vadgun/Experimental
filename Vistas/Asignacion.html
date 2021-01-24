@@ -17,7 +17,7 @@
             <div class="form-group row">
                 <label for="plan" class="col-sm-1 col-form-label negrita"> Plan: </label>
                 <div class="col-sm-2 col-md-4 col-lg-4">
-                    <select name="plan" id="plan" class="form-control" required value="">
+                    <select name="plan" id="plan" class="form-control" required value="" onchange="EnviarAsignacion();">
                         <option value="">Selecciona un plan de estudios</option>
                         <option value="2012">2012</option>
                         <option value="2018">2018</option>
@@ -26,7 +26,7 @@
             
                 <label for="licenciatura" class="col-sm-2 col-form-label negrita"> Licenciatura: </label>
                 <div class="col-sm-2 col-md-4 col-lg-4">
-                    <select class="form-control" id="licenciatura" name="licenciatura" value="" >
+                    <select class="form-control" id="licenciatura" name="licenciatura" value="" onchange="EnviarAsignacion();">
                         <option value="">Selecciona una Licenciatura</option>
                         <option value="Primaria">Primaria</option>
                         <option value="Preescolar">Preescolar</option>

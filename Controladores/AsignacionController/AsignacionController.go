@@ -47,18 +47,24 @@ func ObtenerMaterias(ctx iris.Context) {
 	semestre := ctx.PostValue("semestre")
 	plan := ctx.PostValue("plan")
 
-	fmt.Println("Lic ->", licenciatura)
-	fmt.Println("Sem ->", semestre)
-	fmt.Println("Plan ->", plan)
-
 	//Necesito el ID del DOCENTE, puede provenir del mismo ajax, lo evaluo para asignarle la materia correctamente
 
+	//Obtener Materias que cumplan con las condiciones  [ +2012  +Primaria  +1s ]
+
+	var materias []calificacionesmodel.Materia
+
+	materias = calificacionesmodel.ObtenerMateriasFiltradas(plan, licenciatura, semestre)
 	var htmlcode string
 
-	htmlcode += fmt.Sprintf(`
+	if len(materias) == 0 {
+		ctx.HTML("<script>Swal.fire('Sin Resultados');</script>")
+
+	} else {
+
+		htmlcode += fmt.Sprintf(`
 	<br>
 	<hr>
-	<table class="table table-hover table-bordered table-lg" style="margin: auto; width: 94%s !important; font-size:14px;">
+	<table class="table table-hover table-bordered table-lg" style="margin: auto; width: 100%s !important; font-size:14px;">
 	  <thead>
 		<th class="textocentrado">
 		  Materia
@@ -70,36 +76,24 @@ func ObtenerMaterias(ctx iris.Context) {
 		 Créditos
 		</th>
 		<th class="textocentrado">
-		Asignada a:
-		  </th>	
-		<th class="textocentrado">
 		  Acciones
 		</th>
 		</thead>
 	  <tbody>`, "%%")
 
-	//Obtener Materias que cumplan con las condiciones  [ +2012  +Primaria  +1s ]
-
-	var materias []calificacionesmodel.Materia
-
-	materias = calificacionesmodel.ObtenerMateriasFiltradas(plan, licenciatura, semestre)
-
-	for k, v := range materias {
-
-		fmt.Println("k ->", k)
-		fmt.Println("v ->", v)
-		htmlcode += fmt.Sprintf(`
+		for _, v := range materias {
+			htmlcode += fmt.Sprintf(`
 		<tr>
 		<td>%v</td>
 		<td>%v</td>
 		<td>%v</td>
-		<td>%v</td>
+		
 		<td>
 			<a id="myLink" href="#" onclick="AsignarMateria('%v');return false;">
 				<img src="Recursos/Generales/Plugins/icons/build/svg/plus-circle-16.svg" height="25" alt="Asignar Materia"/>
 			</a>
 
-			<a id="myLink" href="#" onclick="AsignarMateria('%v');return false;">
+			<a id="myLink" href="#" onclick="RevocarMateria('%v');return false;">
 			<img src="Recursos/Generales/Plugins/icons/build/svg/no-entry-16.svg" height="25" alt="Revocar Materia"/>
 			</a>		
 		
@@ -107,16 +101,17 @@ func ObtenerMaterias(ctx iris.Context) {
 
 		</tr>
 
-		`, v.Materia, v.Horas, v.Creditos, v.Asignada, v.ID.Hex(), v.ID.Hex())
+		`, v.Materia, v.Horas, v.Creditos, v.ID.Hex(), v.ID.Hex())
 
-	}
+		}
 
-	htmlcode += fmt.Sprintf(`
+		htmlcode += fmt.Sprintf(`
 	  </tbody>
 	  </table>
 	`)
 
-	ctx.HTML(htmlcode)
+		ctx.HTML(htmlcode)
+	}
 
 }
 
@@ -126,12 +121,33 @@ func AsignarMaterias(ctx iris.Context) {
 	data := ctx.PostValue("data")
 	iddocente := ctx.PostValue("iddocente")
 
-	fmt.Println("Data ->", data)
-	fmt.Println("Data ->", iddocente)
+	//Necesito el ID del DOCENTE y el ID de la MATERIA
+	//ya tengo el ID de MATERIA
+
+	guardado := calificacionesmodel.AsignarMateria(data, iddocente)
+
+	if guardado {
+		ctx.HTML("<script>Swal.fire('Materia asignada correctamente');</script>")
+	} else {
+		ctx.HTML("<script>Swal.fire('Ya asignada al docente');</script>")
+	}
+
+}
+
+//RevocarMaterias Revoca la materia seleccionada
+func RevocarMaterias(ctx iris.Context) {
+	data := ctx.PostValue("data")
+	iddocente := ctx.PostValue("iddocente")
 
 	//Necesito el ID del DOCENTE y el ID de la MATERIA
 	//ya tengo el ID de MATERIA
 
-	ctx.HTML("<script>alert('Hola');</script>")
+	revocada := calificacionesmodel.RevocarMateria(data, iddocente)
+
+	if revocada {
+		ctx.HTML("<script>Swal.fire('Materia revocada correctamente');</script>")
+	} else {
+		ctx.HTML("<script>Swal.fire('Ya se ha revocado esta materia al docente');</script>")
+	}
 
 }

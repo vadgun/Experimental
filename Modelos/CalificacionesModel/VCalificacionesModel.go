@@ -19,7 +19,7 @@ type Boleta struct {
 //Alumno ligado al usuario de sistema sus datos personales y perfil dentro de la institución
 type Alumno struct {
 	ID              bson.ObjectId `bson:"_id,omitempty"`
-	SystemUser      bson.ObjectId `bson:"SystemUser"`
+	MongoUser       bson.ObjectId `bson:"MongoUser"`
 	IsSystemUser    bool          `bson:"IsSystemUser"`
 	Matricula       string        `bson:"Matricula"`
 	Nombre          string        `bson:"Nombre"`
@@ -39,40 +39,40 @@ type Alumno struct {
 	SiguienteSem    string        `bson:"SiguienteSem"`
 	AnteriorSem     string        `bson:"AnteriorSem"`
 	InicioSem       string        `bson:"InicioSem"`
-	Imagen          string        `bson:"Imagen"`
+	Imagen          bson.ObjectId `bson:"Imagen"`
 	Horario         string        `bson:"Horario"`
 }
 
 //Docente y su perfil dentro del sistema
 type Docente struct {
-	ID              bson.ObjectId `bson:"_id,omitempty"`
-	SystemUser      bson.ObjectId `bson:"SystemUser"`
-	IsSystemUser    bool          `bson:"IsSystemUser"`
-	Nombre          string        `bson:"Nombre"`
-	ApellidoP       string        `bson:"ApellidoP"`
-	ApellidoM       string        `bson:"ApellidoM"`
-	FechaNac        time.Time     `bson:"FechaNac"`
-	Curp            string        `bson:"Curp"`
-	Rfc             string        `bson:"Rfc"`
-	Calle           string        `bson:"Calle"`
-	ColAsentamiento string        `bson:"ColAsentamiento"`
-	Municipio       string        `bson:"Municipio"`
-	Estado          string        `bson:"Estado"`
-	Telefono1       string        `bson:"Telefono1"`
-	Telefono2       string        `bson:"Telefono2"`
-	TipoSangre      string        `bson:"TipoSangre"`
-	Imagen          string        `bson:"Imagen"`
-	Grupos          string        `bson:"Grupos"`
-	Materias        string        `bson:"Materias"`
-	Horario         string        `bson:"Horario"`
-	CapturaInicio   time.Time     `bson:"CapturaInicio"`
-	CapturaFin      time.Time     `bson:"CapturaFin"`
+	ID              bson.ObjectId   `bson:"_id,omitempty"`
+	MongoUser       bson.ObjectId   `bson:"MongoUser"`
+	IsSystemUser    bool            `bson:"IsSystemUser"`
+	Nombre          string          `bson:"Nombre"`
+	ApellidoP       string          `bson:"ApellidoP"`
+	ApellidoM       string          `bson:"ApellidoM"`
+	FechaNac        time.Time       `bson:"FechaNac"`
+	Curp            string          `bson:"Curp"`
+	Rfc             string          `bson:"Rfc"`
+	Calle           string          `bson:"Calle"`
+	ColAsentamiento string          `bson:"ColAsentamiento"`
+	Municipio       string          `bson:"Municipio"`
+	Estado          string          `bson:"Estado"`
+	Telefono1       string          `bson:"Telefono1"`
+	Telefono2       string          `bson:"Telefono2"`
+	TipoSangre      string          `bson:"TipoSangre"`
+	Imagen          bson.ObjectId   `bson:"Imagen"`
+	Grupos          string          `bson:"Grupos"`
+	Materias        []bson.ObjectId `bson:"Materias"`
+	Horario         string          `bson:"Horario"`
+	CapturaInicio   time.Time       `bson:"CapturaInicio"`
+	CapturaFin      time.Time       `bson:"CapturaFin"`
 }
 
 // //Director y su perfil dentro del sistema
 // type Director struct {
 // 	ID              bson.ObjectId `bson:"_id,omitempty"`
-// 	SystemUser      bson.ObjectId `bson:"SystemUser"`
+// 	MongoUser      bson.ObjectId `bson:"MongoUser"`
 // 	IsSystemUser    bool          `bson:"IsSystemUser"`
 // 	Nombre          string        `bson:"Nombre"`
 // 	ApellidoP       string        `bson:"ApellidoP"`
@@ -95,7 +95,7 @@ type Docente struct {
 // //Administrativo Administrativo y su perfil dentro del sistema
 // type Administrativo struct {
 // 	ID              bson.ObjectId `bson:"_id,omitempty"`
-// 	SystemUser      bson.ObjectId `bson:"SystemUser"`
+// 	MongoUser      bson.ObjectId `bson:"MongoUser"`
 // 	IsSystemUser    bool          `bson:"IsSystemUser"`
 // 	Nombre          string        `bson:"Nombre"`
 // 	ApellidoP       string        `bson:"ApellidoP"`
@@ -136,9 +136,16 @@ type Materia struct {
 	Materia      string        `bson:"Materia"`
 	Plan         string        `bson:"Plan"`
 	Licenciatura string        `bson:"Licenciatura"`
-	Semestre     string        `bson:"Semestre"`
+	Semestre     bson.ObjectId `bson:"Semestre"`
 	Horas        string        `bson:"Horas"`
 	Creditos     string        `bson:"Creditos"`
-	Asignada     []string      `bson:"Asignada"`
-	EnCurso      bool          `bson:"EnCurso"`
+}
+
+//Semestre Controlara el id donde se interconectaran los alumnos las materias y los docentes, para crear algo llamado ordenes de captura de calificaciones
+type Semestre struct {
+	ID           bson.ObjectId   `bson:"_id,omitempty"`
+	Semestre     string          `bson:"Semestre"`
+	Licenciatura string          `bson:"Licenciatura"`
+	Plan         string          `bson:"Plan"`
+	Materias     []bson.ObjectId `bson:"Materias"`
 }

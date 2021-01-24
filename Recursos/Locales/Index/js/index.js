@@ -7,13 +7,16 @@ let horariosit= document.getElementById("horariosit");
 let kardexit= document.getElementById("kardexit");
 let inscripcionit= document.getElementById("inscripcionit");
 let asignacionit= document.getElementById("asignacionit");
+let usuariosit= document.getElementById("usuariosit");
+
+
+
 
 function EnviarAsignacion(){
 
     var plan = document.getElementById("plan");
     var licenciatura = document.getElementById("licenciatura");
     var semestre = document.getElementById("semestre");
-    var docenteevaluado = document.getElementById("docenteevaluado");
 
     console.log(plan.value);
     console.log(licenciatura.value);
@@ -48,13 +51,15 @@ if (licenciatura.value!= "" && plan.value!= "" && semestre.value != ""){
 function AsignarMateria(data){
 
     var docenteevaluado = document.getElementById("docenteevaluado");
+    var optionSelected = docenteevaluado.options[docenteevaluado.selectedIndex].text;
+    
 
     if (docenteevaluado.value != "") {
 
 
         Swal.fire({
               title: '¿Asignar esta materia?',
-              text: "Vefirica",
+              text: optionSelected,
               icon: 'warning',
               showCancelButton: true,
               confirmButtonColor: '#3085d6',
@@ -96,7 +101,84 @@ function AsignarMateria(data){
     }
 }
 
-//  $('.dropify').dropify();
+function RevocarMateria(data){
+
+    var docenteevaluado = document.getElementById("docenteevaluado");
+    var optionSelected = docenteevaluado.options[docenteevaluado.selectedIndex].text;
+    
+
+    if (docenteevaluado.value != "") {
+
+
+        Swal.fire({
+              title: '¿Revocar esta materia?',
+              text: optionSelected,
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Si, continuar'
+            }).then((result) => {
+              if (result.isConfirmed) {
+            
+                $.ajax({
+                  url: '/revocarMateriaADocente',
+                  data: { data: data, iddocente:docenteevaluado.value },
+                  type: 'POST',
+                  dataType: 'html',
+                  success: function(result) {
+                      console.log("Operacion Realizada con Exito");
+                        $("#answer").html(result);
+
+                  },
+                  error: function(xhr, status) {
+                      console.log("Error en la consulta");
+                  },
+                  complete: function(xhr, status) {
+                      console.log("La revocacion de la materia ha sido completada");
+                      
+                  }
+              });  
+            
+              }else if (result.isDismissed) {
+                Swal.fire("La materia no ha sido revocada");
+              }
+            })
+
+        
+        return false
+    }else{
+
+        Swal.fire("Selecciona un docente antes de revocar una materia");
+
+    }
+}
+
+function Usuarios(data){
+
+    // Swal.fire(data);
+  $.ajax({
+    url: '/solicitudUsuario',
+    data: { data: data },
+    type: 'POST',
+    dataType: 'html',
+    success: function(result) {
+        console.log("Operacion Realizada con Exito");
+        $("#UsuariosContainer").html(result);
+    },
+    error: function(xhr, status) {
+        console.log("Error en la consulta")
+    },
+    complete: function(xhr, status) {
+        console.log("Formulario para "+data+ " solicitado")
+        
+    }
+});
+
+
+}
+
+$('.dropify').dropify();
 
 
 //  function VerificarDatosInscripcion(){
