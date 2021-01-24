@@ -1,0 +1,85 @@
+<!-- H E A D    H T M L -->
+{{template "headTemplate"}}
+{{template "navbartemplate" .}}
+<div class="col-lg-10 col-md-10 rouded-lg">
+    <div class="container mt-4">
+<h1 class="text-center">Asignación de Materias</h1>
+<hr>
+<div class="" id="AsignacionContainer">
+
+    <!-- Tabla de materias, que se rellenan de un formulario de seleccion Plan y Licenciatura -->
+
+    <form method="" action="" name="AsignacionMaterias" id="AsignacionMaterias" >
+
+        <div class="col-12">        
+            
+            <br>
+            <div class="form-group row">
+                <label for="plan" class="col-sm-1 col-form-label negrita"> Plan: </label>
+                <div class="col-sm-2 col-md-4 col-lg-4">
+                    <select name="plan" id="plan" class="form-control" required value="">
+                        <option value="">Selecciona un plan de estudios</option>
+                        <option value="2012">2012</option>
+                        <option value="2018">2018</option>
+                    </select>
+                </div>
+            
+                <label for="licenciatura" class="col-sm-2 col-form-label negrita"> Licenciatura: </label>
+                <div class="col-sm-2 col-md-4 col-lg-4">
+                    <select class="form-control" id="licenciatura" name="licenciatura" value="" >
+                        <option value="">Selecciona una Licenciatura</option>
+                        <option value="Primaria">Primaria</option>
+                        <option value="Preescolar">Preescolar</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row form-group centrado">
+                <label for="semestre" class="col-sm-2 col-form-label negrita"> Semestre: </label>
+                <div class="col-sm-2 col-md-4 col-lg-4">
+                    <select class="form-control" id="semestre" name="semestre" value="" onchange="EnviarAsignacion();" >
+                        <option value="">Selecciona el semestre</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>    
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+        
+        <form method="" action="" name="AsignacionDocente" id="AsignacionDocente" >
+            <div class="col-12">            
+                <br>
+                <div class="form-group row centrado">
+                    <label for="docenteevaluado" class="col-sm-2 col-form-label negrita"> Docente a evaluar: </label>
+                    <div class="col-sm-2 col-md-4 col-lg-4">
+                        <select class="form-control" id="docenteevaluado" name="docenteevaluado" value="" >
+                            <option value="">Selecciona Docente</option>
+                            {{range $index,$value := .Docentes}}
+                                <option value="{{$value.ID.Hex}}">{{$value.Nombre}} {{$value.ApellidoP}} {{$value.ApellidoM}} </option>
+                            {{end}}
+                        </select>
+
+                </div>
+            </div>
+        </form>   
+    
+        <div class="container" id="AsignacionTable">
+
+
+
+        </div>
+
+
+</div>
+</div>
+<script>asignacionit.classList.add("selected");</script>
+<div id="answer"></div>
+{{template "footerTemplate" .}}

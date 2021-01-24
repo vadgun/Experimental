@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/kataras/iris/v12"
+	asignacioncontroller "github.com/vadgun/Experimental/Controladores/AsignacionController"
 	calificacionescontroller "github.com/vadgun/Experimental/Controladores/CalificacionesController"
 	indexcontroller "github.com/vadgun/Experimental/Controladores/IndexController"
 	inscripcioncontroller "github.com/vadgun/Experimental/Controladores/InscripcionController"
@@ -26,6 +27,13 @@ func main() {
 
 	app.Post("/inscripcion", inscripcioncontroller.Inscripcion)
 	app.Get("/inscripcion", inscripcioncontroller.Inscripcion)
+
+	app.Post("/asignacion", asignacioncontroller.Asignacion)
+	app.Get("/asignacion", asignacioncontroller.Asignacion)
+
+	app.Post("/obtenerMaterias", asignacioncontroller.ObtenerMaterias)
+
+	app.Post("/asignarMateriaADocente", asignacioncontroller.AsignarMaterias)
 
 	app.Post("/alumnos", indexcontroller.Index)
 	app.Get("/alumnos", indexcontroller.Index)

@@ -6,7 +6,95 @@ let buscadorit= document.getElementById("buscadorit");
 let horariosit= document.getElementById("horariosit");
 let kardexit= document.getElementById("kardexit");
 let inscripcionit= document.getElementById("inscripcionit");
+let asignacionit= document.getElementById("asignacionit");
 
+function EnviarAsignacion(){
+
+    var plan = document.getElementById("plan");
+    var licenciatura = document.getElementById("licenciatura");
+    var semestre = document.getElementById("semestre");
+    var docenteevaluado = document.getElementById("docenteevaluado");
+
+    console.log(plan.value);
+    console.log(licenciatura.value);
+    console.log(semestre.value);
+
+
+if (licenciatura.value!= "" && plan.value!= "" && semestre.value != ""){
+
+    
+    $.ajax({
+        url: '/obtenerMaterias',
+        data: { licenciatura: licenciatura.value, plan:plan.value, semestre:semestre.value },
+        type: 'POST',
+        dataType: 'html',
+        success: function(result) {
+            console.log("Operacion Realizada con Exito");
+            $("#AsignacionTable").html(result);
+        },
+        error: function(xhr, status) {
+            console.log("Error en la consulta");
+        },
+        complete: function(xhr, status) {
+            console.log("Filtro de Matarias realizado");
+            
+        }
+    });
+    
+}   
+}
+
+
+function AsignarMateria(data){
+
+    var docenteevaluado = document.getElementById("docenteevaluado");
+
+    if (docenteevaluado.value != "") {
+
+
+        Swal.fire({
+              title: '¿Asignar esta materia?',
+              text: "Vefirica",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Si, continuar'
+            }).then((result) => {
+              if (result.isConfirmed) {
+            
+                $.ajax({
+                  url: '/asignarMateriaADocente',
+                  data: { data: data, iddocente:docenteevaluado.value },
+                  type: 'POST',
+                  dataType: 'html',
+                  success: function(result) {
+                      console.log("Operacion Realizada con Exito");
+                        $("#answer").html(result);
+
+                  },
+                  error: function(xhr, status) {
+                      console.log("Error en la consulta");
+                  },
+                  complete: function(xhr, status) {
+                      console.log("La asignacion de la materia ha sido completada");
+                      
+                  }
+              });  
+            
+              }else if (result.isDismissed) {
+                Swal.fire("La materia no ha sido asignada");
+              }
+            })
+
+        
+        return false
+    }else{
+
+        Swal.fire("Selecciona un docente antes de asignar una materia");
+
+    }
+}
 
 //  $('.dropify').dropify();
 

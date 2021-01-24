@@ -25,6 +25,7 @@ func Calificaciones(ctx iris.Context) {
 	if autorizado || autorizado2 {
 		userOn := indexmodel.GetUserOn(sessioncontroller.Sess.Start(ctx).GetString("UserID"))
 		ctx.ViewData("Usuario", userOn)
+
 		if err := ctx.View("Calificaciones.html"); err != nil {
 			ctx.Application().Logger().Infof(err.Error())
 		}

@@ -61,8 +61,9 @@ type Docente struct {
 	Telefono1       string        `bson:"Telefono1"`
 	Telefono2       string        `bson:"Telefono2"`
 	TipoSangre      string        `bson:"TipoSangre"`
-	Grupos          string        `bson:"Grupos"`
 	Imagen          string        `bson:"Imagen"`
+	Grupos          string        `bson:"Grupos"`
+	Materias        string        `bson:"Materias"`
 	Horario         string        `bson:"Horario"`
 	CapturaInicio   time.Time     `bson:"CapturaInicio"`
 	CapturaFin      time.Time     `bson:"CapturaFin"`
@@ -132,20 +133,12 @@ type CalificacionAdmon struct {
 //Materia y sus caracteristicas a utilizar
 type Materia struct {
 	ID           bson.ObjectId `bson:"_id,omitempty"`
-	NombreMat    string        `bson:"NombreMat"`
-	Semestre     string        `bson:"Semestre"`
+	Materia      string        `bson:"Materia"`
+	Plan         string        `bson:"Plan"`
 	Licenciatura string        `bson:"Licenciatura"`
-}
-
-//Licenciatura y sus caracteristicas a usar
-type Licenciatura struct {
-	ID            bson.ObjectId `bson:"_id,omitempty"`
-	NombreLic     string        `bson:"NombreLic"`
-	GruposTotales string        `bson:"GruposTotales"`
-}
-
-//Plan 2012 - 2018 para las Licenciaturas de Primaria y Preescolar
-type Plan struct {
-	ID         bson.ObjectId `bson:"_id,omitempty"`
-	NombrePlan string        `bson:"NombrePlan"`
+	Semestre     string        `bson:"Semestre"`
+	Horas        string        `bson:"Horas"`
+	Creditos     string        `bson:"Creditos"`
+	Asignada     []string      `bson:"Asignada"`
+	EnCurso      bool          `bson:"EnCurso"`
 }
