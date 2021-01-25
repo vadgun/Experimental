@@ -22,9 +22,25 @@ func Inscripcion(ctx iris.Context) {
 		}
 	}
 
+	// "PermisoCalificaciones" : 0,
+	// "PermisoUsuarios" : 1,
+	// "PermisoAsignar" : 2,
+	// "PermisoInscripcion" : 3,
+	// "PermisoHorarios" : 4,
+	// "PermisoDirectorio" : 5,
+	// "PermisoKardex" : 6,
+	// "PermisoIndex" : 7
+
 	if autorizado || autorizado2 {
 		userOn := indexmodel.GetUserOn(sessioncontroller.Sess.Start(ctx).GetString("UserID"))
 		ctx.ViewData("Usuario", userOn)
+
+		tienepermiso := indexmodel.TienePermiso(3, userOn, usuario)
+
+		if !tienepermiso {
+			ctx.Redirect("/login", iris.StatusSeeOther)
+		}
+
 		if err := ctx.View("Inscripcion.html"); err != nil {
 			ctx.Application().Logger().Infof(err.Error())
 		}

@@ -19,7 +19,7 @@ type Boleta struct {
 //Alumno ligado al usuario de sistema sus datos personales y perfil dentro de la institución
 type Alumno struct {
 	ID              bson.ObjectId `bson:"_id,omitempty"`
-	MongoUser       bson.ObjectId `bson:"MongoUser"`
+	MongoUser       bson.ObjectId `bson:"MongoUser,omitempty"`
 	IsSystemUser    bool          `bson:"IsSystemUser"`
 	Matricula       string        `bson:"Matricula"`
 	Nombre          string        `bson:"Nombre"`
@@ -28,6 +28,7 @@ type Alumno struct {
 	FechaNac        time.Time     `bson:"FechaNac"`
 	Curp            string        `bson:"Curp"`
 	Calle           string        `bson:"Calle"`
+	Numero          string        `bson:"Numero"`
 	ColAsentamiento string        `bson:"ColAsentamiento"`
 	Municipio       string        `bson:"Municipio"`
 	Estado          string        `bson:"Estado"`
@@ -39,14 +40,15 @@ type Alumno struct {
 	SiguienteSem    string        `bson:"SiguienteSem"`
 	AnteriorSem     string        `bson:"AnteriorSem"`
 	InicioSem       string        `bson:"InicioSem"`
-	Imagen          bson.ObjectId `bson:"Imagen"`
+	Imagen          bson.ObjectId `bson:"Imagen,omitempty"`
 	Horario         string        `bson:"Horario"`
+	CorreoE         string        `bson:"CorreoE"`
 }
 
 //Docente y su perfil dentro del sistema
 type Docente struct {
 	ID              bson.ObjectId   `bson:"_id,omitempty"`
-	MongoUser       bson.ObjectId   `bson:"MongoUser"`
+	MongoUser       bson.ObjectId   `bson:"MongoUser,omitempty"`
 	IsSystemUser    bool            `bson:"IsSystemUser"`
 	Nombre          string          `bson:"Nombre"`
 	ApellidoP       string          `bson:"ApellidoP"`
@@ -61,10 +63,11 @@ type Docente struct {
 	Telefono1       string          `bson:"Telefono1"`
 	Telefono2       string          `bson:"Telefono2"`
 	TipoSangre      string          `bson:"TipoSangre"`
-	Imagen          bson.ObjectId   `bson:"Imagen"`
+	Imagen          bson.ObjectId   `bson:"Imagen,omitempty"`
 	Grupos          string          `bson:"Grupos"`
 	Materias        []bson.ObjectId `bson:"Materias"`
 	Horario         string          `bson:"Horario"`
+	CorreoE         string          `bson:"CorreoE"`
 	CapturaInicio   time.Time       `bson:"CapturaInicio"`
 	CapturaFin      time.Time       `bson:"CapturaFin"`
 }

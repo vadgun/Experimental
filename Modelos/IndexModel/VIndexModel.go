@@ -22,3 +22,22 @@ type MongoUser struct {
 	Director       bool          `bson:"Director"`
 	Admin          bool          `bson:"Admin"`
 }
+
+//Permiso Otorga cierto control a las vistas que puede ver el usuario logeado en el sistema para evitar incongruencias de seguridad
+type Permiso struct {
+	ID                    bson.ObjectId `bson:"_id,omitempty"`
+	Permisos              string        `bson:"Permisos"`
+	Admin                 []int         `bson:"Admin"`
+	Docente               []int         `bson:"Docente"`
+	Alumno                []int         `bson:"Alumno"`
+	Administrativo        []int         `bson:"Administrativo"`
+	Director              []int         `bson:"Director"`
+	PermisoCalificaciones int           `bson:"PermisoCalificaciones"`
+	PermisoUsuarios       int           `bson:"PermisoUsuarios"`
+	PermisoAsignar        int           `bson:"PermisoAsignar"`
+	PermisoInscripcion    int           `bson:"PermisoInscripcion"`
+	PermisoHorarios       int           `bson:"PermisoHorarios"`
+	PermisoDirectorio     int           `bson:"PermisoDirectorio"`
+	PermisoKardex         int           `bson:"PermisoKardex"`
+	PermisoIndex          int           `bson:"PermisoIndex`
+}

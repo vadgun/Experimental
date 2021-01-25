@@ -41,6 +41,7 @@ func main() {
 	app.Get("/usuarios", usuarioscontroller.Usuarios)
 
 	app.Post("/solicitudUsuario", usuarioscontroller.SolicitarUsuario)
+	app.Post("/altadeusuario", usuarioscontroller.AltaDeUsuario)
 
 	app.Post("/alumnos", indexcontroller.Index)
 	app.Get("/alumnos", indexcontroller.Index)

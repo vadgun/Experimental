@@ -2,10 +2,13 @@ package usuarioscontroller
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/kataras/iris/v12"
 	sessioncontroller "github.com/vadgun/Experimental/Controladores/SessionController"
+	calificacionesmodel "github.com/vadgun/Experimental/Modelos/CalificacionesModel"
 	indexmodel "github.com/vadgun/Experimental/Modelos/IndexModel"
+	usuariosmodel "github.com/vadgun/Experimental/Modelos/UsuariosModel"
 )
 
 //Usuarios -> Regresa la pagina de inicio
@@ -23,10 +26,24 @@ func Usuarios(ctx iris.Context) {
 			sessioncontroller.Sess.Start(ctx).Set("UserID", usuario.ID.Hex())
 		}
 	}
+	// "PermisoCalificaciones" : 0,
+	// "PermisoUsuarios" : 1,
+	// "PermisoAsignar" : 2,
+	// "PermisoInscripcion" : 3,
+	// "PermisoHorarios" : 4,
+	// "PermisoDirectorio" : 5,
+	// "PermisoKardex" : 6,
+	// "PermisoIndex" : 7
 
 	if autorizado || autorizado2 {
 		userOn := indexmodel.GetUserOn(sessioncontroller.Sess.Start(ctx).GetString("UserID"))
 		ctx.ViewData("Usuario", userOn)
+
+		tienepermiso := indexmodel.TienePermiso(1, userOn, usuario)
+
+		if !tienepermiso {
+			ctx.Redirect("/login", iris.StatusSeeOther)
+		}
 
 		if err := ctx.View("Usuarios.html"); err != nil {
 			ctx.Application().Logger().Infof(err.Error())
@@ -34,6 +51,125 @@ func Usuarios(ctx iris.Context) {
 	} else {
 		ctx.Redirect("/login", iris.StatusSeeOther)
 	}
+}
+
+//AltaDeUsuario Recibe el formulario de alta de usuario y lo guarda en la base de datos creando la logica de 2 entidades
+func AltaDeUsuario(ctx iris.Context) { // la 1ra es del docente y la 2da del mongouser, se conectan entre si.
+
+	tipoUsuario := ctx.PostValue("tipoUsuario")
+	var htmlcode string
+
+	switch tipoUsuario {
+	case "Alumno":
+
+		var alumno calificacionesmodel.Alumno
+		var mongouser indexmodel.MongoUser
+
+		//alumno.MongoUser = Esta variable sera asignada en el modelo por el paquete bson
+		alumno.IsSystemUser = true
+		alumno.Matricula = ctx.PostValue("nummatricula")
+		alumno.Nombre = ctx.PostValue("nombrealumno")
+		alumno.ApellidoP = ctx.PostValue("apaterno")
+		alumno.ApellidoM = ctx.PostValue("amaterno")
+		//Evalular la fecha y agregarla correctamente.
+		layout := "2006-01-02"
+		location, _ := time.LoadLocation("America/Mexico_City")
+
+		fechanac := ctx.PostValue("fechanac")
+		fechanacparsed, _ := time.ParseInLocation(layout, fechanac, location)
+		alumno.FechaNac = fechanacparsed
+		alumno.Curp = ctx.PostValue("curp")
+		alumno.Calle = ctx.PostValue("calle")
+		alumno.Numero = ctx.PostValue("numero")
+		alumno.ColAsentamiento = ctx.PostValue("colonia")
+		alumno.Municipio = ctx.PostValue("municipio")
+		alumno.Estado = ctx.PostValue("estado")
+		alumno.Telefono = ctx.PostValue("telefono")
+		alumno.TipoSangre = ctx.PostValue("tiposangre")
+		alumno.Licenciatura = ctx.PostValue("licenciatura")
+		alumno.Plan = ctx.PostValue("plan")
+		alumno.CursandoSem = ctx.PostValue("semestre")
+		alumno.CorreoE = ctx.PostValue("correoe")
+		//Hacer la logica para el semestre siguiente, anterior, y el cual inicio, no urge pueden ir null por ahora
+		// alumno.SiguienteSem=ctx.PostValue("")
+		// alumno.AnteriorSem=ctx.PostValue("")
+		// alumno.InicioSem=ctx.PostValue("")
+		//alumno.Imagen= variable para bson package
+		alumno.Horario = ""
+
+		mongouser.Nombre = ctx.PostValue("nombrealumno")
+		mongouser.Apellidos = ctx.PostValue("apaterno") + " " + ctx.PostValue("amaterno")
+		//mongouser.Edad = CalcularEdad(alumno.FechaNac)int
+		mongouser.Usuario = ctx.PostValue("nameuser")
+		mongouser.Key = ctx.PostValue("passuser")
+		mongouser.Puesto = "Alumno de la Licenciatura" + ctx.PostValue("licenciatura")
+		mongouser.Nombre2 = "Alumno"
+		//mongouser.UserID= variable para bson package
+		mongouser.Alumno = true
+		mongouser.Docente = false
+		mongouser.Administrativo = false
+		mongouser.Director = false
+		mongouser.Admin = false
+
+		if usuariosmodel.GuardaEntidadesDeAlumnos(alumno, mongouser) {
+			htmlcode += fmt.Sprintf(`<script>
+		alert("Alumno Guardado");
+		location.replace("/usuarios");
+		</script>`)
+		}
+
+		break
+	case "Docente":
+
+		//Hacer lo mismo que para a alumno
+
+		ID
+		MongoUser
+		IsSystemUser
+		Nombre
+		ApellidoP
+		ApellidoM
+		FechaNac
+		Curp
+		Rfc
+		Calle
+		ColAsentamiento
+		Municipio
+		Estado
+		Telefono1
+		Telefono2
+		TipoSangre
+		Imagen
+		Grupos
+		Materias
+		Horario
+		CorreoE
+		CapturaInicio
+		CapturaFin
+
+		ID
+		Nombre
+		Apellidos
+		Edad
+		Usuario
+		Telefono
+		Puesto
+		Key
+		Nombre2
+		UserID
+		Alumno
+		Docente
+		Administrativo
+		Director
+		Admin
+
+		break
+	case "Administrativo":
+		break
+	}
+
+	ctx.HTML(htmlcode)
+
 }
 
 //SolicitarUsuario Solicita el formulario para el usuario a crear
@@ -46,11 +182,286 @@ func SolicitarUsuario(ctx iris.Context) {
 	switch data {
 	case "Alumno":
 
-		htmlcode += fmt.Sprintf(`<h1>Creando formulario para Alumno</h1>`)
+		semestres := usuariosmodel.ExtraeSemestres()
 
+		htmlcode += fmt.Sprintf(`
+		<form action="/altadeusuario" method="POST" enctype="multipart/form-data" id="formularioAlumno" name="formularioAlumno" >
+        <div class="col-lg-12">
+            <h6 class="border-bottoms-c"> Datos personales del alumno: </h6>
+            
+            <div class="form-group row">
+                <label for="nummatricula" class="col-sm-1 col-form-label negrita"> #Matricula: </label>
+                <div class="col-sm-5 col-md-5 col-lg-5">
+                    <input type="text" class="form-control" id="nummatricula" name="nummatricula" placeholder="Introduce matricula del alumno" minlength="10" maxlength="10" value="" required>
+                </div>
+                <label for="tiposangre" class="col-sm-2 col-form-label negrita"> Tipo de sangre: </label>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <input type="text" class="form-control" id="tiposangre" name="tiposangre" placeholder="Tipo de sangre del alumno" value="" >
+                </div>
+
+            </div>        
+            <div class="form-group row">
+                <label for="nombrealumno" class="col-sm-1 col-form-label negrita"> Nombre: </label>
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                    <input type="text" class="form-control" id="nombrealumno" name="nombrealumno" placeholder="Nombre del alumno" value="" required>
+                </div>
+
+                <label for="apaterno" class="col-sm-1 col-form-label negrita"> APaterno: </label>
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                    <input type="text" class="form-control" id="apaterno" name="apaterno" placeholder="Apellido Paterno" value="" required>
+                </div>
+                <label for="amaterno" class="col-sm-1 col-form-label negrita"> AMaterno: </label>
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                    <input type="text" class="form-control" id="amaterno" name="amaterno" placeholder="Apellido Materno" value="" required>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="fechanac" class="col-sm-3 col-form-label negrita"> Fecha de Nacimiento: </label>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <input type="date" class="form-control" id="fechanac" name="fechanac" value="" required>
+                </div>
+
+                <label for="curp" class="col-sm-1 col-form-label negrita"> CURP: </label>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <input type="text" class="form-control" id="curp" name="curp" placeholder="18 digitos de la CURP" maxlength="18" minlength="18" value="" required>
+                </div>
+            </div>
+
+            <hr>
+            <h6 class="border-bottoms-c"> Datos domiciliares del alumno: </h6>
+
+            <div class="form-group row">
+                <label for="calle" class="col-sm-1 col-form-label negrita"> Calle: </label>
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                    <input type="text" class="form-control" id="calle" name="calle" placeholder="Calle" value="" required>
+                </div>
+
+                <label for="numero" class="col-sm-1 col-form-label negrita"> Número: </label>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <input type="text" class="form-control" id="numero" name="numero" placeholder="Número" value="" required>
+                </div>
+                <label for="colonia" class="col-sm-1 col-form-label negrita"> Colonia: </label>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <input type="text" class="form-control" id="colonia" name="colonia" placeholder="Colonia/Asentamiento" value="" required>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="municipio" class="col-sm-1 col-form-label negrita"> Municipio: </label>
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                    <input type="text" class="form-control" id="municipio" name="municipio" placeholder="Municipio" value="" required>
+                </div>
+
+                <label for="estado" class="col-sm-1 col-form-label negrita"> Estado: </label>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <input type="text" class="form-control" id="estado" name="estado" placeholder="Estado" value="" required>
+                </div>
+                <label for="telefono" class="col-sm-1 col-form-label negrita"> Télefono: </label>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <input type="text" class="form-control" id="telefono" name="telefono" placeholder="10 digitos" maxlength="10" minlength="10" value="" required>
+                </div>
+            </div>
+            <hr>
+            <h6 class="border-bottoms-c"> Datos escolares del alumno: </h6>
+
+            <div class="form-group row">
+                <label for="plan" class="col-sm-1 col-form-label negrita"> Plan: </label>
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                    <select name="plan" id="plan" class="form-control" required value="">
+                        <option value="">Selecciona un plan de estudios</option>
+                        <option value="2012">2012</option>
+                        <option value="2018">2018</option>
+                    </select>
+                </div>
+
+                <label for="licenciatura" class="col-sm-2 col-form-label negrita"> Licenciatura: </label>
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                    <select class="form-control" id="licenciatura" name="licenciatura" value="">
+                        <option value="">Selecciona una Licenciatura</option>
+                        <option value="Primaria">Primaria</option>
+                        <option value="Preescolar">Preescolar</option>
+                    </select>
+                </div>
+                <label for="semestre" class="col-sm-1 col-form-label negrita"> Semestre: </label>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <select class="form-control" id="semestre" name="semestre" value="" >
+						<option value="">Selecciona</option>`)
+
+		for _, v := range semestres {
+			htmlcode += fmt.Sprintf(`
+			<option value="%v">%v - %v - %v </option>`, v.ID.Hex(), v.Semestre, v.Plan, v.Licenciatura)
+		}
+
+		htmlcode += fmt.Sprintf(`
+                    </select>
+                </div>
+            </div>
+            <hr>
+            <h6 class="border-bottoms-c"> Datos del sistema del alumno: </h6>
+
+            <div class="form-group row">
+                <label for="nameuser" class="col-sm-2 col-form-label negrita"> Nombre de Usuario: </label>
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                    <input type="text" class="form-control" id="nameuser" name="nameuser" placeholder="Nombre de usuario" value="" required>
+                </div>
+
+                <label for="passuser" class="col-sm-3 col-form-label negrita"> Contraseña preestablecida: </label>
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                    <input type="text" class="form-control" id="passuser" name="passuser" placeholder="Contraseña" value="" required>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="correoe" class="col-sm-2 col-form-label negrita"> Correo electronico: </label>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <input type="email" class="form-control" id="correoe" name="correoe" placeholder="Correo electronico" value="" required>
+                </div>
+
+                <label for="tipoUsuario" class="col-sm-2 col-form-label negrita"> Tipo de Usuario: </label>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <input type="email" class="form-control" id="tipoUsuario" name="tipoUsuario" value="Alumno" readonly required>
+                    <input type="hidden" name="tipoUsuario1" value="Alumno">
+                </div>
+            </div>
+
+			<!--    <div class="form-group row">
+			<label for="imagen" class="col-sm-3 col-form-label negrita"> Imagen: </label>
+			<div class="col-sm-2 col-md-4 col-lg-5">
+				<input type="file" class="dropify" data-allowed-file-extensions="jpg jpeg" id="imagen" name="imagen" required />
+			</div>
+			</div>
+	-->
+
+
+
+            <div class="form-group row centrado">                
+                   <button type="submit"> Guardar Alumno</button>
+            </div>
+        </div>
+
+    
+    </form>
+
+		`)
 		break
 	case "Docente":
-		htmlcode += fmt.Sprintf(`<h1>Creando formulario para Docente</h1>`)
+		htmlcode += fmt.Sprintf(`
+		<form action="/altadeusuario" method="POST" enctype="multipart/form-data" id="formularioAlumno" name="formularioAlumno" >
+        <div class="col-lg-12">
+            <h6 class="border-bottoms-d"> Datos personales del docente: </h6>
+            
+            <div class="form-group row">
+                <label for="nummatricula" class="col-sm-1 col-form-label negrita"> #Matricula: </label>
+                <div class="col-sm-5 col-md-5 col-lg-5">
+                    <input type="text" class="form-control" id="nummatricula" name="nummatricula" placeholder="Introduce matricula del docente" value="" required>
+                </div>
+                <label for="tiposangre" class="col-sm-2 col-form-label negrita"> Tipo de sangre: </label>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <input type="text" class="form-control" id="tiposangre" name="tiposangre" placeholder="Tipo de sangre del docente" value="" >
+                </div>
+
+            </div>        
+            <div class="form-group row">
+                <label for="nombredocente" class="col-sm-1 col-form-label negrita"> Nombre: </label>
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                    <input type="text" class="form-control" id="nombredocente" name="nombredocente" placeholder="Nombre del docente" value="" required>
+                </div>
+
+                <label for="apaterno" class="col-sm-1 col-form-label negrita"> APaterno: </label>
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                    <input type="text" class="form-control" id="apaterno" name="apaterno" placeholder="Apellido Paterno" value="" required>
+                </div>
+                <label for="amaterno" class="col-sm-1 col-form-label negrita"> AMaterno: </label>
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                    <input type="text" class="form-control" id="amaterno" name="amaterno" placeholder="Apellido Materno" value="" required>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="fechanac" class="col-sm-3 col-form-label negrita"> Fecha de Nacimiento: </label>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <input type="date" class="form-control" id="fechanac" name="fechanac" value="" required>
+                </div>
+
+                <label for="curp" class="col-sm-1 col-form-label negrita"> CURP: </label>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <input type="text" class="form-control" id="curp" name="curp" placeholder="18 digitos de la CURP" maxlength="18" minlength="18" value="" required>
+                </div>
+            </div>
+
+            <hr>
+            <h6 class="border-bottoms-d"> Datos domiciliares del docente: </h6>
+
+            <div class="form-group row">
+                <label for="calle" class="col-sm-1 col-form-label negrita"> Calle: </label>
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                    <input type="text" class="form-control" id="calle" name="calle" placeholder="Calle" value="" required>
+                </div>
+
+                <label for="numero" class="col-sm-1 col-form-label negrita"> Número: </label>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <input type="text" class="form-control" id="numero" name="numero" placeholder="Número" value="" required>
+                </div>
+                <label for="colonia" class="col-sm-1 col-form-label negrita"> Colonia: </label>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <input type="text" class="form-control" id="colonia" name="colonia" placeholder="Colonia/Asentamiento" value="" required>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="municipio" class="col-sm-1 col-form-label negrita"> Municipio: </label>
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                    <input type="text" class="form-control" id="municipio" name="municipio" placeholder="Municipio" value="" required>
+                </div>
+
+                <label for="estado" class="col-sm-1 col-form-label negrita"> Estado: </label>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <input type="text" class="form-control" id="estado" name="estado" placeholder="Estado" value="" required>
+                </div>
+                <label for="telefono" class="col-sm-1 col-form-label negrita"> Télefonos: </label>
+                <div class="d-flex col-sm-4 col-md-4 col-lg-4">
+                    <input type="text" class="form-control" id="telefono" name="telefono" placeholder="10 digitos" maxlength="10" minlength="10" value="" required>
+                       <input type="text" class="form-control" id="telefono2" name="telefono2" placeholder="10 digitos" maxlength="10" minlength="10" value="" required>
+                
+                </div>
+            </div>
+            <hr>
+            <h6 class="border-bottoms-d"> Datos del sistema del docente: </h6>
+            <div class="form-group row">
+                <label for="nameuser" class="col-sm-2 col-form-label negrita"> Nombre de Usuario: </label>
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                    <input type="text" class="form-control" id="nameuser" name="nameuser" placeholder="Nombre de usuario" value="" required>
+                </div>
+                <label for="passuser" class="col-sm-3 col-form-label negrita"> Contraseña preestablecida: </label>
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                    <input type="text" class="form-control" id="passuser" name="passuser" placeholder="Contraseña" value="" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="correoe" class="col-sm-2 col-form-label negrita"> Correo electronico: </label>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <input type="email" class="form-control" id="correoe" name="correoe" placeholder="Correo electronico" value="" required>
+                </div>
+                <label for="tipoUsuario" class="col-sm-2 col-form-label negrita"> Tipo de Usuario: </label>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <input type="email" class="form-control" id="tipoUsuario" name="tipoUsuario" value="Docente" readonly required>
+                    <input type="hidden" name="tipoUsuario1" value="Docente">
+                </div>
+            </div>
+        <!--    <div class="form-group row">
+                <label for="imagen" class="col-sm-3 col-form-label negrita"> Imagen: </label>
+                <div class="col-sm-2 col-md-4 col-lg-5">
+                    <input type="file" class="dropify" data-allowed-file-extensions="jpg jpeg" id="imagen" name="imagen" required />
+                </div>
+				</div>
+		-->
+            <div class="form-group row centrado">                
+                   <button type="submit"> Guardar Docente</button>
+            </div>
+        </div>    
+    </form>
+		`)
 		break
 	case "Administrativo":
 		htmlcode += fmt.Sprintf(`<h1>Creando formulario para Administrativo</h1>`)

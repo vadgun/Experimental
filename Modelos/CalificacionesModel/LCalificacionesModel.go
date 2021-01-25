@@ -49,13 +49,13 @@ func PersonalDocenteActivo() []Docente {
 
 }
 
-//AsignarMateria Asigna la materia si no existe
-func AsignarMateria(idmat, iddocente string) bool {
+//ObtenerDocenteYConvertirIDMATERIA regresa el docente a partir del id Hex regresa los id hex
+func ObtenerDocenteYConvertirIDMATERIA(iddocente, idmateria string) (Docente, bson.ObjectId) {
+	var docente Docente
 
-	idobjmat := bson.ObjectIdHex(idmat)
 	idobjdocente := bson.ObjectIdHex(iddocente)
 
-	var docente Docente
+	idobjmateria := bson.ObjectIdHex(idmateria)
 
 	session, err := mgo.Dial(conexiones.MONGO_SERVER)
 	defer session.Close()
@@ -69,27 +69,25 @@ func AsignarMateria(idmat, iddocente string) bool {
 		fmt.Println("1", err1)
 	}
 
-	var encontrado bool
-	for _, v := range docente.Materias {
-		if v == idobjmat {
-			encontrado = true
-		}
+	return docente, idobjmateria
+}
+
+//AsignarMateria Asigna la materia si no existe
+func AsignarMateria(docente Docente) bool {
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	if encontrado {
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_DC)
+	err1 := c.UpdateId(docente.ID, docente)
+	if err1 != nil {
+		fmt.Println("1", err1)
 		return false
-	} else {
-
-		docente.Materias = append(docente.Materias, idobjmat)
-
-		err2 := c.UpdateId(idobjdocente, docente)
-		if err2 != nil {
-			fmt.Println("2", err1)
-			return false
-		}
-		return true
-
 	}
+	return true
 
 }
 

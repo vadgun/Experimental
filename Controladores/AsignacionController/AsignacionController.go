@@ -25,12 +25,27 @@ func Asignacion(ctx iris.Context) {
 		}
 	}
 
+	// "PermisoCalificaciones" : 0,
+	// "PermisoUsuarios" : 1,
+	// "PermisoAsignar" : 2,
+	// "PermisoInscripcion" : 3,
+	// "PermisoHorarios" : 4,
+	// "PermisoDirectorio" : 5,
+	// "PermisoKardex" : 6,
+	// "PermisoIndex" : 7
+
 	if autorizado || autorizado2 {
 		userOn := indexmodel.GetUserOn(sessioncontroller.Sess.Start(ctx).GetString("UserID"))
 		ctx.ViewData("Usuario", userOn)
 
 		docentes := calificacionesmodel.PersonalDocenteActivo()
 		ctx.ViewData("Docentes", docentes)
+
+		tienepermiso := indexmodel.TienePermiso(2, userOn, usuario)
+
+		if !tienepermiso {
+			ctx.Redirect("/login", iris.StatusSeeOther)
+		}
 
 		if err := ctx.View("Asignacion.html"); err != nil {
 			ctx.Application().Logger().Infof(err.Error())
@@ -117,21 +132,29 @@ func ObtenerMaterias(ctx iris.Context) {
 
 //AsignarMaterias Asigna la materia seleccionada y si ya la tiene responde que ha sido seleccionada
 func AsignarMaterias(ctx iris.Context) {
-
 	data := ctx.PostValue("data")
 	iddocente := ctx.PostValue("iddocente")
+	docente, idobjmat := calificacionesmodel.ObtenerDocenteYConvertirIDMATERIA(iddocente, data)
 
-	//Necesito el ID del DOCENTE y el ID de la MATERIA
-	//ya tengo el ID de MATERIA
+	var encontrado bool
 
-	guardado := calificacionesmodel.AsignarMateria(data, iddocente)
-
-	if guardado {
-		ctx.HTML("<script>Swal.fire('Materia asignada correctamente');</script>")
-	} else {
-		ctx.HTML("<script>Swal.fire('Ya asignada al docente');</script>")
+	for _, v := range docente.Materias {
+		if v == idobjmat {
+			encontrado = true
+		}
 	}
 
+	if encontrado {
+		ctx.HTML("<script>Swal.fire('Ya asignada al docente');</script>")
+	} else {
+		docente.Materias = append(docente.Materias, idobjmat)
+		materiaAsignada := calificacionesmodel.AsignarMateria(docente)
+		if materiaAsignada {
+			ctx.HTML("<script>Swal.fire('Materia asignada correctamente');</script>")
+		} else {
+			ctx.HTML("<script>Swal.fire('Materia NO asignada');</script>")
+		}
+	}
 }
 
 //RevocarMaterias Revoca la materia seleccionada
