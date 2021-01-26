@@ -8,6 +8,10 @@ let kardexit= document.getElementById("kardexit");
 let inscripcionit= document.getElementById("inscripcionit");
 let asignacionit= document.getElementById("asignacionit");
 let usuariosit= document.getElementById("usuariosit");
+let alumnosit= document.getElementById("alumnosit");
+let docentesit= document.getElementById("docentesit");
+
+
 
 
 

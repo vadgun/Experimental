@@ -40,4 +40,6 @@ type Permiso struct {
 	PermisoDirectorio     int           `bson:"PermisoDirectorio"`
 	PermisoKardex         int           `bson:"PermisoKardex"`
 	PermisoIndex          int           `bson:"PermisoIndex`
+	PermisoAlumnos        int           `bson:"PermisoAlumnos`
+	PermisoDocentes       int           `bson:"PermisoDocentes`
 }

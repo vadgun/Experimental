@@ -43,11 +43,11 @@ func main() {
 	app.Post("/solicitudUsuario", usuarioscontroller.SolicitarUsuario)
 	app.Post("/altadeusuario", usuarioscontroller.AltaDeUsuario)
 
-	app.Post("/alumnos", indexcontroller.Index)
-	app.Get("/alumnos", indexcontroller.Index)
+	app.Post("/alumnos", calificacionescontroller.Alumnos)
+	app.Get("/alumnos", calificacionescontroller.Alumnos)
 
-	app.Post("/docentes", indexcontroller.Index)
-	app.Get("/docentes", indexcontroller.Index)
+	app.Post("/docentes", calificacionescontroller.Docentes)
+	app.Get("/docentes", calificacionescontroller.Docentes)
 
 	app.Post("/directorio", indexcontroller.Index)
 	app.Get("/directorio", indexcontroller.Index)

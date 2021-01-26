@@ -123,45 +123,64 @@ func AltaDeUsuario(ctx iris.Context) { // la 1ra es del docente y la 2da del mon
 
 		//Hacer lo mismo que para a alumno
 
-		ID
-		MongoUser
-		IsSystemUser
-		Nombre
-		ApellidoP
-		ApellidoM
-		FechaNac
-		Curp
-		Rfc
-		Calle
-		ColAsentamiento
-		Municipio
-		Estado
-		Telefono1
-		Telefono2
-		TipoSangre
-		Imagen
-		Grupos
-		Materias
-		Horario
-		CorreoE
-		CapturaInicio
-		CapturaFin
+		var docente calificacionesmodel.Docente
+		var mongouser indexmodel.MongoUser
 
-		ID
-		Nombre
-		Apellidos
-		Edad
-		Usuario
-		Telefono
-		Puesto
-		Key
-		Nombre2
-		UserID
-		Alumno
-		Docente
-		Administrativo
-		Director
-		Admin
+		docente.IsSystemUser = true
+		docente.Nombre = ctx.PostValue("nombredocente")
+		docente.ApellidoP = ctx.PostValue("apaterno")
+		docente.ApellidoM = ctx.PostValue("amaterno")
+		layout := "2006-01-02"
+		location, _ := time.LoadLocation("America/Mexico_City")
+
+		fechanac := ctx.PostValue("fechanac")
+		fechanacparsed, _ := time.ParseInLocation(layout, fechanac, location)
+		docente.FechaNac = fechanacparsed
+		docente.Curp = ctx.PostValue("curp")
+		docente.Rfc = ctx.PostValue("rfc")
+		docente.Calle = ctx.PostValue("calle")
+		docente.ColAsentamiento = ctx.PostValue("colonia")
+		docente.Municipio = ctx.PostValue("municipio")
+		docente.Estado = ctx.PostValue("estado")
+		docente.Telefono1 = ctx.PostValue("telefono")
+		docente.Telefono2 = ctx.PostValue("telefono2")
+		docente.TipoSangre = ctx.PostValue("tiposangre")
+		//		docente.Grupos=
+		//		docente.Materias=
+		//		docente.Horario=
+		docente.CorreoE = ctx.PostValue("correoe")
+
+		fechacapinicio := ctx.PostValue("fechacapinicio")
+		fechacapfin := ctx.PostValue("fechacapfin")
+
+		fechacapinicioparsed, _ := time.ParseInLocation(layout, fechacapinicio, location)
+		fechacapfinparsed, _ := time.ParseInLocation(layout, fechacapfin, location)
+
+		docente.CapturaInicio = fechacapinicioparsed
+		docente.CapturaFin = fechacapfinparsed
+
+		//ID variable para bson
+		mongouser.Nombre = ctx.PostValue("nombredocente")
+		mongouser.Apellidos = ctx.PostValue("apaterno") + " " + ctx.PostValue("amaterno")
+		mongouser.Edad = 0
+		mongouser.Usuario = ctx.PostValue("nameuser")
+		mongouser.Telefono = ctx.PostValue("telefono")
+		mongouser.Puesto = "Docente frente a grupo"
+		mongouser.Key = ctx.PostValue("passuser")
+		mongouser.Nombre2 = "Docente"
+		//UserID variable para bson
+		mongouser.Alumno = false
+		mongouser.Docente = true
+		mongouser.Administrativo = false
+		mongouser.Director = false
+		mongouser.Admin = false
+
+		if usuariosmodel.GuardaEntidadesDeDocentes(docente, mongouser) {
+			htmlcode += fmt.Sprintf(`<script>
+		alert("Docente Guardado");
+		location.replace("/usuarios");
+		</script>`)
+		}
 
 		break
 	case "Administrativo":
@@ -446,9 +465,24 @@ func SolicitarUsuario(ctx iris.Context) {
                 <label for="tipoUsuario" class="col-sm-2 col-form-label negrita"> Tipo de Usuario: </label>
                 <div class="col-sm-4 col-md-4 col-lg-4">
                     <input type="email" class="form-control" id="tipoUsuario" name="tipoUsuario" value="Docente" readonly required>
-                    <input type="hidden" name="tipoUsuario1" value="Docente">
                 </div>
             </div>
+
+            <div class="form-group row">
+            <label for="correoe" class="col-sm-2 col-form-label negrita"> Permiso de Captura Inicial: </label>
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <input type="date" class="form-control" id="fechacapinicio" name="fechacapinicio" value="" required>
+            </div>
+            <label for="tipoUsuario" class="col-sm-2 col-form-label negrita"> Permiso de Captura Final:  </label>
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <input type="hidden" name="tipoUsuario1" value="Docente">
+                <input type="date" class="form-control" id="fechacapfin" name="fechacapfin" required>
+            </div>
+        </div>
+
+ 
+
+
         <!--    <div class="form-group row">
                 <label for="imagen" class="col-sm-3 col-form-label negrita"> Imagen: </label>
                 <div class="col-sm-2 col-md-4 col-lg-5">

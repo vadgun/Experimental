@@ -42,6 +42,37 @@ func GuardaEntidadesDeAlumnos(alumno calificacionesmodel.Alumno, mongouser index
 
 }
 
+//GuardaEntidadesDeDocentes Asigna los nuevos Objects IDs para tener bien ubicado el uno al otro usuario
+func GuardaEntidadesDeDocentes(docente calificacionesmodel.Docente, mongouser indexmodel.MongoUser) bool {
+
+	docente.ID = bson.NewObjectId()
+	mongouser.ID = bson.NewObjectId()
+
+	docente.MongoUser = mongouser.ID
+	mongouser.UserID = docente.ID
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_DC)
+	err1 := c.Insert(docente)
+	if err1 != nil {
+		fmt.Println(err1)
+		return false
+	}
+
+	d := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_U)
+	err2 := d.Insert(mongouser)
+	if err2 != nil {
+		fmt.Println(err2)
+		return false
+	}
+	return true
+
+}
+
 //ExtraeSemestres Devuelve todos los semestres dados de alta con sus materias o no
 func ExtraeSemestres() []calificacionesmodel.Semestre {
 
