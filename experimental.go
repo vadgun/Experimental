@@ -45,6 +45,7 @@ func main() {
 
 	app.Post("/alumnos", calificacionescontroller.Alumnos)
 	app.Get("/alumnos", calificacionescontroller.Alumnos)
+	app.Post("/obtenerAlumnos", calificacionescontroller.ObtenerAlumnos)
 
 	app.Post("/docentes", calificacionescontroller.Docentes)
 	app.Get("/docentes", calificacionescontroller.Docentes)

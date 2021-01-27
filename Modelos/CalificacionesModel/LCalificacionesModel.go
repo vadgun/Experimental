@@ -29,6 +29,24 @@ func ObtenerMateriasFiltradas(plan, lic, sem string) []Materia {
 
 }
 
+//ObtenerAlumnosFiltrados -> Apartir de Sem
+func ObtenerAlumnosFiltrados(sem string) []Alumno {
+	var alumnos []Alumno
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_AL)
+	err1 := c.Find(bson.M{"CursandoSem": sem}).All(&alumnos)
+	if err1 != nil {
+		fmt.Println(err1)
+	}
+
+	return alumnos
+}
+
 //PersonalDocenteActivo Devuelve el personal docente activo para ser elegible en la materia
 func PersonalDocenteActivo() []Docente {
 

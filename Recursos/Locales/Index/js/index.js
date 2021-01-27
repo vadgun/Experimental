@@ -8,11 +8,6 @@ let kardexit= document.getElementById("kardexit");
 let inscripcionit= document.getElementById("inscripcionit");
 let asignacionit= document.getElementById("asignacionit");
 let usuariosit= document.getElementById("usuariosit");
-let alumnosit= document.getElementById("alumnosit");
-let docentesit= document.getElementById("docentesit");
-
-
-
 
 
 
@@ -181,6 +176,34 @@ function Usuarios(data){
 
 
 }
+
+
+function SolicitarAlumnos(){
+    var semestre = document.getElementById("semestre");
+
+if (semestre.value != ""){
+
+    
+    $.ajax({
+        url: '/obtenerAlumnos',
+        data: { semestre:semestre.value },
+        type: 'POST',
+        dataType: 'html',
+        success: function(result) {
+            console.log("Operacion Realizada con Exito");
+            $("#AlumnosTable").html(result);
+        },
+        error: function(xhr, status) {
+            console.log("Error en la consulta");
+        },
+        complete: function(xhr, status) {
+            console.log("Consulta de alumnos realizado");
+            
+        }
+    });
+    
+}}
+
 
 $('.dropify').dropify();
 

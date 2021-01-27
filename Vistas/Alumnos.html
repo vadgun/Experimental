@@ -6,8 +6,34 @@
 <h1 class="text-center">Alumnos</h1>
 <hr>
 <div class="" id="AlumnosContainer">
+    
+    
+    
+    <form method="" action="" name="AsignacionMaterias" id="AsignacionMaterias" >            
+        <div class="col-12">
+            <div class="form-group row centrado">
+                <label for="semestre" class="col-sm-2 col-form-label negrita"> Semestre: </label>   
 
+                    <select class="form-control col-sm-6" id="semestre" name="semestre" value="" onchange="SolicitarAlumnos();" >
+                        
+                        <option value="">Selecciona el semestre</option>
+
+                        Semestres
+                        {{range $index,$value := .Semestres}}
+                        <option value="{{$value.ID.Hex}}">{{$value.Semestre}} {{$value.Plan}} {{$value.Licenciatura}} </option>
+                    {{end}}
+                    </select>                
+            </div>        
+        </div>
+    </form>
+
+    <div class="container" id="AlumnosTable">
+
+
+
+    </div>
 </div>
 </div>
 <script>alumnosit.classList.add("selected");</script>
+<div id="answer"></div>
 {{template "footerTemplate" .}}
