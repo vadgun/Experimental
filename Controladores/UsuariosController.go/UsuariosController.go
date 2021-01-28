@@ -9,6 +9,7 @@ import (
 	calificacionesmodel "github.com/vadgun/Experimental/Modelos/CalificacionesModel"
 	indexmodel "github.com/vadgun/Experimental/Modelos/IndexModel"
 	usuariosmodel "github.com/vadgun/Experimental/Modelos/UsuariosModel"
+	"gopkg.in/mgo.v2/bson"
 )
 
 //Usuarios -> Regresa la pagina de inicio
@@ -71,6 +72,7 @@ func AltaDeUsuario(ctx iris.Context) { // la 1ra es del docente y la 2da del mon
 		alumno.Nombre = ctx.PostValue("nombrealumno")
 		alumno.ApellidoP = ctx.PostValue("apaterno")
 		alumno.ApellidoM = ctx.PostValue("amaterno")
+		alumno.Sexo = ctx.PostValue("sexo")
 		//Evalular la fecha y agregarla correctamente.
 		layout := "2006-01-02"
 		location, _ := time.LoadLocation("America/Mexico_City")
@@ -86,9 +88,20 @@ func AltaDeUsuario(ctx iris.Context) { // la 1ra es del docente y la 2da del mon
 		alumno.Estado = ctx.PostValue("estado")
 		alumno.Telefono = ctx.PostValue("telefono")
 		alumno.TipoSangre = ctx.PostValue("tiposangre")
-		alumno.Licenciatura = ctx.PostValue("licenciatura")
-		alumno.Plan = ctx.PostValue("plan")
-		alumno.CursandoSem = ctx.PostValue("semestre")
+		idsemestre := bson.ObjectIdHex(ctx.PostValue("semestre"))
+
+		//Con el id de semestre crear los arreglos correspondientes a las materias y calificaciones en 5
+		semestre := calificacionesmodel.ExtraeSemestre(idsemestre)
+		alumno.Plan = semestre.Plan
+		alumno.Licenciatura = semestre.Licenciatura
+
+		alumno.Materias = semestre.Materias
+
+		for i := 0; i < len(alumno.Materias); i++ {
+			alumno.Calificaciones = append(alumno.Calificaciones, 5.0)
+		}
+
+		alumno.CursandoSem = idsemestre
 		alumno.CorreoE = ctx.PostValue("correoe")
 		//Hacer la logica para el semestre siguiente, anterior, y el cual inicio, no urge pueden ir null por ahora
 		// alumno.SiguienteSem=ctx.PostValue("")
@@ -210,13 +223,24 @@ func SolicitarUsuario(ctx iris.Context) {
             
             <div class="form-group row">
                 <label for="nummatricula" class="col-sm-1 col-form-label negrita"> #Matricula: </label>
-                <div class="col-sm-5 col-md-5 col-lg-5">
-                    <input type="text" class="form-control" id="nummatricula" name="nummatricula" placeholder="Introduce matricula del alumno" minlength="10" maxlength="10" value="" required>
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                    <input type="text" class="form-control" id="nummatricula" name="nummatricula" placeholder="Introduce matricula del alumno" minlength="12" maxlength="12" value="" required>
                 </div>
                 <label for="tiposangre" class="col-sm-2 col-form-label negrita"> Tipo de sangre: </label>
-                <div class="col-sm-4 col-md-4 col-lg-4">
-                    <input type="text" class="form-control" id="tiposangre" name="tiposangre" placeholder="Tipo de sangre del alumno" value="" >
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <input type="text" class="form-control" id="tiposangre" name="tiposangre" placeholder="Tipo de sangre" value="" >
                 </div>
+                <label for="sexo" class="col-sm-1 col-form-label negrita"> Sexo: </label>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <select class="form-control" id="sexo" name="sexo" value="" required>
+                        <option value="">Sexo</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+
+                    </select>  
+                    
+                </div>
+
 
             </div>        
             <div class="form-group row">
@@ -283,33 +307,15 @@ func SolicitarUsuario(ctx iris.Context) {
             </div>
             <hr>
             <h6 class="border-bottoms-c"> Datos escolares del alumno: </h6>
-
             <div class="form-group row">
-                <label for="plan" class="col-sm-1 col-form-label negrita"> Plan: </label>
-                <div class="col-sm-3 col-md-3 col-lg-3">
-                    <select name="plan" id="plan" class="form-control" required value="">
-                        <option value="">Selecciona un plan de estudios</option>
-                        <option value="2012">2012</option>
-                        <option value="2018">2018</option>
-                    </select>
-                </div>
-
-                <label for="licenciatura" class="col-sm-2 col-form-label negrita"> Licenciatura: </label>
-                <div class="col-sm-3 col-md-3 col-lg-3">
-                    <select class="form-control" id="licenciatura" name="licenciatura" value="">
-                        <option value="">Selecciona una Licenciatura</option>
-                        <option value="Primaria">Primaria</option>
-                        <option value="Preescolar">Preescolar</option>
-                    </select>
-                </div>
-                <label for="semestre" class="col-sm-1 col-form-label negrita"> Semestre: </label>
-                <div class="col-sm-2 col-md-2 col-lg-2">
+                <label for="semestre" class="col-sm-2 col-form-label negrita"> Semestre: </label>
+                <div class="col-sm-10 col-md-10 col-lg-10">
                     <select class="form-control" id="semestre" name="semestre" value="" >
 						<option value="">Selecciona</option>`)
 
 		for _, v := range semestres {
 			htmlcode += fmt.Sprintf(`
-			<option value="%v">%v - %v - %v </option>`, v.ID.Hex(), v.Semestre, v.Plan, v.Licenciatura)
+			<option value="%v">%v - %v - %v - %v materias </option>`, v.ID.Hex(), v.Semestre, v.Plan, v.Licenciatura, len(v.Materias))
 		}
 
 		htmlcode += fmt.Sprintf(`

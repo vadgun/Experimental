@@ -204,6 +204,59 @@ if (semestre.value != ""){
     
 }}
 
+function AgregarCalificacion(){
+
+    var data = "Materia1:Materia2:Materia3"
+
+    $.ajax({
+        url: '/AgregarCalificacion',
+        data: { data:data },
+        type: 'POST',
+        dataType: 'html',
+        success: function(result) {
+            console.log("Operacion Realizada con Exito");
+            $("#ConfirmacionTable").html(result);
+        },
+        error: function(xhr, status) {
+            console.log("Error en la consulta");
+        },
+        complete: function(xhr, status) {
+            console.log("Consulta de alumnos realizado");
+            
+        }
+    });
+
+}
+
+function AgregarCalificacion(data){
+    
+    var iddocente = document.getElementById("iddocente");
+    
+    $.ajax({
+        url: '/agregarcalificacion',
+        data: { data:data, iddocente: iddocente.value},
+        type: 'POST',
+        dataType: 'html',
+        success: function(result) {
+            console.log("Operacion Realizada con Exito");
+            $("#CalificacionesTable").html(result);
+        },
+        error: function(xhr, status) {
+            console.log("Error en la consulta");
+        },
+        complete: function(xhr, status) {
+            console.log("Consulta de alumnos realizado");
+            
+        }
+    });
+
+}
+
+function CambiaAtributos(data){
+var input = document.getElementById(data);
+input.classList.remove("btn-dark");
+input.classList.add("btn-warning");
+}
 
 $('.dropify').dropify();
 

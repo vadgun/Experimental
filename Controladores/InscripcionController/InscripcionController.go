@@ -48,3 +48,10 @@ func Inscripcion(ctx iris.Context) {
 		ctx.Redirect("/login", iris.StatusSeeOther)
 	}
 }
+
+//GuardarInscripcion -> Guarda la inscripcion
+func GuardarInscripcion(ctx iris.Context) {
+
+	ctx.Redirect("/login", iris.StatusSeeOther)
+
+}

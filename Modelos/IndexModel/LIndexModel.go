@@ -5,6 +5,7 @@ import (
 	"log"
 
 	conexiones "github.com/vadgun/Experimental/Conexiones"
+	calificacionesmodel "github.com/vadgun/Experimental/Modelos/CalificacionesModel"
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -149,5 +150,19 @@ func TienePermiso(indexpermiso int, user1, user2 MongoUser) bool {
 	}
 
 	return false
+
+}
+
+//IfIsDocenteBringMaterias Regresa la botonera si es docente o un mensaje si no lo es
+func IfIsDocenteBringMaterias(userOn MongoUser) []calificacionesmodel.Materia {
+
+	var idmateriasdeldocente []calificacionesmodel.Materia
+
+	idmateriasdeldocente = calificacionesmodel.ExtraeMaterias(userOn.UserID)
+
+	//Si tiene 5 ids para las materias debes traer los datos de esas 5 materias.
+	//el primer paso es traer esas 5 materias para filtrarlas y el docente pueda elegir cual materia ver y rellenar consecutivamente
+
+	return idmateriasdeldocente
 
 }

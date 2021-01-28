@@ -5,9 +5,62 @@
     <div class="container mt-4">
 <h1 class="text-center">Calificaciones</h1>
 <hr>
-<div class="" id="CalificaionesContainer">
+
+
+<!-- <div class="" id="CalificaionesContainer">
+    <div class="text-center container"> 
+        <a href="Javascript:AgregarCalificacion('1:2:3');" class="btn btn-info" role="button">Materia 1</a> 
+        <a href="Javascript:AgregarCalificacion('1:2:3');" class="btn btn-warning" role="button">Materia 2</a> 
+        <a href="Javascript:AgregarCalificacion('1:2:3');" class="btn btn-dark" role="button">Materia 3</a> 
+    </div>
+</div> -->
+
+<div class="" id="CalificacionesContainer">
+    <div class="text-center container "> 
+        {{if .Usuario.Docente}}
+        <input type="hidden" name="iddocente" id="iddocente" value="{{.Usuario.UserID.Hex}}">
+        {{range $index,$value := .Materias}}
+        <a href="Javascript:AgregarCalificacion('{{$value.ID.Hex}}:{{$value.Semestre.Hex}}');" id="input{{$index}}" class="btn btn-dark separacion" onclick="CambiaAtributos('input{{$index}}');" role="button">{{$value.Materia}}</a>
+        {{end}}
+        {{end}}
+
+
+    </div>
+</div>
+
+<br><br>
+
+<div class="container" id="CalificacionesTable">
+
+
 
 </div>
+
+
+    <!-- <form action="/guardarcalificaciones" method="POST" >
+
+    <table class="table table-hover table-bordered table-lg" style="margin: auto; width: 75% !important; font-size:14px;">
+        <thead>
+          <tr><th class="textocentrado" width="60%">
+              Alumno
+          </th>
+          <th class="textocentrado">
+              Psicologia del desarrollo infantil (0-12 años)
+          </th>
+          </tr></thead>
+        <tbody>
+          <tr>
+          <td>JOSE CAMACHO GONZALEZ </td>
+                  <td> 5</td>
+          </tr>
+      </tbody>
+      </table>
+
+      <button type="submit"> Guardar Calificaciones</button>
+
+    </form> -->
+
+
 </div>
 <script>calificacionesit.classList.add("selected");</script>
 {{template "footerTemplate" .}}

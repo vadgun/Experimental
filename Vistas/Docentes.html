@@ -11,18 +11,18 @@
 	<hr>
 	<table class="table table-hover table-bordered table-lg" style="margin: auto; width: 100%s !important; font-size:14px;">
 	  <thead>
-		<th class="textocentrado" width="20%">
+		<th class="textocentrado" width="50%">
 		  Nombre
 		</th>
-		<th class="textocentrado" width="70%">
-		 Materias
+		<th class="textocentrado" width="25%">
+		 Telefono
 		</th>
-		<th class="textocentrado" width="10%">
+		<th class="textocentrado" width="25%">
 		  Acciones
 		</th>
 		</thead>
 	  <tbody>
-        <tr>
+        <!-- <tr>
             <td>1</td>
             <td>2</td>
             <td >
@@ -44,8 +44,23 @@
             </td>
         </tr>
 
+      </tbody> -->
+      {{range $index,$value := .Docentes}}
+      <tr>
+          <td>{{$value.Nombre}} {{$value.ApellidoP}} {{$value.ApellidoM}}</td>
+          <td>{{$value.Telefono1}}</td>
+          <td>{{$value.CorreoE}}</td>
+      </tr>
+
+      {{end}}
+
+
       </tbody>
     </table>
+
+
+
+
 
 </div>
 </div>

@@ -29,6 +29,8 @@ func main() {
 	app.Post("/inscripcion", inscripcioncontroller.Inscripcion)
 	app.Get("/inscripcion", inscripcioncontroller.Inscripcion)
 
+	app.Post("/guardarInscripcion", inscripcioncontroller.GuardarInscripcion)
+
 	app.Post("/asignacion", asignacioncontroller.Asignacion)
 	app.Get("/asignacion", asignacioncontroller.Asignacion)
 
@@ -46,6 +48,8 @@ func main() {
 	app.Post("/alumnos", calificacionescontroller.Alumnos)
 	app.Get("/alumnos", calificacionescontroller.Alumnos)
 	app.Post("/obtenerAlumnos", calificacionescontroller.ObtenerAlumnos)
+	app.Post("/agregarcalificacion", calificacionescontroller.AgregarCalificacion)
+	app.Post("/guardarcalificaciones", calificacionescontroller.GuardarCalificaciones)
 
 	app.Post("/docentes", calificacionescontroller.Docentes)
 	app.Get("/docentes", calificacionescontroller.Docentes)

@@ -2,6 +2,8 @@ package calificacionescontroller
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
 
 	"github.com/kataras/iris/v12"
 	sessioncontroller "github.com/vadgun/Experimental/Controladores/SessionController"
@@ -43,6 +45,17 @@ func Calificaciones(ctx iris.Context) {
 
 		if !tienepermiso {
 			ctx.Redirect("/login", iris.StatusSeeOther)
+		}
+
+		if userOn.Docente || usuario.Docente {
+			var materias []calificacionesmodel.Materia
+			materias = indexmodel.IfIsDocenteBringMaterias(userOn)
+			ctx.ViewData("Materias", materias)
+		}
+
+		if userOn.Admin || usuario.Admin {
+			// enviar docentes para ejecutar algo similar a lo de arriba, enviar traer materias para ver calificaciones y evaluar
+
 		}
 
 		if err := ctx.View("Calificaciones.html"); err != nil {
@@ -227,4 +240,136 @@ func Docentes(ctx iris.Context) {
 	} else {
 		ctx.Redirect("/login", iris.StatusSeeOther)
 	}
+}
+
+//AgregarCalificacion -> Regresa una tabla para capturar la materia con una lista de alumnos inscritos a ese semestre
+func AgregarCalificacion(ctx iris.Context) {
+
+	//Tengo el id de materia. tengo el id de semestre y tengo el id de docente
+
+	//Si genero una captura de calificaciones
+
+	data := ctx.PostValue("data")
+
+	cadena := strings.Split(data, ":")
+
+	idmateria := cadena[0]
+	idsemestre := cadena[1]
+
+	iddocente := ctx.PostValue("iddocente")
+
+	fmt.Println("id mat ->", idmateria)
+	fmt.Println("id sem ->", idsemestre)
+	fmt.Println("id doc ->", iddocente)
+
+	alumnos := calificacionesmodel.ObtenerAlumnosFiltrados(idsemestre)
+	materia := calificacionesmodel.ExtraeMateria(idmateria)
+
+	var htmlcode string
+	var index int
+
+	htmlcode += fmt.Sprintf(`
+	<form action="/guardarcalificaciones" method="POST" >
+	`)
+
+	htmlcode += fmt.Sprintf(`
+	<br>
+	<hr>
+	<table class="table table-hover table-bordered table-lg" style="margin: auto; width: 70%s !important; font-size:14px;">
+	  <thead>
+		<th class="textocentrado" width="30%s">
+			Alumno
+		</th>
+		<th class="textocentrado">
+			%v
+		</th>
+		</thead>
+	  <tbody>`, "%%", "%%", materia.Materia)
+
+	for k, v := range alumnos {
+
+		htmlcode += fmt.Sprintf(`
+		<tr>
+		<td>%v %v %v 
+		<input type="hidden" name="idalumno%v" value="%v">
+		</td>`, v.Nombre, v.ApellidoP, v.ApellidoM, k, v.ID.Hex())
+
+		for kk, vv := range v.Materias {
+
+			if materia.ID == vv {
+				index = kk
+			}
+		}
+
+		htmlcode += fmt.Sprintf(`
+				<td class="text-center"> 
+					<input type="number" class="form-control letrasGrandes" name="calificacion%v" value="%v">
+					
+				</td>
+		</tr>`, k, v.Calificaciones[index])
+
+		fmt.Println(index)
+	}
+
+	htmlcode += fmt.Sprintf(`
+	</tbody>
+	</table>
+
+ `)
+
+	htmlcode += fmt.Sprintf(`
+	<input type="hidden" name="materiafilter" value="%v">
+	<input type="hidden" name="index" value="%v">
+	<input type="hidden" name="numalumnos" value="%v">
+ <button type="submit"> Guardar Calificaciones</button>
+ </form>
+ `, materia.ID.Hex(), index, len(alumnos))
+
+	ctx.HTML(htmlcode)
+
+}
+
+//GuardarCalificaciones Guarda la peticion del docente para guardar materias de los alumnos por materia
+func GuardarCalificaciones(ctx iris.Context) {
+
+	numalumnos, _ := ctx.PostValueInt("numalumnos")
+	index, _ := ctx.PostValueInt("index")
+	materiafilter := ctx.PostValue("materiafilter")
+
+	var alumnos []string
+	var calificaciones []float64
+	var htmlcode string
+
+	fmt.Println("Numero de alumnos", numalumnos, " - ", index, " - ", materiafilter)
+	for i := 0; i < numalumnos; i++ {
+		istring := strconv.Itoa(i)
+		alumnos = append(alumnos, ctx.PostValue("idalumno"+istring))
+		flotante, _ := ctx.PostValueFloat64("calificacion" + istring)
+		calificaciones = append(calificaciones, flotante)
+	}
+
+	fmt.Println(alumnos)
+	fmt.Println(calificaciones)
+
+	//guarda esa calificacion en el alumno correspondiente en el index de calificaiones
+
+	actualizado := calificacionesmodel.GuardarCapturaCalificaciones(alumnos, calificaciones, index)
+
+	if actualizado {
+
+		htmlcode += fmt.Sprintf(`<script>
+		alert("Calificaciones Guardadas");
+		location.replace("/calificaciones");
+		</script>`)
+
+	} else {
+		htmlcode += fmt.Sprintf(`<script>
+		alert("Ocurrio un error");
+		location.replace("/calificaciones");
+		</script>`)
+
+	}
+
+	ctx.HTML(htmlcode)
+
 }
