@@ -321,7 +321,11 @@ func AgregarCalificacion(ctx iris.Context) {
 	<input type="hidden" name="materiafilter" value="%v">
 	<input type="hidden" name="index" value="%v">
 	<input type="hidden" name="numalumnos" value="%v">
+	<br>
+    <div class="text-center container "> 
  <button type="submit"> Guardar Calificaciones</button>
+ </div>
+
  </form>
  `, materia.ID.Hex(), index, len(alumnos))
 
