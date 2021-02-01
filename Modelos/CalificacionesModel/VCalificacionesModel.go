@@ -40,6 +40,7 @@ type Alumno struct {
 	CursandoSem     bson.ObjectId   `bson:"CursandoSem"`
 	Materias        []bson.ObjectId `bson:"Materias"`
 	Calificaciones  []float64       `bson:"Calificaciones"`
+	Asistencias     []float64       `bson:"Asistencias"`
 	SiguienteSem    string          `bson:"SiguienteSem"`
 	AnteriorSem     string          `bson:"AnteriorSem"`
 	InicioSem       string          `bson:"InicioSem"`

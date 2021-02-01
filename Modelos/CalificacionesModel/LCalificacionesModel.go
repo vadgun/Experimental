@@ -13,6 +13,9 @@ import (
 func ObtenerMateriasFiltradas(plan, lic, sem string) []Materia {
 
 	var materias []Materia
+	var idsem bson.ObjectId
+
+	idsem = bson.ObjectIdHex(sem)
 
 	session, err := mgo.Dial(conexiones.MONGO_SERVER)
 	defer session.Close()
@@ -20,7 +23,7 @@ func ObtenerMateriasFiltradas(plan, lic, sem string) []Materia {
 		log.Fatal(err)
 	}
 	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_MT)
-	err1 := c.Find(bson.M{"Plan": plan, "Licenciatura": lic, "Semestre": sem}).All(&materias)
+	err1 := c.Find(bson.M{"Plan": plan, "Licenciatura": lic, "Semestre": idsem}).All(&materias)
 	if err1 != nil {
 		fmt.Println(err1)
 	}
@@ -40,7 +43,7 @@ func ObtenerAlumnosFiltrados(sem string) []Alumno {
 		log.Fatal(err)
 	}
 	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_AL)
-	err1 := c.Find(bson.M{"CursandoSem": semid}).All(&alumnos)
+	err1 := c.Find(bson.M{"CursandoSem": semid}).Sort("ApellidoP", "ApellidoM").All(&alumnos)
 	if err1 != nil {
 		fmt.Println(err1)
 	}

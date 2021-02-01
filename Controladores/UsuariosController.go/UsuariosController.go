@@ -99,6 +99,7 @@ func AltaDeUsuario(ctx iris.Context) { // la 1ra es del docente y la 2da del mon
 
 		for i := 0; i < len(alumno.Materias); i++ {
 			alumno.Calificaciones = append(alumno.Calificaciones, 5.0)
+			alumno.Asistencias = append(alumno.Asistencias, 50)
 		}
 
 		alumno.CursandoSem = idsemestre

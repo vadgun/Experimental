@@ -180,7 +180,7 @@ func ObtenerAlumnos(ctx iris.Context) {
 
 		</tr>
 
-		`, v.Nombre, v.ApellidoP, v.ApellidoM, v.CursandoSem, v.Licenciatura, v.ID.Hex(), v.ID.Hex(), v.ID.Hex())
+		`, v.ApellidoP, v.ApellidoM, v.Nombre, v.CursandoSem, v.Licenciatura, v.ID.Hex(), v.ID.Hex(), v.ID.Hex())
 
 		}
 
@@ -283,8 +283,12 @@ func AgregarCalificacion(ctx iris.Context) {
 		<th class="textocentrado">
 			%v
 		</th>
+		<th class="textocentrado">
+		%s de Asistencia
+	</th>
+
 		</thead>
-	  <tbody>`, "%%", "%%", materia.Materia)
+	  <tbody>`, "%%", "%%", materia.Materia, "%%")
 
 	for k, v := range alumnos {
 
@@ -292,7 +296,7 @@ func AgregarCalificacion(ctx iris.Context) {
 		<tr>
 		<td>%v %v %v 
 		<input type="hidden" name="idalumno%v" value="%v">
-		</td>`, v.Nombre, v.ApellidoP, v.ApellidoM, k, v.ID.Hex())
+		</td>`, v.ApellidoP, v.ApellidoM, v.Nombre, k, v.ID.Hex())
 
 		for kk, vv := range v.Materias {
 
@@ -306,7 +310,10 @@ func AgregarCalificacion(ctx iris.Context) {
 					<input type="number" class="form-control letrasGrandes" name="calificacion%v" value="%v">
 					
 				</td>
-		</tr>`, k, v.Calificaciones[index])
+				<td class="text-center"> 
+				<input type="number" class="form-control letrasGrandes" name="asistencia%v" value="%v">
+				</td>
+		</tr>`, k, v.Calificaciones[index], k, v.Asistencias[index])
 
 		fmt.Println(index)
 	}
