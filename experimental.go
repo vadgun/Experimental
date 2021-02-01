@@ -66,5 +66,5 @@ func main() {
 	app.Post("/kardex", indexcontroller.Index)
 	app.Get("/kardex", indexcontroller.Index)
 
-	app.Run(iris.Addr(":80"))
+	app.Run(iris.Addr(":8080"))
 }
