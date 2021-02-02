@@ -349,6 +349,7 @@ func GuardarCalificaciones(ctx iris.Context) {
 
 	var alumnos []string
 	var calificaciones []float64
+	var asistencias []float64
 	var htmlcode string
 
 	fmt.Println("Numero de alumnos", numalumnos, " - ", index, " - ", materiafilter)
@@ -356,15 +357,14 @@ func GuardarCalificaciones(ctx iris.Context) {
 		istring := strconv.Itoa(i)
 		alumnos = append(alumnos, ctx.PostValue("idalumno"+istring))
 		flotante, _ := ctx.PostValueFloat64("calificacion" + istring)
+		asistenciafloat, _ := ctx.PostValueFloat64("asistencia" + istring)
 		calificaciones = append(calificaciones, flotante)
+		asistencias = append(asistencias, asistenciafloat)
 	}
-
-	fmt.Println(alumnos)
-	fmt.Println(calificaciones)
 
 	//guarda esa calificacion en el alumno correspondiente en el index de calificaiones
 
-	actualizado := calificacionesmodel.GuardarCapturaCalificaciones(alumnos, calificaciones, index)
+	actualizado := calificacionesmodel.GuardarCapturaCalificaciones(alumnos, calificaciones, asistencias, index)
 
 	if actualizado {
 

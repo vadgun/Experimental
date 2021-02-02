@@ -255,7 +255,7 @@ func ExtraeSemestre(idsemestre bson.ObjectId) Semestre {
 }
 
 //GuardarCapturaCalificaciones -> Guarda las calificaciones a cada alumno
-func GuardarCapturaCalificaciones(alumnos []string, calificaciones []float64, index int) bool {
+func GuardarCapturaCalificaciones(alumnos []string, calificaciones, asistencias []float64, index int) bool {
 
 	var guardado bool
 
@@ -274,11 +274,9 @@ func GuardarCapturaCalificaciones(alumnos []string, calificaciones []float64, in
 		if err1 != nil {
 			fmt.Println("1 ERROR 1", err1)
 		}
-		fmt.Println(index)
-		fmt.Println("Alumno", alumno.Calificaciones)
-		fmt.Println("Alumno", alumno.Calificaciones[index])
 
 		alumno.Calificaciones[index] = calificaciones[k]
+		alumno.Asistencias[index] = asistencias[k]
 		err2 := c.UpdateId(alumno.ID, alumno)
 		if err2 != nil {
 			fmt.Println("2", err2)
