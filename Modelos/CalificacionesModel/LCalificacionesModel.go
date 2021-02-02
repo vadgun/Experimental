@@ -290,3 +290,76 @@ func GuardarCapturaCalificaciones(alumnos []string, calificaciones []float64, in
 	return guardado
 
 }
+
+//CrearSemestre -> Crea semestre
+func CrearSemestre(semestre Semestre) bool {
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_SM)
+	err1 := c.Insert(semestre)
+	if err1 != nil {
+		fmt.Println("Error insertando semestre", err1)
+		return false
+	}
+
+	return true
+
+}
+
+//AsignarMateriaASemestre -> Asigna materia al semestre mediande el id de materia e id de semestre
+func AsignarMateriaASemestre(materia Materia, semestre Semestre) bool {
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	materia.ID = bson.NewObjectId()
+	semestre.Materias = append(semestre.Materias, materia.ID)
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_MT)
+	err1 := c.Insert(materia)
+	if err1 != nil {
+		fmt.Println("Error insertando materia", err1)
+		return false
+	}
+
+	d := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_SM)
+	err2 := d.UpdateId(semestre.ID, semestre)
+	if err2 != nil {
+		fmt.Println("Error editanto semestre", err2)
+		return false
+	}
+
+	return true
+
+}
+
+//TraerSemestre -> Trae el Semestre para su modificacion
+func TraerSemestre(idsemestre string) Semestre {
+
+	var semestre Semestre
+
+	objidsemestre := bson.ObjectIdHex(idsemestre)
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_SM)
+	err1 := c.FindId(objidsemestre).One(&semestre)
+	if err1 != nil {
+		fmt.Println("No se encontro el semestre en la base de datos", err1)
+	}
+
+	return semestre
+
+}

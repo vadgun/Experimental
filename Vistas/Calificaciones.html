@@ -24,7 +24,12 @@
         {{end}}
         {{end}}
 
-
+        {{if .Usuario.Admin}}
+        <a href="Javascript:CrearFormulario('Semestre');" id="crearsemestre" class="btn btn-dark separacion" role="button">Crear semestre</a>
+        <a href="Javascript:CrearFormulario('Materia');" id="crearmateria" class="btn btn-warning separacion" role="button">Crear materia</a>
+        <a href="Javascript:CrearFormulario('Alumnos');" id="cargaalumnos" class="btn btn-warning separacion" role="button">Carga masiva de Alumnos</a>
+        <a href="Javascript:CrearFormulario('Docentes');" id="cargadocentes" class="btn btn-warning separacion" role="button">Carga masiva de Docentes</a>
+        {{end}}
     </div>
 </div>
 
@@ -32,10 +37,9 @@
 
 <div class="container" id="CalificacionesTable">
 
-
+    
 
 </div>
-
 
     <!-- <form action="/guardarcalificaciones" method="POST" >
 

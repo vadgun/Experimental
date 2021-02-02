@@ -204,29 +204,30 @@ if (semestre.value != ""){
     
 }}
 
-// function AgregarCalificacion(){
+function CrearFormulario(data){
 
-//     var data = "Materia1:Materia2:Materia3"
-
-//     $.ajax({
-//         url: '/AgregarCalificacion',
-//         data: { data:data },
-//         type: 'POST',
-//         dataType: 'html',
-//         success: function(result) {
-//             console.log("Operacion Realizada con Exito");
-//             $("#ConfirmacionTable").html(result);
-//         },
-//         error: function(xhr, status) {
-//             console.log("Error en la consulta");
-//         },
-//         complete: function(xhr, status) {
-//             console.log("Consulta de alumnos realizado");
+    $.ajax({
+        url: '/crearformulario',
+        data: { data:data },
+        type: 'POST',
+        dataType: 'html',
+        success: function(result) {
+            console.log("Operacion Realizada con Exito");
+            $("#CalificacionesTable").html(result);
+        },
+        error: function(xhr, status) {
+            console.log("Error en la consulta");
+        },
+        complete: function(xhr, status) {
+            console.log("Formulario " +data+ " Devuelto");
             
-//         }
-//     });
+        }
+    });
 
-// }
+    
+}
+
+
 
 function AgregarCalificacion(data){
     
@@ -245,7 +246,7 @@ function AgregarCalificacion(data){
             console.log("Error en la consulta");
         },
         complete: function(xhr, status) {
-            console.log("Consulta de alumnos realizado");
+            console.log("Calificacion Agregada");
             
         }
     });

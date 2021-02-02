@@ -384,3 +384,221 @@ func GuardarCalificaciones(ctx iris.Context) {
 	ctx.HTML(htmlcode)
 
 }
+
+//CrearFormulario -> Regresa un formulario correspondiente al boton 'Materia' 'Semestre'
+func CrearFormulario(ctx iris.Context) {
+
+	data := ctx.PostValue("data")
+
+	var htmlcode string
+
+	switch data {
+	case "Materia":
+
+		semestres := usuariosmodel.ExtraeSemestres()
+
+		htmlcode += fmt.Sprintf(`
+		<form action="/guardarmateria" method="POST" >
+
+        <div class="col-sm-12">
+            <div class="form-group row">
+                <label for="materia" class="col-sm-1 col-form-label negrita"> Materia: </label>
+                <div class="col-sm-3 col-md-3 col-lg-4">
+                    <input type="text" class="form-control" id="materia" name="materia" placeholder="Introduce nombre de la materia" value="" required>
+                </div>
+                <label for="plan" class="col-sm-1 col-form-label negrita"> Plan: </label>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <select class="form-control" id="plan" name="plan" value="" required>
+                        <option value="">selecciona</option>
+                        <option value="2012">2012</option>
+                        <option value="2018">2018</option>
+                        <option value="2021">2021</option>
+                    </select>  
+                </div>
+                <label for="licenciatura" class="col-sm-2 col-form-label negrita"> Licenciatura: </label>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <select class="form-control" id="licenciatura" name="licenciatura" value="" required>
+                        <option value="">selecciona</option>
+                        <option value="Primaria">Primaria</option>
+                        <option value="Preescolar">Preescolar</option>
+                    </select>  
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="semestreid" class="col-sm-1 col-form-label negrita"> Semestre: </label>
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                    <select class="form-control" id="semestreid" name="semestreid" value="" required>
+						<option value="">selecciona</option>`)
+
+		for _, v := range semestres {
+			htmlcode += fmt.Sprintf(`
+						<option value="%v">%v - %v - %v - Cuenta con %v materias</option>
+					`, v.ID.Hex(), v.Semestre, v.Licenciatura, v.Plan, len(v.Materias))
+		}
+
+		htmlcode += fmt.Sprintf(`
+                    </select>
+                </div>
+                <label for="Creditos" class="col-sm-1 col-form-label negrita"> Créditos: </label>
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                    <input type="number" class="form-control"  step="any" id="creditos" name="creditos" placeholder="Número Créditos" value="" required>
+                </div>
+                <label for="horas" class="col-sm-1 col-form-label negrita"> Horas: </label>
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                    <input type="number" class="form-control" step="any" id="horas" name="horas" value="" placeholder="Cantidad de horas" required>
+                </div>
+            </div>
+            <div class="form-group row">
+
+            <div class="text-center container "> 
+                <button type="submit"> Guardar Materia</button>
+            </div>
+            </div>
+        </div>
+    </form>
+
+		
+		`)
+
+		break
+	case "Semestre":
+
+		htmlcode += fmt.Sprintf(`
+
+		<form action="/guardarsemestre" method="POST" >
+
+        <div class="col-sm-12">
+            <div class="form-group row">
+                <label for="materia" class="col-sm-1 col-form-label negrita"> Semestre: </label>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <select class="form-control" id="semestre" name="semestre" value="" required>
+                        <option value="">selecciona</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+
+                    </select> 
+
+                </div>
+                <label for="plan" class="col-sm-1 col-form-label negrita"> Plan: </label>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <select class="form-control" id="plan" name="plan" value="" required>
+                        <option value="">selecciona</option>
+                        <option value="2012">2012</option>
+                        <option value="2018">2018</option>
+                        <option value="2021">2021</option>
+                    </select>  
+                </div>
+                <label for="licenciatura" class="col-sm-2 col-form-label negrita"> Licenciatura: </label>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <select class="form-control" id="licenciatura" name="licenciatura" value="" required>
+                        <option value="">selecciona</option>
+                        <option value="Primaria">Primaria</option>
+                        <option value="Preescolar">Preescolar</option>
+                    </select>  
+                </div>
+            </div>
+
+            <div class="text-center container "> 
+                <button type="submit"> Guardar Semestre</button>
+            </div>
+            </div>
+        </div>
+    </form>
+		
+		`)
+
+		break
+	case "Alumnos":
+
+		htmlcode += fmt.Sprintf(`
+			carga de alumnos
+		`)
+
+		break
+	case "Docentes":
+		htmlcode += fmt.Sprintf(`
+			carga de docentes
+		 `)
+
+		break
+	}
+
+	ctx.HTML(htmlcode)
+
+}
+
+//GuardarMateria -> Asigna la materia al semestre
+func GuardarMateria(ctx iris.Context) {
+
+	var materia calificacionesmodel.Materia
+	var semestre calificacionesmodel.Semestre
+
+	materia.Materia = ctx.PostValue("materia")
+	materia.Plan = ctx.PostValue("plan")
+	materia.Licenciatura = ctx.PostValue("licenciatura")
+	materia.Creditos = ctx.PostValue("creditos")
+	materia.Horas = ctx.PostValue("horas")
+
+	semestre = calificacionesmodel.TraerSemestre(ctx.PostValue("semestreid"))
+	materia.Semestre = semestre.ID
+
+	var htmlcode string
+
+	guardado := calificacionesmodel.AsignarMateriaASemestre(materia, semestre)
+
+	if guardado {
+
+		htmlcode += fmt.Sprintf(`<script>
+		alert("Materia asignada al semestre");
+		location.replace("/calificaciones");
+		</script>`)
+
+	} else {
+		htmlcode += fmt.Sprintf(`<script>
+		alert("Ocurrio un error");
+		location.replace("/calificaciones");
+		</script>`)
+
+	}
+
+	ctx.HTML(htmlcode)
+
+}
+
+//GuardarSemestre -> Guarda el semestre donde se asignaran las materias
+func GuardarSemestre(ctx iris.Context) {
+
+	var semestre calificacionesmodel.Semestre
+
+	semestre.Licenciatura = ctx.PostValue("licenciatura")
+	semestre.Semestre = ctx.PostValue("semestre")
+	semestre.Plan = ctx.PostValue("plan")
+
+	var htmlcode string
+
+	guardado := calificacionesmodel.CrearSemestre(semestre)
+
+	if guardado {
+
+		htmlcode += fmt.Sprintf(`<script>
+		alert("Semestre Guardado");
+		location.replace("/calificaciones");
+		</script>`)
+
+	} else {
+		htmlcode += fmt.Sprintf(`<script>
+		alert("Ocurrio un error");
+		location.replace("/calificaciones");
+		</script>`)
+
+	}
+
+	ctx.HTML(htmlcode)
+
+}
