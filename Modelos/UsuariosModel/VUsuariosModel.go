@@ -92,3 +92,50 @@ func ExtraeSemestres() []calificacionesmodel.Semestre {
 	return semestres
 
 }
+
+//GuardarAlumnosMasivamente -> Guardalos alumnos en la base de datos
+func GuardarAlumnosMasivamente(alumnos []calificacionesmodel.Alumno, usuarios []indexmodel.MongoUser) bool {
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_AL)
+	d := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_U)
+
+	// for i := 0; i <= 5; i++ {
+	// for k, v := range alumnos {
+
+	for k, v := range alumnos {
+
+		v.ID = bson.NewObjectId()
+		usuarios[k].ID = bson.NewObjectId()
+
+		v.MongoUser = usuarios[k].ID
+		usuarios[k].UserID = v.ID
+		fmt.Println("k", k, " Alumno", v)
+	}
+
+	fmt.Println(" Alumnos -> ", len(alumnos), "   Usuarios ->", len(usuarios))
+
+	for kk, vv := range alumnos {
+		err1 := c.Insert(vv)
+		if err1 != nil {
+			fmt.Println("No se pudo insertar masivamente los alumnos en la base de datos", err1)
+			fmt.Println("k", kk, " Alumno", vv)
+			return false
+		}
+	}
+
+	for _, vs := range usuarios {
+		err2 := d.Insert(vs)
+		if err2 != nil {
+			fmt.Println("No se pudo insertar masivamente los usuarios en la base de datos", err2)
+			return false
+		}
+	}
+
+	return true
+}

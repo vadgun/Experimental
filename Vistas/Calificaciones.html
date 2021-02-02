@@ -20,7 +20,7 @@
         {{if .Usuario.Docente}}
         <input type="hidden" name="iddocente" id="iddocente" value="{{.Usuario.UserID.Hex}}">
         {{range $index,$value := .Materias}}
-        <a href="Javascript:AgregarCalificacion('{{$value.ID.Hex}}:{{$value.Semestre.Hex}}');" id="input{{$index}}" class="btn btn-dark separacion" onclick="CambiaAtributos('input{{$index}}');" role="button">{{$value.Materia}}</a>
+        <a href="Javascript:AgregarCalificacion('{{$value.ID.Hex}}:{{$value.Semestre.Hex}}');" id="input{{$index}}" class="btn btn-dark separacion" onclick="CambiaAtributos('input{{$index}}');" role="button">{{$value.Materia}} ({{$value.Licenciatura}})</a>
         {{end}}
         {{end}}
 

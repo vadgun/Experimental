@@ -8,7 +8,7 @@
 <div class="" id="AlumnosContainer">
     
     
-    
+    {{if .Usuario.Admin}}
     <form method="" action="" name="AsignacionMaterias" id="AsignacionMaterias" >            
         <div class="col-12">
             <div class="form-group row centrado">
@@ -26,6 +26,7 @@
             </div>        
         </div>
     </form>
+    {{end}}
 
     <div class="container" id="AlumnosTable">
 

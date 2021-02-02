@@ -26,6 +26,7 @@ func main() {
 	app.Post("/calificaciones", calificacionescontroller.Calificaciones)
 	app.Get("/calificaciones", calificacionescontroller.Calificaciones)
 	app.Post("/crearformulario", calificacionescontroller.CrearFormulario)
+	app.Post("/cargarmasivoalumnos", calificacionescontroller.CargarMasivoAlumnos)
 
 	app.Post("/guardarmateria", calificacionescontroller.GuardarMateria)
 	app.Post("/guardarsemestre", calificacionescontroller.GuardarSemestre)

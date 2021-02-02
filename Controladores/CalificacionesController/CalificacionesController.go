@@ -2,8 +2,13 @@ package calificacionescontroller
 
 import (
 	"fmt"
+	"io"
+	"os"
 	"strconv"
 	"strings"
+	"time"
+
+	"github.com/360EntSecGroup-Skylar/excelize/v2"
 
 	"github.com/kataras/iris/v12"
 	sessioncontroller "github.com/vadgun/Experimental/Controladores/SessionController"
@@ -146,8 +151,11 @@ func ObtenerAlumnos(ctx iris.Context) {
 		  Nombre
 		</th>
 		<th class="textocentrado">
-		 Semestre
+		 Usuario
 		</th>
+		<th class="textocentrado">
+		Password
+	   </th>
 		<th class="textocentrado">
 		 Licenciatura
 		</th>
@@ -161,6 +169,7 @@ func ObtenerAlumnos(ctx iris.Context) {
 			htmlcode += fmt.Sprintf(`
 		<tr>
 		<td>%v %v %v</td>
+		<td>%v</td>
 		<td>%v</td>
 		<td>%v</td>
 		
@@ -180,7 +189,7 @@ func ObtenerAlumnos(ctx iris.Context) {
 
 		</tr>
 
-		`, v.ApellidoP, v.ApellidoM, v.Nombre, v.CursandoSem, v.Licenciatura, v.ID.Hex(), v.ID.Hex(), v.ID.Hex())
+		`, v.ApellidoP, v.ApellidoM, v.Nombre, v.SiguienteSem, v.AnteriorSem, v.Licenciatura, v.ID.Hex(), v.ID.Hex(), v.ID.Hex())
 
 		}
 
@@ -514,16 +523,34 @@ func CrearFormulario(ctx iris.Context) {
 		`)
 
 		break
-	case "Alumnos":
+	case "Docentes":
 
 		htmlcode += fmt.Sprintf(`
-			carga de alumnos
+			
 		`)
 
 		break
-	case "Docentes":
+	case "Alumnos":
 		htmlcode += fmt.Sprintf(`
-			carga de docentes
+		<form method="POST" enctype="multipart/form-data" action="/cargarmasivoalumnos" name="cargarmasivoalumnos" id="cargarmasivoalumnos">
+		<div class="col-12">
+			<h6 class="border-bottoms">Archivo de carga de Alumnos:</h6>
+			
+			<div class="form-group row">
+			
+				<label for="archivoalumnos" class="col-sm-3 col-form-label negrita"> Selecciona archivo : </label>
+				<div class="col-sm-6">
+					<input type="file" class="form-control" id="archivoalumnos" name="archivoalumnos" required>
+				</div>			
+
+			
+				<div class="col-sm-3">
+					<button type="submit" class="btn btn-primary">Cargar Alumnos</button>
+				</div>
+	
+			</div>
+		</div>
+		</form>
 		 `)
 
 		break
@@ -601,4 +628,327 @@ func GuardarSemestre(ctx iris.Context) {
 
 	ctx.HTML(htmlcode)
 
+}
+
+func check(err error, mensaje string) {
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
+//CrearUsuario -> Crea el usuario de sistema
+func CrearUsuario(Plan, Nombre, semestrenum string) string {
+	var user string
+
+	nombres := strings.Split(Nombre, " ")
+
+	user = Plan + nombres[0] + semestrenum
+
+	return user
+}
+
+//CrearPassword -> Crea el password del sistema
+func CrearPassword(cadena string) string {
+	var pass string
+
+	pass = cadena
+
+	return pass
+
+}
+
+//CargarMasivoAlumnos -> Sube el archivo y lo interpreta para su conversion a la base de datos asi como la creacion de usuarios
+func CargarMasivoAlumnos(ctx iris.Context) {
+
+	var alumnos []calificacionesmodel.Alumno
+	var usuarios []indexmodel.MongoUser
+
+	layout := "2006-01-02"
+	location, _ := time.LoadLocation("America/Mexico_City")
+
+	archivo, header, err := ctx.FormFile("archivoalumnos")
+	if err != nil {
+		fmt.Println(err)
+	}
+	nombrearchivo := header.Filename
+
+	dirpath := "./Recursos/Archivos"
+	if _, err := os.Stat(dirpath); os.IsNotExist(err) {
+		fmt.Println("el directorio no existe")
+		os.MkdirAll(dirpath, 0777)
+	} else {
+		fmt.Println("el directorio ya existe")
+	}
+	out, err := os.Create("./Recursos/Archivos/" + nombrearchivo)
+	check(err, "Unable to create the file for writing. Check your write access privilege")
+	defer out.Close()
+	_, err = io.Copy(out, archivo)
+	check(err, "Error al escribir el archivo al directorio")
+
+	fmt.Println(alumnos)
+
+	excelFileName := dirpath + "/" + nombrearchivo
+
+	xlFile, err := excelize.OpenFile(excelFileName)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	semestres := usuariosmodel.ExtraeSemestres()
+
+	// Get all the rows in the Sheet1.
+	rows, err := xlFile.GetRows("1RO PREESOLAR")
+	for ks, row := range rows {
+		if ks <= 198 {
+			var alumno calificacionesmodel.Alumno
+			var mongouser indexmodel.MongoUser
+			var newwdate string
+			var anio string
+			var mes string
+			var dia string
+			var usersystem string
+			var passsystem string
+			var semestrenum string
+
+			for kk, colCell := range row {
+
+				switch kk {
+				case 0:
+					alumno.CorreoE = colCell
+					break
+				case 1:
+					alumno.Matricula = colCell
+					break
+				case 2:
+					alumno.ApellidoP = strings.ToUpper(colCell)
+					break
+				case 3:
+					alumno.ApellidoM = strings.ToUpper(colCell)
+					break
+				case 4:
+					alumno.Nombre = strings.ToUpper(colCell)
+					break
+				case 5:
+					alumno.Sexo = colCell
+					break
+				case 6:
+					alumno.Curp = strings.ToUpper(colCell)
+					break
+				case 7:
+
+					if colCell != "" {
+						anio = colCell[6:]
+						mes = colCell[3:5]
+						dia = colCell[0:2]
+						newwdate = anio + "-" + mes + "-" + dia
+						fechanacparsed, _ := time.ParseInLocation(layout, newwdate, location)
+						alumno.FechaNac = fechanacparsed
+					}
+					break
+				case 8:
+					alumno.Telefono = colCell
+					break
+				case 9:
+					alumno.Plan = colCell
+					break
+				case 10:
+					if colCell == "Educación Preescolar" {
+						alumno.Licenciatura = "Preescolar"
+					} else if colCell == "Educación Primaria" {
+						alumno.Licenciatura = "Primaria"
+					}
+					break
+				case 11:
+
+					//Ids de semestres a partir de  Plan(2012) Semestre(1) Licenciatura(Primaria)
+					//Es donde se inscribira al alumno y obtendra sus materias para ser evaluado
+
+					switch colCell {
+					case "Primero":
+
+						for _, semestre := range semestres {
+
+							if semestre.Semestre == "1" && semestre.Licenciatura == alumno.Licenciatura && semestre.Plan == alumno.Plan {
+								alumno.CursandoSem = semestre.ID
+								alumno.Materias = semestre.Materias
+								semestrenum = semestre.Semestre
+								alumno.Semestre = semestre.Semestre
+
+							}
+						}
+
+						break
+					case "Segundo":
+						for _, semestre := range semestres {
+
+							if semestre.Semestre == "2" && semestre.Licenciatura == alumno.Licenciatura && semestre.Plan == alumno.Plan {
+								alumno.CursandoSem = semestre.ID
+								alumno.Materias = semestre.Materias
+								semestrenum = semestre.Semestre
+								alumno.Semestre = semestre.Semestre
+							}
+						}
+						break
+					case "Tercero":
+						for _, semestre := range semestres {
+
+							if semestre.Semestre == "3" && semestre.Licenciatura == alumno.Licenciatura && semestre.Plan == alumno.Plan {
+								alumno.CursandoSem = semestre.ID
+								alumno.Materias = semestre.Materias
+								semestrenum = semestre.Semestre
+								alumno.Semestre = semestre.Semestre
+							}
+						}
+						break
+					case "Cuarto":
+						for _, semestre := range semestres {
+
+							if semestre.Semestre == "4" && semestre.Licenciatura == alumno.Licenciatura && semestre.Plan == alumno.Plan {
+								alumno.CursandoSem = semestre.ID
+								alumno.Materias = semestre.Materias
+								semestrenum = semestre.Semestre
+								alumno.Semestre = semestre.Semestre
+							}
+						}
+						break
+					case "Quinto":
+						for _, semestre := range semestres {
+
+							if semestre.Semestre == "5" && semestre.Licenciatura == alumno.Licenciatura && semestre.Plan == alumno.Plan {
+								alumno.CursandoSem = semestre.ID
+								alumno.Materias = semestre.Materias
+								semestrenum = semestre.Semestre
+								alumno.Semestre = semestre.Semestre
+							}
+						}
+						break
+					case "Sexto":
+						for _, semestre := range semestres {
+
+							if semestre.Semestre == "6" && semestre.Licenciatura == alumno.Licenciatura && semestre.Plan == alumno.Plan {
+								alumno.CursandoSem = semestre.ID
+								alumno.Materias = semestre.Materias
+								semestrenum = semestre.Semestre
+								alumno.Semestre = semestre.Semestre
+							}
+						}
+						break
+					case "Séptimo":
+						for _, semestre := range semestres {
+
+							if semestre.Semestre == "7" && semestre.Licenciatura == alumno.Licenciatura && semestre.Plan == alumno.Plan {
+								alumno.CursandoSem = semestre.ID
+								alumno.Materias = semestre.Materias
+								semestrenum = semestre.Semestre
+								alumno.Semestre = semestre.Semestre
+							}
+						}
+						break
+					case "Octavo":
+						for _, semestre := range semestres {
+
+							if semestre.Semestre == "8" && semestre.Licenciatura == alumno.Licenciatura && semestre.Plan == alumno.Plan {
+								alumno.CursandoSem = semestre.ID
+								alumno.Materias = semestre.Materias
+								semestrenum = semestre.Semestre
+								alumno.Semestre = semestre.Semestre
+							}
+						}
+						break
+
+					}
+
+					break
+				case 12:
+					alumno.Nss = colCell
+					break
+				case 13:
+					alumno.TipoSangre = strings.ToUpper(colCell)
+					break
+				case 14:
+					alumno.Tutor = strings.ToUpper(colCell)
+					break
+				case 15:
+					alumno.Telefono = colCell
+					break
+				case 16:
+					alumno.OcupacionTutor = strings.ToUpper(colCell)
+					break
+				case 17:
+					alumno.ParentescoTutor = strings.ToUpper(colCell)
+					break
+				case 18:
+					alumno.ContactoCasoEmergencia = strings.ToUpper(colCell)
+					break
+				case 19:
+					alumno.DiferenteDomicilioTutor = strings.ToUpper(colCell)
+					break
+				case 20:
+					alumno.Calle = strings.ToUpper(colCell)
+					break
+				case 21:
+					alumno.Numero = colCell
+					break
+				case 22:
+					alumno.ColAsentamiento = colCell
+					break
+				case 23:
+					alumno.Estado = "Chiapas"
+					break
+				case 24:
+					alumno.ReferenciasDomicilio = colCell
+					break
+				}
+
+			}
+
+			alumno.IsSystemUser = true
+			usersystem = CrearUsuario(alumno.Plan, alumno.Nombre, semestrenum) //2018Magaly7
+			if alumno.Curp != "" {
+				passsystem = CrearPassword(alumno.Curp[0:6]) //CACR8612
+			} else {
+				passsystem = "1xk7f"
+			}
+
+			alumno.Horario = ""
+			mongouser.Nombre = alumno.Nombre
+			mongouser.Apellidos = alumno.ApellidoP + " " + alumno.ApellidoM
+			//mongouser.Edad = CalcularEdad(alumno.FechaNac)int
+			mongouser.Usuario = usersystem
+			mongouser.Key = passsystem
+			alumno.SiguienteSem = usersystem
+			alumno.AnteriorSem = passsystem
+			mongouser.Puesto = "Alumno de la Licenciatura en " + alumno.Licenciatura
+			mongouser.Nombre2 = "Alumno"
+			//mongouser.UserID= variable para bson package
+			mongouser.Alumno = true
+			mongouser.Docente = false
+			mongouser.Administrativo = false
+			mongouser.Director = false
+			mongouser.Admin = false
+
+			for i := 0; i < len(alumno.Materias); i++ {
+				alumno.Calificaciones = append(alumno.Calificaciones, 5.0)
+				alumno.Asistencias = append(alumno.Asistencias, 50)
+			}
+			alumnos = append(alumnos, alumno)
+			usuarios = append(usuarios, mongouser)
+			//Guardar Alumnos
+		}
+	}
+
+	if usuariosmodel.GuardarAlumnosMasivamente(alumnos, usuarios) {
+		fmt.Println("EXITO!")
+	}
+
+	fmt.Println(len(alumnos), "  ", len(usuarios))
+
+	htmlcode := fmt.Sprintf(`
+			<script>
+				alert("Alumnos Guardados - =)");
+				location.replace("/calificaciones");
+			</script>
+		`)
+	ctx.HTML(htmlcode)
 }

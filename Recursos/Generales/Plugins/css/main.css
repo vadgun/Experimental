@@ -482,7 +482,6 @@ iframe {
     content: attr(data-validate);
     position: absolute;
     max-width: 70%;
-    background-color: #fff;
     border: 1px solid #c80000;
     border-radius: 2px;
     padding: 4px 25px 4px 10px;
@@ -514,7 +513,6 @@ iframe {
     color: #c80000;
     display: block;
     position: absolute;
-    background-color: #fff;
     top: 50%;
     -webkit-transform: translateY(-50%);
     -moz-transform: translateY(-50%);

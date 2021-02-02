@@ -18,35 +18,43 @@ type Boleta struct {
 
 //Alumno ligado al usuario de sistema sus datos personales y perfil dentro de la institución
 type Alumno struct {
-	ID              bson.ObjectId   `bson:"_id,omitempty"`
-	MongoUser       bson.ObjectId   `bson:"MongoUser,omitempty"`
-	IsSystemUser    bool            `bson:"IsSystemUser"`
-	Matricula       string          `bson:"Matricula"`
-	Nombre          string          `bson:"Nombre"`
-	ApellidoP       string          `bson:"ApellidoP"`
-	ApellidoM       string          `bson:"ApellidoM"`
-	FechaNac        time.Time       `bson:"FechaNac"`
-	Curp            string          `bson:"Curp"`
-	Calle           string          `bson:"Calle"`
-	Numero          string          `bson:"Numero"`
-	ColAsentamiento string          `bson:"ColAsentamiento"`
-	Municipio       string          `bson:"Municipio"`
-	Estado          string          `bson:"Estado"`
-	Telefono        string          `bson:"Telefono"`
-	TipoSangre      string          `bson:"TipoSangre"`
-	Sexo            string          `bson:"Sexo"`
-	Licenciatura    string          `bson:"Licenciatura"` //Que sea un Documento Licenciatura
-	Plan            string          `bson:"Plan"`
-	CursandoSem     bson.ObjectId   `bson:"CursandoSem"`
-	Materias        []bson.ObjectId `bson:"Materias"`
-	Calificaciones  []float64       `bson:"Calificaciones"`
-	Asistencias     []float64       `bson:"Asistencias"`
-	SiguienteSem    string          `bson:"SiguienteSem"`
-	AnteriorSem     string          `bson:"AnteriorSem"`
-	InicioSem       string          `bson:"InicioSem"`
-	Imagen          bson.ObjectId   `bson:"Imagen,omitempty"`
-	Horario         string          `bson:"Horario"`
-	CorreoE         string          `bson:"CorreoE"`
+	ID                      bson.ObjectId   `bson:"_id,omitempty"`
+	MongoUser               bson.ObjectId   `bson:"MongoUser,omitempty"`
+	IsSystemUser            bool            `bson:"IsSystemUser"`
+	Matricula               string          `bson:"Matricula"`
+	Nombre                  string          `bson:"Nombre"`
+	ApellidoP               string          `bson:"ApellidoP"`
+	ApellidoM               string          `bson:"ApellidoM"`
+	FechaNac                time.Time       `bson:"FechaNac"`
+	Curp                    string          `bson:"Curp"`
+	Calle                   string          `bson:"Calle"`
+	Numero                  string          `bson:"Numero"`
+	ColAsentamiento         string          `bson:"ColAsentamiento"`
+	Municipio               string          `bson:"Municipio"`
+	Estado                  string          `bson:"Estado"`
+	Telefono                string          `bson:"Telefono"`
+	TipoSangre              string          `bson:"TipoSangre"`
+	Sexo                    string          `bson:"Sexo"`
+	Licenciatura            string          `bson:"Licenciatura"` //Que sea un Documento Licenciatura
+	Semestre                string          `bson:"Semestre"`
+	Plan                    string          `bson:"Plan"`
+	Nss                     string          `bson:"Nss"`                     //Nuevo Faltan agregarlos a la captura de uno por uno al formulario de alta
+	Tutor                   string          `bson:"Tutor"`                   //Nuevo
+	OcupacionTutor          string          `bson:"OcupacionTutor"`          //Nuevo
+	ParentescoTutor         string          `bson:"ParentescoTutor"`         //Nuevo
+	ContactoCasoEmergencia  string          `bson:"ContactoCasoEmergencia"`  //Nuevo
+	DiferenteDomicilioTutor string          `bson:"DiferenteDomicilioTutor"` //Nuevo
+	ReferenciasDomicilio    string          `bson:"ReferenciasDomicilio"`    //Nuevo
+	CursandoSem             bson.ObjectId   `bson:"CursandoSem"`
+	Materias                []bson.ObjectId `bson:"Materias"`
+	Calificaciones          []float64       `bson:"Calificaciones"`
+	Asistencias             []float64       `bson:"Asistencias"`
+	SiguienteSem            string          `bson:"SiguienteSem"`
+	AnteriorSem             string          `bson:"AnteriorSem"`
+	InicioSem               string          `bson:"InicioSem"`
+	Imagen                  bson.ObjectId   `bson:"Imagen,omitempty"`
+	Horario                 string          `bson:"Horario"`
+	CorreoE                 string          `bson:"CorreoE"`
 }
 
 //Docente y su perfil dentro del sistema
