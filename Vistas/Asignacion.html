@@ -40,8 +40,9 @@
                 <div class="col-sm-2 col-md-4 col-lg-4">
                     <select class="form-control" id="semestre" name="semestre" value="" onchange="EnviarAsignacion();" >
                         <option value="">Selecciona el semestre</option>
-                        <option value="600d16731040221d19d26be3">1</option>
-                        <option value="600df6752b198cf879de1f61">2</option>
+                        {{range $index,$value := .Semestres}}
+                        <option value="{{$value.ID.Hex}}">{{$value.Semestre}} - {{$value.Licenciatura}} - {{$value.Plan}}</option>
+                        {{end}}
                     </select>
                 </div>
             </div>

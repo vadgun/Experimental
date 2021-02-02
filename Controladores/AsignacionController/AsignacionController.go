@@ -7,6 +7,7 @@ import (
 	sessioncontroller "github.com/vadgun/Experimental/Controladores/SessionController"
 	calificacionesmodel "github.com/vadgun/Experimental/Modelos/CalificacionesModel"
 	indexmodel "github.com/vadgun/Experimental/Modelos/IndexModel"
+	usuariosmodel "github.com/vadgun/Experimental/Modelos/UsuariosModel"
 )
 
 //Asignacion -> Regresa la pagina de inicio
@@ -39,7 +40,10 @@ func Asignacion(ctx iris.Context) {
 		ctx.ViewData("Usuario", userOn)
 
 		docentes := calificacionesmodel.PersonalDocenteActivo()
+		semestres := usuariosmodel.ExtraeSemestres()
 		ctx.ViewData("Docentes", docentes)
+
+		ctx.ViewData("Semestres", semestres)
 
 		tienepermiso := indexmodel.TienePermiso(2, userOn, usuario)
 
