@@ -129,6 +129,9 @@ func ObtenerAlumnosCalif(ctx iris.Context) {
 	//Necesito el ID del DOCENTE, puede provenir del mismo ajax, lo evaluo para asignarle la materia correctamente
 
 	//Obtener Materias que cumplan con las condiciones  [ +2012  +Primaria  +1s ]
+	var reprobado float64
+
+	reprobado = 5.0
 
 	var alumnos []calificacionesmodel.Alumno
 
@@ -152,6 +155,9 @@ func ObtenerAlumnosCalif(ctx iris.Context) {
 	<hr>
 	<table class="table table-hover table-bordered table-lg" style="margin: auto; width: 100%s !important; font-size:14px;">
 	  <thead>
+	  <th>
+		#
+	  </th>
 		<th class="textocentrado" width="30%s">
 		  Nombre
 		</th>`, "%%", "%%")
@@ -177,17 +183,25 @@ func ObtenerAlumnosCalif(ctx iris.Context) {
 		// 	  </th>`, alumnos)
 		// }
 
-		for _, v := range alumnos {
+		for ka, v := range alumnos {
 			htmlcode += fmt.Sprintf(`
 		<tr>
 		<td>%v</td>
-		`, v.Nombre)
+		<td>%v %v %v</td>
+		`, ka+1, v.ApellidoP, v.ApellidoM, v.Nombre)
 
 			for i := 0; i < len(materias); i++ {
 
-				htmlcode += fmt.Sprintf(`
-			<td>%v</td>
-			`, v.Calificaciones[i])
+				if v.Calificaciones[i] <= reprobado {
+					htmlcode += fmt.Sprintf(`
+					<td class="reprobado">%v</td>
+					`, v.Calificaciones[i])
+
+				} else {
+					htmlcode += fmt.Sprintf(`
+				<td class="noreprobado">%v</td>
+				`, v.Calificaciones[i])
+				}
 
 			}
 

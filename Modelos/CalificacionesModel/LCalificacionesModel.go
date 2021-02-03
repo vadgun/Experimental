@@ -43,7 +43,7 @@ func ObtenerAlumnosFiltrados(sem string) []Alumno {
 		log.Fatal(err)
 	}
 	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_AL)
-	err1 := c.Find(bson.M{"CursandoSem": semid}).Sort("ApellidoP", "ApellidoM").All(&alumnos)
+	err1 := c.Find(bson.M{"CursandoSem": semid}).Sort("ApellidoP", "ApellidoM", "Nombre").All(&alumnos)
 	if err1 != nil {
 		fmt.Println(err1)
 	}
