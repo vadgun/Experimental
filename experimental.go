@@ -52,9 +52,11 @@ func main() {
 
 	app.Post("/alumnos", calificacionescontroller.Alumnos)
 	app.Get("/alumnos", calificacionescontroller.Alumnos)
+
 	app.Post("/obtenerAlumnos", calificacionescontroller.ObtenerAlumnos)
 	app.Post("/agregarcalificacion", calificacionescontroller.AgregarCalificacion)
 	app.Post("/guardarcalificaciones", calificacionescontroller.GuardarCalificaciones)
+	app.Post("/obtenerAlumnosCalif", calificacionescontroller.ObtenerAlumnosCalif)
 
 	app.Post("/docentes", calificacionescontroller.Docentes)
 	app.Get("/docentes", calificacionescontroller.Docentes)

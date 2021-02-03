@@ -73,6 +73,26 @@ func ExtraeMateria(mat string) Materia {
 
 }
 
+//ExtraeMateriasPorSemestre -> Extrae las materias por semestre y las devuelve
+func ExtraeMateriasPorSemestre(sem bson.ObjectId) []Materia {
+
+	var materias []Materia
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_MT)
+	err1 := c.Find(bson.M{"Semestre": sem}).All(&materias)
+	if err1 != nil {
+		fmt.Println(err1)
+	}
+
+	return materias
+
+}
+
 //PersonalDocenteActivo Devuelve el personal docente activo para ser elegible en la materia
 func PersonalDocenteActivo() []Docente {
 
@@ -232,6 +252,29 @@ func ExtraeMaterias(iddocente bson.ObjectId) []Materia {
 	fmt.Println("Materias-> ", docente.Materias)
 	return materias
 
+}
+
+//ExtraeSemestreString -> Regresa el semestre a la peticion
+func ExtraeSemestreString(semestrestring string) Semestre {
+
+	var semestre Semestre
+	var idsemestre bson.ObjectId
+
+	idsemestre = bson.ObjectIdHex(semestrestring)
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_SM)
+	err1 := c.FindId(idsemestre).One(&semestre)
+	if err1 != nil {
+		fmt.Println("1", err1)
+	}
+
+	return semestre
 }
 
 //ExtraeSemestre -> Regresa el semestre a la peticion

@@ -204,6 +204,31 @@ if (semestre.value != ""){
     
 }}
 
+function SolicitarAlumnosCal(){ 
+var semestre = document.getElementById("semestrecalif");
+
+if (semestre.value != ""){
+
+    
+    $.ajax({
+        url: '/obtenerAlumnosCalif',
+        data: { semestre:semestre.value },
+        type: 'POST',
+        dataType: 'html',
+        success: function(result) {
+            console.log("Operacion Realizada con Exito");
+            $("#AlumnosTable").html(result);
+        },
+        error: function(xhr, status) {
+            console.log("Error en la consulta");
+        },
+        complete: function(xhr, status) {
+            console.log("Consulta de alumnos realizado");
+            
+        }
+    });
+    
+}}
 function CrearFormulario(data){
 
     $.ajax({

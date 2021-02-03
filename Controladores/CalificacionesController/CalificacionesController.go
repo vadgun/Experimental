@@ -108,8 +108,10 @@ func Alumnos(ctx iris.Context) {
 			ctx.Redirect("/login", iris.StatusSeeOther)
 		}
 
-		Semestres := usuariosmodel.ExtraeSemestres()
-		ctx.ViewData("Semestres", Semestres)
+		if userOn.Admin || usuario.Admin {
+			Semestres := usuariosmodel.ExtraeSemestres()
+			ctx.ViewData("Semestres", Semestres)
+		}
 
 		if err := ctx.View("Alumnos.html"); err != nil {
 			ctx.Application().Logger().Infof(err.Error())
@@ -117,6 +119,91 @@ func Alumnos(ctx iris.Context) {
 	} else {
 		ctx.Redirect("/login", iris.StatusSeeOther)
 	}
+}
+
+//ObtenerAlumnosCalif -> Los envia a la pagina de regreso con calificacion
+func ObtenerAlumnosCalif(ctx iris.Context) {
+
+	semestreidstring := ctx.PostValue("semestre")
+
+	//Necesito el ID del DOCENTE, puede provenir del mismo ajax, lo evaluo para asignarle la materia correctamente
+
+	//Obtener Materias que cumplan con las condiciones  [ +2012  +Primaria  +1s ]
+
+	var alumnos []calificacionesmodel.Alumno
+
+	alumnos = calificacionesmodel.ObtenerAlumnosFiltrados(semestreidstring)
+
+	var semestre calificacionesmodel.Semestre
+	semestre = calificacionesmodel.ExtraeSemestreString(semestreidstring)
+
+	var materias []calificacionesmodel.Materia
+	materias = calificacionesmodel.ExtraeMateriasPorSemestre(semestre.ID)
+
+	var htmlcode string
+
+	if len(alumnos) == 0 {
+		ctx.HTML("<script>Swal.fire('Sin Resultados');</script>")
+
+	} else {
+
+		htmlcode += fmt.Sprintf(`
+	<br>
+	<hr>
+	<table class="table table-hover table-bordered table-lg" style="margin: auto; width: 100%s !important; font-size:14px;">
+	  <thead>
+		<th class="textocentrado" width="30%s">
+		  Nombre
+		</th>`, "%%", "%%")
+
+		for _, vm := range materias {
+
+			htmlcode += fmt.Sprintf(`
+		   <th class="textocentrado">
+		   		%v
+		  	</th>`, vm.Materia)
+		}
+
+		htmlcode += fmt.Sprintf(`
+		</thead>
+	  <tbody>
+	`)
+
+		// for _, vm := range semestre.Materias {
+
+		// 	htmlcode += fmt.Sprintf(`
+		//    <th class="textocentrado">
+		// 		   %v
+		// 	  </th>`, alumnos)
+		// }
+
+		for _, v := range alumnos {
+			htmlcode += fmt.Sprintf(`
+		<tr>
+		<td>%v</td>
+		`, v.Nombre)
+
+			for i := 0; i < len(materias); i++ {
+
+				htmlcode += fmt.Sprintf(`
+			<td>%v</td>
+			`, v.Calificaciones[i])
+
+			}
+
+			htmlcode += fmt.Sprintf(`
+		</tr>`)
+
+		}
+
+		htmlcode += fmt.Sprintf(`
+	  </tbody>
+	  </table>
+	`)
+
+		ctx.HTML(htmlcode)
+	}
+
 }
 
 //ObtenerAlumnos -> Los envia a la pagina de regreso
@@ -243,6 +330,8 @@ func Docentes(ctx iris.Context) {
 		docentes := calificacionesmodel.PersonalDocenteActivo()
 		ctx.ViewData("Docentes", docentes)
 
+		// materias := Extrae
+
 		if err := ctx.View("Docentes.html"); err != nil {
 			ctx.Application().Logger().Infof(err.Error())
 		}
@@ -258,18 +347,17 @@ func AgregarCalificacion(ctx iris.Context) {
 
 	//Si genero una captura de calificaciones
 
-	data := ctx.PostValue("data")
+	var data string
+	// var iddocente string
+	data = ctx.PostValue("data")
+	// iddocente = ctx.PostValue("iddocente")
 
-	cadena := strings.Split(data, ":")
+	var cadena []string
+
+	cadena = strings.Split(data, ":")
 
 	idmateria := cadena[0]
 	idsemestre := cadena[1]
-
-	iddocente := ctx.PostValue("iddocente")
-
-	fmt.Println("id mat ->", idmateria)
-	fmt.Println("id sem ->", idsemestre)
-	fmt.Println("id doc ->", iddocente)
 
 	alumnos := calificacionesmodel.ObtenerAlumnosFiltrados(idsemestre)
 	materia := calificacionesmodel.ExtraeMateria(idmateria)
@@ -324,7 +412,6 @@ func AgregarCalificacion(ctx iris.Context) {
 				</td>
 		</tr>`, k, v.Calificaciones[index], k, v.Asistencias[index])
 
-		fmt.Println(index)
 	}
 
 	htmlcode += fmt.Sprintf(`
@@ -354,14 +441,12 @@ func GuardarCalificaciones(ctx iris.Context) {
 
 	numalumnos, _ := ctx.PostValueInt("numalumnos")
 	index, _ := ctx.PostValueInt("index")
-	materiafilter := ctx.PostValue("materiafilter")
 
 	var alumnos []string
 	var calificaciones []float64
 	var asistencias []float64
 	var htmlcode string
 
-	fmt.Println("Numero de alumnos", numalumnos, " - ", index, " - ", materiafilter)
 	for i := 0; i < numalumnos; i++ {
 		istring := strconv.Itoa(i)
 		alumnos = append(alumnos, ctx.PostValue("idalumno"+istring))
@@ -685,8 +770,6 @@ func CargarMasivoAlumnos(ctx iris.Context) {
 	_, err = io.Copy(out, archivo)
 	check(err, "Error al escribir el archivo al directorio")
 
-	fmt.Println(alumnos)
-
 	excelFileName := dirpath + "/" + nombrearchivo
 
 	xlFile, err := excelize.OpenFile(excelFileName)
@@ -700,7 +783,7 @@ func CargarMasivoAlumnos(ctx iris.Context) {
 	// Get all the rows in the Sheet1.
 	rows, err := xlFile.GetRows("1RO PREESOLAR")
 	for ks, row := range rows {
-		if ks <= 198 {
+		if ks <= 48 {
 			var alumno calificacionesmodel.Alumno
 			var mongouser indexmodel.MongoUser
 			var newwdate string
@@ -906,7 +989,7 @@ func CargarMasivoAlumnos(ctx iris.Context) {
 			alumno.IsSystemUser = true
 			usersystem = CrearUsuario(alumno.Plan, alumno.Nombre, semestrenum) //2018Magaly7
 			if alumno.Curp != "" {
-				passsystem = CrearPassword(alumno.Curp[0:6]) //CACR8612
+				passsystem = CrearPassword("probando") //CACR8612
 			} else {
 				passsystem = "1xk7f"
 			}
@@ -941,8 +1024,6 @@ func CargarMasivoAlumnos(ctx iris.Context) {
 	if usuariosmodel.GuardarAlumnosMasivamente(alumnos, usuarios) {
 		fmt.Println("EXITO!")
 	}
-
-	fmt.Println(len(alumnos), "  ", len(usuarios))
 
 	htmlcode := fmt.Sprintf(`
 			<script>

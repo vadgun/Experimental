@@ -12,9 +12,9 @@
     <form method="" action="" name="AsignacionMaterias" id="AsignacionMaterias" >            
         <div class="col-12">
             <div class="form-group row centrado">
-                <label for="semestre" class="col-sm-2 col-form-label negrita"> Semestre: </label>   
+                <label for="semestre" class="col-sm-1 col-form-label negrita"> Lista: </label>   
 
-                    <select class="form-control col-sm-6" id="semestre" name="semestre" value="" onchange="SolicitarAlumnos();" >
+                    <select class="form-control col-sm-4" id="semestre" name="semestre" value="" onchange="SolicitarAlumnos();" >
                         
                         <option value="">Selecciona el semestre</option>
 
@@ -23,6 +23,18 @@
                         <option value="{{$value.ID.Hex}}">{{$value.Semestre}} {{$value.Plan}} {{$value.Licenciatura}} </option>
                     {{end}}
                     </select>                
+
+                    <label for="semestre" class="col-sm-2 col-form-label negrita"> Calificaciones: </label>   
+
+                    <select class="form-control col-sm-4" id="semestrecalif" name="semestrecalif" value="" onchange="SolicitarAlumnosCal();" >
+                        
+                        <option value="">Selecciona el semestre</option>
+
+                        Semestres
+                        {{range $index,$value := .Semestres}}
+                        <option value="{{$value.ID.Hex}}">{{$value.Semestre}} {{$value.Plan}} {{$value.Licenciatura}} </option>
+                    {{end}}
+                    </select>  
             </div>        
         </div>
     </form>

@@ -127,6 +127,7 @@ func GuardarAlumnosMasivamente(alumnos []calificacionesmodel.Alumno, usuarios []
 			fmt.Println("k", kk, " Alumno", vv)
 			return false
 		}
+
 	}
 
 	for _, vs := range usuarios {
