@@ -58,6 +58,8 @@ func main() {
 	app.Post("/guardarcalificaciones", calificacionescontroller.GuardarCalificaciones)
 	app.Post("/obtenerAlumnosCalif", calificacionescontroller.ObtenerAlumnosCalif)
 
+	app.Post("/generarboleta", calificacionescontroller.GenerarBoleta)
+
 	app.Post("/docentes", calificacionescontroller.Docentes)
 	app.Get("/docentes", calificacionescontroller.Docentes)
 
@@ -73,5 +75,5 @@ func main() {
 	app.Post("/kardex", indexcontroller.Index)
 	app.Get("/kardex", indexcontroller.Index)
 
-	app.Run(iris.Addr(":8080"))
+	app.Run(iris.Addr(":80"))
 }

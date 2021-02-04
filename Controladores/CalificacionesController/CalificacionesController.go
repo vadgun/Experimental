@@ -248,6 +248,9 @@ func ObtenerAlumnos(ctx iris.Context) {
 	<hr>
 	<table class="table table-hover table-bordered table-lg" style="margin: auto; width: 100%s !important; font-size:14px;">
 	  <thead>
+	  <th>
+	  #
+	  </th>
 		<th class="textocentrado" width="30%s">
 		  Nombre
 		</th>
@@ -266,9 +269,10 @@ func ObtenerAlumnos(ctx iris.Context) {
 		</thead>
 	  <tbody>`, "%%", "%%", "%%")
 
-		for _, v := range alumnos {
+		for k, v := range alumnos {
 			htmlcode += fmt.Sprintf(`
 		<tr>
+		<td>%v</td>
 		<td>%v %v %v</td>
 		<td>%v</td>
 		<td>%v</td>
@@ -279,7 +283,7 @@ func ObtenerAlumnos(ctx iris.Context) {
 				<img src="Recursos/Generales/Plugins/icons/build/svg/link-external-24.svg" height="25" alt="Ver Calificaciones" data-toggle="tooltip" title="Imprimir Calificaciones"/>
 			</a>
 
-			<a id="myLink2" href="#" onclick="alert('%v');return false;">
+			<a id="myLink2" href="#" onclick="GenerarBoleta('%v');return false;">
 			<img src="Recursos/Generales/Plugins/icons/build/svg/file-badge-16.svg" height="25" alt="Ver Boleta" data-toggle="tooltip" title="Ver boleta"/>
 			</a>		
 
@@ -290,7 +294,7 @@ func ObtenerAlumnos(ctx iris.Context) {
 
 		</tr>
 
-		`, v.ApellidoP, v.ApellidoM, v.Nombre, v.SiguienteSem, v.AnteriorSem, v.Licenciatura, v.ID.Hex(), v.ID.Hex(), v.ID.Hex())
+		`, k+1, v.ApellidoP, v.ApellidoM, v.Nombre, v.SiguienteSem, v.AnteriorSem, v.Licenciatura, v.ID.Hex(), v.ID.Hex(), v.ID.Hex())
 
 		}
 
@@ -1046,4 +1050,12 @@ func CargarMasivoAlumnos(ctx iris.Context) {
 			</script>
 		`)
 	ctx.HTML(htmlcode)
+}
+
+//GenerarBoleta Obtiene la id de alumno, y genera un documento que se genera y descarga o guarda o abre.
+func GenerarBoleta(ctx iris.Context) {
+	data := ctx.PostValue("data")
+
+	fmt.Println(data)
+
 }

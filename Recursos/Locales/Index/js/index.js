@@ -287,6 +287,27 @@ input.classList.add("btn-warning");
 $('.dropify').dropify();
 
 
+function GenerarBoleta(data){
+
+    $.ajax({
+        url: '/generarboleta',
+        data: { data:data},
+        type: 'POST',
+        dataType: 'html',
+        success: function(result) {
+            console.log("Operacion Realizada con Exito");
+            $("#answer").html(result);
+        },
+        error: function(xhr, status) {
+            console.log("Error en la consulta");
+        },
+        complete: function(xhr, status) {
+            console.log("Calificacion Agregada");
+            
+        }
+    });
+}
+
 //  function VerificarDatosInscripcion(){
 
 //     var formulario = document.getElementById("altaPagoInscripcion");
