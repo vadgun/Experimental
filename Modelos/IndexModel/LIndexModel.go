@@ -166,3 +166,39 @@ func IfIsDocenteBringMaterias(userOn MongoUser) []calificacionesmodel.Materia {
 	return idmateriasdeldocente
 
 }
+
+//ExtraeSoloUsuarios Herramienta temporal
+func ExtraeSoloUsuarios() []MongoUser {
+
+	var usuarios []MongoUser
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_U)
+	err1 := c.Find(bson.M{"Alumno": true}).All(&usuarios)
+	if err1 != nil {
+		fmt.Println(err1)
+	}
+
+	return usuarios
+
+}
+
+//HerramientaAsignacionUsuarios ->
+func HerramientaAsignacionUsuarios(usuario MongoUser) {
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_U)
+	err2 := c.UpdateId(usuario.ID, usuario)
+	if err2 != nil {
+		fmt.Println("No se encontro el usuario en la base de datos", err2)
+	}
+
+}

@@ -254,6 +254,38 @@ func ExtraeMaterias(iddocente bson.ObjectId) []Materia {
 
 }
 
+//ExtraeDocentes -> Regresa el docente de materia
+func ExtraeDocentes(materias []Materia) []Docente {
+	var docentes []Docente
+	var docente Docente
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_DC)
+
+	for _, v := range materias {
+
+		var matess []bson.ObjectId
+		matess = append(matess, v.ID)
+		// err1 := c.Find(bson.M{"Materias": bson.M{"$in": v.ID}}).One(&docente)
+		err1 := c.Find(bson.M{"Materias": bson.M{"$in": matess}}).One(&docente)
+
+		// o2 := bson.M{"$group" :bson.M{"_id": "$channel","Total": bson.M{"$sum": 1,},
+
+		if err1 != nil {
+			fmt.Println("1", err1)
+		} else {
+			docentes = append(docentes, docente)
+		}
+	}
+
+	return docentes
+}
+
 //ExtraeSemestreString -> Regresa el semestre a la peticion
 func ExtraeSemestreString(semestrestring string) Semestre {
 
@@ -403,4 +435,64 @@ func TraerSemestre(idsemestre string) Semestre {
 
 	return semestre
 
+}
+
+//ExtraeAlumno -> Regresa el alumno por idstring
+func ExtraeAlumno(idalum string) Alumno {
+
+	var alumno Alumno
+
+	objidalumno := bson.ObjectIdHex(idalum)
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_AL)
+	err1 := c.FindId(objidalumno).One(&alumno)
+	if err1 != nil {
+		fmt.Println("No se encontro el alumno en la base de datos", err1)
+	}
+
+	return alumno
+
+}
+
+//ExtraeSoloAlumnos -> Herramienta Temporal
+func ExtraeSoloAlumnos() []Alumno {
+
+	var alumnos []Alumno
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_AL)
+	err1 := c.Find(bson.M{}).All(&alumnos)
+	if err1 != nil {
+		fmt.Println("No se encontro el alumno en la base de datos", err1)
+	}
+
+	return alumnos
+
+}
+
+//HerramientaAsignacionAlumnos -> Herramienta Temporal
+func HerramientaAsignacionAlumnos(alumno Alumno) {
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_AL)
+	err1 := c.UpdateId(alumno.ID, alumno)
+	if err1 != nil {
+		fmt.Println("No se encontro el alumno en la base de datos", err1)
+	}
 }

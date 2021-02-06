@@ -29,6 +29,7 @@
         <a href="Javascript:CrearFormulario('Materia');" id="crearmateria" class="btn btn-warning separacion" role="button">Crear materia</a>
         <a href="Javascript:CrearFormulario('Alumnos');" id="cargaalumnos" class="btn btn-warning separacion" role="button">Carga masiva de Alumnos</a>
         <a href="Javascript:CrearFormulario('Docentes');" id="cargadocentes" class="btn btn-warning separacion" role="button">Carga masiva de Docentes</a>
+        <a href="Javascript:LigarUsuarios();" id="asignarusuariosbien" class="btn btn-warning separacion" role="button">Asignar Usuarios</a>
         {{end}}
     </div>
 </div>
@@ -38,8 +39,79 @@
 <div class="container" id="CalificacionesTable">
 
     
+    
+    {{if .Usuario.Alumno}}
+    <h3 class="text-center">Semestre {{.Semestre.Semestre}}°</h3>
+    <h4 class="text-center">Plan {{.Semestre.Plan}}  -  Licenciatura en Educación {{.Semestre.Licenciatura}}</h4>
+    <h4 class="text-center">{{.Alumno.Nombre}} {{.Alumno.ApellidoP}} {{.Alumno.ApellidoM}}</h4>
+    <h4 class="text-center">{{.Alumno.Matricula}}</h4>
+    {{end}}
+    
+    
+    {{if .Usuario.Alumno}}
+    {{$cals:=.Alumno.Calificaciones}}
+    {{$asis:=.Alumno.Asistencias}}
+    {{$docen:=.Docentes}}
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col" class="text-center">Materia</th>
+                <th scope="col" class="text-center">Calificación</th>
+                <th scope="col" class="text-center">Asistencias</th>
+                <th scope="col" class="text-center">Docente</th>
+                
+            </tr>           
+        </thead>
+        <tbody>
+            
+            {{range $index,$value :=.Materias}}
+            <tr>
+                
+                <th scope="row">{{$index}}</th>
+                <th scope="row">{{$value.Materia}}</th>
+                <td class="text-center">{{index $cals $index}}</td>
+                <td class="text-center">{{index $asis $index}}</td>
+                <td class="text-center">{{index $docen $index}}</td>
+            </tr>
+
+
+            {{end}}
+
+        </tbody>
+      </table>
+
+      <div class="container centrado">
+          <a href="Javascript:ImprimirCalificacion('{{.Usuario.UserID.Hex}}');" id="asignarusuariosbien" class="btn btn-warning separacion" role="button">Imprimir</a>
+
+      </div>
+<br>
+
+
+    {{end}}
+
+    
+
+<!-- 
+    {{if .Usuario.Alumno}}
+
+    <br>
+    {{.Materias}}
+    <br>
+    {{.Usuario}}
+    <br>
+    {{.Alumno}}
+    <br>
+    {{.Semestre}}
+
+    {{end}} -->
+
+    
+
+    
 
 </div>
 </div>
 <script>calificacionesit.classList.add("selected");</script>
+<div id="answer"></div>
 {{template "footerTemplate" .}}

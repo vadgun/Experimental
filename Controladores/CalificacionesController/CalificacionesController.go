@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/360EntSecGroup-Skylar/excelize/v2"
+	"github.com/jung-kurt/gofpdf"
 
 	"github.com/kataras/iris/v12"
 	sessioncontroller "github.com/vadgun/Experimental/Controladores/SessionController"
@@ -24,6 +25,7 @@ func Calificaciones(ctx iris.Context) {
 	autorizado2, _ := sessioncontroller.Sess.Start(ctx).GetBoolean("Autorizado")
 
 	if autorizado2 == false {
+		fmt.Println("AQUI 1")
 		usuario.Key = ctx.PostValue("pass")
 		usuario.Usuario = ctx.PostValue("usuario")
 		autorizado, usuario = indexmodel.VerificarUsuario(usuario)
@@ -43,8 +45,10 @@ func Calificaciones(ctx iris.Context) {
 	// "PermisoIndex" : 7
 
 	if autorizado || autorizado2 {
+		fmt.Println("AQUI 2")
 		userOn := indexmodel.GetUserOn(sessioncontroller.Sess.Start(ctx).GetString("UserID"))
 		ctx.ViewData("Usuario", userOn)
+		var materias []calificacionesmodel.Materia
 
 		tienepermiso := indexmodel.TienePermiso(0, userOn, usuario)
 
@@ -53,13 +57,38 @@ func Calificaciones(ctx iris.Context) {
 		}
 
 		if userOn.Docente || usuario.Docente {
-			var materias []calificacionesmodel.Materia
 			materias = indexmodel.IfIsDocenteBringMaterias(userOn)
 			ctx.ViewData("Materias", materias)
 		}
 
 		if userOn.Admin || usuario.Admin {
 			// enviar docentes para ejecutar algo similar a lo de arriba, enviar traer materias para ver calificaciones y evaluar
+
+		}
+
+		if userOn.Alumno || usuario.Alumno {
+
+			var alumno calificacionesmodel.Alumno
+			var materias []calificacionesmodel.Materia
+			var semestre calificacionesmodel.Semestre
+			var docentes []calificacionesmodel.Docente
+			var nombresdocentes []string
+
+			alumno = calificacionesmodel.ExtraeAlumno(userOn.UserID.Hex())
+			materias = calificacionesmodel.ExtraeMateriasPorSemestre(alumno.CursandoSem)
+			semestre = calificacionesmodel.ExtraeSemestreString(alumno.CursandoSem.Hex())
+			docentes = calificacionesmodel.ExtraeDocentes(materias)
+
+			for _, vd := range docentes {
+
+				nombre := vd.Nombre + " " + vd.ApellidoP + " " + vd.ApellidoM
+				nombresdocentes = append(nombresdocentes, nombre)
+			}
+
+			ctx.ViewData("Alumno", alumno)
+			ctx.ViewData("Materias", materias)
+			ctx.ViewData("Semestre", semestre)
+			ctx.ViewData("Docentes", nombresdocentes)
 
 		}
 
@@ -801,7 +830,7 @@ func CargarMasivoAlumnos(ctx iris.Context) {
 	// Get all the rows in the Sheet1.
 	rows, err := xlFile.GetRows("1RO PREESOLAR")
 	for ks, row := range rows {
-		if ks <= 48 {
+		if ks <= 46 {
 			var alumno calificacionesmodel.Alumno
 			var mongouser indexmodel.MongoUser
 			var newwdate string
@@ -1055,7 +1084,179 @@ func CargarMasivoAlumnos(ctx iris.Context) {
 //GenerarBoleta Obtiene la id de alumno, y genera un documento que se genera y descarga o guarda o abre.
 func GenerarBoleta(ctx iris.Context) {
 	data := ctx.PostValue("data")
+	var htmlcode string
 
-	fmt.Println(data)
+	var alumno calificacionesmodel.Alumno
+
+	alumno = calificacionesmodel.ExtraeAlumno(data)
+
+	pdf := gofpdf.New("P", "mm", "Letter", `./Recursos/font`)
+
+	tr := pdf.UnicodeTranslatorFromDescriptor("")
+	pdf.AddPage()
+	pdf.AddFont("Montse", "", "Montse.json")
+	pdf.SetFont("Montse", "", 20)
+	pdf.Cell(40, 10, tr(alumno.Nombre+" "+alumno.ApellidoP+" "+alumno.ApellidoM))
+
+	// fileee := `.\Recursos\Archivos\` + data + `.pdf`
+	fileee := `./Recursos/Archivos/` + data + `.pdf`
+	// fileee := `../PDFEXPE/` + data + `.pdf`
+
+	err4 := pdf.OutputFileAndClose(fileee)
+	if err4 != nil {
+		fmt.Println(err4)
+		fmt.Println("Ocurrio un error creando el archivo pdf")
+
+	} else {
+		htmlcode += fmt.Sprintf(`<script>
+		Descargar('%v');
+		</script>`, data)
+	}
+
+	ctx.HTML(htmlcode)
+
+}
+
+//Ligar Herramienta temporal para asignar correctamente los usuarios a los alumnos que les hace falta MongoUser y a los usuarios que esta mal su UserID
+func Ligar(ctx iris.Context) {
+
+	// userOn := indexmodel.GetUserOn(sessioncontroller.Sess.Start(ctx).GetString("UserID"))
+
+	// fmt.Println("ID ->", userOn.ID)
+	// fmt.Println("Usuario Logeado : ", userOn.Usuario)
+
+	// alumnoconusuario :=
+
+	var alumnos []calificacionesmodel.Alumno
+
+	var usuarios []indexmodel.MongoUser
+
+	alumnos = calificacionesmodel.ExtraeSoloAlumnos()
+
+	usuarios = indexmodel.ExtraeSoloUsuarios()
+
+	fmt.Println("Usuarios encontrdos: ", len(usuarios))
+	fmt.Println("Alumnos encontrdos", len(alumnos))
+
+	encontrados := 0
+
+	for _, v := range alumnos {
+
+		for _, vv := range usuarios {
+
+			if v.SiguienteSem == vv.Usuario {
+
+				if v.ID == vv.UserID && v.MongoUser == vv.ID {
+					fmt.Println("Son Iguales")
+
+				} else {
+					fmt.Println("Son Diferentes... Igualando")
+
+					v.MongoUser = vv.ID
+					vv.UserID = v.ID
+					calificacionesmodel.HerramientaAsignacionAlumnos(v)
+					indexmodel.HerramientaAsignacionUsuarios(vv)
+					encontrados++
+
+				}
+				// fmt.Println("Usuario -> ", k, " ", kk, " ", vv.Usuario)
+				// fmt.Println("			", "Alumno ID ->", v.ID, "MongoUser ID->", v.MongoUser)
+				// fmt.Println("			", "Usuario ID->", vv.ID, "User ID->", vv.UserID)
+			}
+
+		}
+
+	}
+
+	fmt.Println("Diferentes ", encontrados)
+
+}
+
+//ImprimirCalificacion -> Imprime el pdf para la impresion de la boleta
+func ImprimirCalificacion(ctx iris.Context) {
+
+	idalumno := ctx.PostValue("data")
+	var htmlcode string
+
+	var alumno calificacionesmodel.Alumno
+	var materias []calificacionesmodel.Materia
+	var semestre calificacionesmodel.Semestre
+	var docentes []calificacionesmodel.Docente
+	var nombresdocentes []string
+
+	alumno = calificacionesmodel.ExtraeAlumno(idalumno)
+	materias = calificacionesmodel.ExtraeMateriasPorSemestre(alumno.CursandoSem)
+	semestre = calificacionesmodel.ExtraeSemestreString(alumno.CursandoSem.Hex())
+	docentes = calificacionesmodel.ExtraeDocentes(materias)
+
+	for _, vd := range docentes {
+
+		nombre := vd.Nombre + " " + vd.ApellidoP + " " + vd.ApellidoM
+		nombresdocentes = append(nombresdocentes, nombre)
+	}
+
+	pdf := gofpdf.New("L", "mm", "Letter", `./Recursos/font`)
+
+	tr := pdf.UnicodeTranslatorFromDescriptor("")
+	pdf.AddPage()
+	pdf.AddFont("Montse", "", "Montse.json")
+	pdf.SetFont("Montse", "", 14)
+	pdf.SetXY(20, 20)
+	pdf.Cell(40, 10, tr(alumno.Nombre+" "+alumno.ApellidoP+" "+alumno.ApellidoM))
+	pdf.Ln(7)
+	pdf.SetFont("Montse", "", 10)
+	pdf.Cell(10, 4, "")
+	pdf.Cell(20, 4, tr("Plan : "+semestre.Plan+"  Licenciatura en Educación "+semestre.Licenciatura))
+
+	pdf.SetLineWidth(0.5)
+	pdf.SetDrawColor(25, 25, 25)
+	pdf.Line(21, 31, 240, 31)
+	pdf.Ln(5)
+	pdf.Cell(10, 4, "")
+	pdf.SetFont("Helvetica", "", 10)
+	pdf.Cell(5, 10, tr("#"))
+	pdf.Cell(110, 10, tr("Materia"))
+	pdf.Cell(30, 10, tr("Calificacion"))
+	pdf.Cell(30, 10, tr("Asistencia"))
+	pdf.Cell(40, 10, tr("Docente"))
+	pdf.Ln(5)
+	pdf.SetFont("Helvetica", "", 8)
+	for k, v := range materias {
+		pdf.Cell(10, 4, "")
+		pdf.Cell(5, 10, fmt.Sprintf(`%v`, k+1))
+		pdf.Cell(100, 10, tr(v.Materia))
+		pdf.CellFormat(30, 10, fmt.Sprintf(`%v`, alumno.Calificaciones[k]), "", 0, "C", false, 0, "")
+		pdf.CellFormat(30, 10, fmt.Sprintf(`%v`, alumno.Asistencias[k]), "", 0, "C", false, 0, "")
+		// pdf.Cell(30, 10, fmt.Sprintf(`%v`, alumno.Calificaciones[k]))
+		// pdf.Cell(30, 10, fmt.Sprintf(`%v`, alumno.Asistencias[k]))
+		pdf.Cell(40, 10, tr(nombresdocentes[k]))
+		pdf.Ln(7)
+
+	}
+
+	pdf.SetFont("Montse", "", 15)
+	pdf.SetXY(40, 100)
+	pdf.SetDrawColor(225, 225, 225)
+	pdf.CellFormat(180, 7, tr(`Normal Experimental "La enseñanza e Ignacio Manuel Altamirano"`), "1", 0, "C", false, 0, "")
+	pdf.Ln(7)
+	pdf.SetXY(188, 25)
+	pdf.CellFormat(50, 7, tr("Semestre "+semestre.Semestre+"°"), "", 0, "R", false, 0, "")
+
+	// fileee := `.\Recursos\Archivos\` + data + `.pdf`
+	fileee := `./Recursos/Archivos/` + idalumno + `.pdf`
+	// fileee := `../PDFEXPE/` + data + `.pdf`
+
+	err4 := pdf.OutputFileAndClose(fileee)
+	if err4 != nil {
+		fmt.Println(err4)
+		fmt.Println("Ocurrio un error creando el archivo pdf")
+
+	} else {
+		htmlcode += fmt.Sprintf(`<script>
+		Descargar('%v');
+		</script>`, idalumno)
+	}
+
+	ctx.HTML(htmlcode)
 
 }

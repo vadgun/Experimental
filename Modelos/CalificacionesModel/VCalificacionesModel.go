@@ -60,7 +60,7 @@ type Alumno struct {
 //Docente y su perfil dentro del sistema
 type Docente struct {
 	ID              bson.ObjectId   `bson:"_id,omitempty"`
-	MongoUser       bson.ObjectId   `bson:"MongoUser,omitempty"`
+	MongoUser       bson.ObjectId   `bson:"MongoUser"`
 	IsSystemUser    bool            `bson:"IsSystemUser"`
 	Nombre          string          `bson:"Nombre"`
 	ApellidoP       string          `bson:"ApellidoP"`

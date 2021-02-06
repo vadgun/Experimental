@@ -13,6 +13,7 @@ import (
 func main() {
 	app := iris.New()
 	app.HandleDir("/Recursos", "./Recursos")
+	app.Favicon("./Recursos/Imagenes/favicon.ico")
 	app.RegisterView(iris.HTML("./Vistas", ".html").Reload(true))
 	app.Get("/", logincontroller.Getlogin)
 	app.Get("/login", logincontroller.Getlogin)
@@ -59,6 +60,7 @@ func main() {
 	app.Post("/obtenerAlumnosCalif", calificacionescontroller.ObtenerAlumnosCalif)
 
 	app.Post("/generarboleta", calificacionescontroller.GenerarBoleta)
+	app.Post("/imprimircalificacion", calificacionescontroller.ImprimirCalificacion)
 
 	app.Post("/docentes", calificacionescontroller.Docentes)
 	app.Get("/docentes", calificacionescontroller.Docentes)
@@ -75,5 +77,9 @@ func main() {
 	app.Post("/kardex", indexcontroller.Index)
 	app.Get("/kardex", indexcontroller.Index)
 
-	app.Run(iris.Addr(":80"))
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	app.Post("/ligarusuarios", calificacionescontroller.Ligar)
+
+	app.Run(iris.Addr(":8080"))
 }
