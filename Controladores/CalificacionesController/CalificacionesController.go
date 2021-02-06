@@ -1170,6 +1170,8 @@ func Ligar(ctx iris.Context) {
 
 	fmt.Println("Diferentes ", encontrados)
 
+	ctx.HTML("<script>alert('Modificados'); </script> ")
+
 }
 
 //ImprimirCalificacion -> Imprime el pdf para la impresion de la boleta

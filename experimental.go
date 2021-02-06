@@ -77,8 +77,6 @@ func main() {
 	app.Post("/kardex", indexcontroller.Index)
 	app.Get("/kardex", indexcontroller.Index)
 
-	//////////////////////////////////////////////////////////////////////////////////////
-
 	app.Post("/ligarusuarios", calificacionescontroller.Ligar)
 
 	app.Run(iris.Addr(":80"))
