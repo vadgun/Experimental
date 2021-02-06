@@ -360,14 +360,14 @@ function ImprimirCalificacion(data){
         type: 'POST',
         dataType: 'html',
         success: function(result) {
-            console.log("Operacion LigarUsuarios con Exito");
+            console.log("Operacion Imprimir calif con Exito");
             $("#answer").html(result);
         },
         error: function(xhr, status) {
-            console.log("Error LigarUsuarios");
+            console.log("Error Imprimir calif");
         },
         complete: function(xhr, status) {
-            console.log("GLigarUsuarios Terminado");
+            console.log("Imprimir calif Terminado");
             
         }
     });
