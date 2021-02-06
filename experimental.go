@@ -81,5 +81,5 @@ func main() {
 
 	app.Post("/ligarusuarios", calificacionescontroller.Ligar)
 
-	app.Run(iris.Addr(":8080"))
+	app.Run(iris.Addr(":80"))
 }
