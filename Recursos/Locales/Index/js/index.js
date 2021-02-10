@@ -8,6 +8,8 @@ let kardexit= document.getElementById("kardexit");
 let inscripcionit= document.getElementById("inscripcionit");
 let asignacionit= document.getElementById("asignacionit");
 let usuariosit= document.getElementById("usuariosit");
+let profileit= document.getElementById("profileit");
+
 
 
 
@@ -284,7 +286,7 @@ input.classList.remove("btn-dark");
 input.classList.add("btn-warning");
 }
 
-$('.dropify').dropify();
+
 
 
 function GenerarBoleta(data){
@@ -373,3 +375,25 @@ function ImprimirCalificacion(data){
     });
 
 }
+
+function Config(data){
+    $.ajax({
+        url: '/obtenconfig',
+        data: {data:data},
+        type: 'POST',
+        dataType: 'html',
+        success: function(result) {
+            console.log("Operacion config con Exito");
+            $("#CalificacionesTable").html(result);
+        },
+        error: function(xhr, status) {
+            console.log("Error config");
+        },
+        complete: function(xhr, status) {
+            console.log("config Terminado");
+            
+        }
+    });
+}
+
+$('.dropify').dropify();  

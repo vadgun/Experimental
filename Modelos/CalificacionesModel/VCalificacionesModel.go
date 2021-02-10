@@ -10,10 +10,20 @@ import (
 //tambien podemos ocultar los campos en la propia consulta para evitar campos incecesarios a la hora de hacer las consultas
 //Tal seria el caso para la integracion de la boleta que campos elegir para traer al alumno y sus calificaciones
 
-//Boleta impresa por medio de un ID.
-type Boleta struct {
-	ID     bson.ObjectId `bson:"_id,omitempty"`
-	Alumno Alumno
+//Configuracion impresa por medio de un ID.
+type Configuracion struct {
+	ID              bson.ObjectId `bson:"_id,omitempty"`
+	Configuracion   string        `bson:"Configuracion"`
+	CentroEscolar   string        `bson:"CentroEscolar"`
+	ClavePrimaria   string        `bson:"ClavePrimaria"`
+	ClavePreescolar string        `bson:"ClavePreescolar"`
+	Director        string        `bson:"Director"`
+	SubDirector     string        `bson:"SubDirector"`
+	Horario         string        `bson:"Horario"`
+	FechaBoleta     string        `bson:"FechaBoleta"`
+	AnioEscolar     string        `bson:"AnioEscolar"`
+	Domicilio       string        `bson:"Domicilio"`
+	MensajeDiario   string        `bson:"MensajeDiario"`
 }
 
 //Alumno ligado al usuario de sistema sus datos personales y perfil dentro de la institución
@@ -52,7 +62,7 @@ type Alumno struct {
 	SiguienteSem            string          `bson:"SiguienteSem"`
 	AnteriorSem             string          `bson:"AnteriorSem"`
 	InicioSem               string          `bson:"InicioSem"`
-	Imagen                  bson.ObjectId   `bson:"Imagen,omitempty"`
+	Imagen                  string          `bson:"Imagen"`
 	Horario                 string          `bson:"Horario"`
 	CorreoE                 string          `bson:"CorreoE"`
 }

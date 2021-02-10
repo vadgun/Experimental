@@ -152,6 +152,11 @@ a.selected{
   border-bottom: 1px solid #244e2d;
 }
 
+.altura{
+  color:grey;
+  height: 50vh;
+}
+
 
 .negrita {
   font-weight: bold;
@@ -243,4 +248,8 @@ border:4px solid black;
     color: rgb(0, 0, 0);
   background-color: #cacacabd;
 
+  }
+
+  .imgperfil{
+    width: 100%;
   }

@@ -22,7 +22,9 @@ func main() {
 
 	app.Get("/index", indexcontroller.Index)
 	app.Post("/index", indexcontroller.Index)
-	app.Get("/perfil", indexcontroller.Index)
+
+	app.Get("/perfil", calificacionescontroller.Profile)
+	app.Post("/actualizausuario", calificacionescontroller.ActualizaUsuario)
 
 	app.Post("/calificaciones", calificacionescontroller.Calificaciones)
 	app.Get("/calificaciones", calificacionescontroller.Calificaciones)
@@ -78,6 +80,8 @@ func main() {
 	app.Get("/kardex", indexcontroller.Index)
 
 	app.Post("/ligarusuarios", calificacionescontroller.Ligar)
+	app.Post("/obtenconfig", calificacionescontroller.ObtenConfig)
+	app.Post("/guardaconfiguracion", calificacionescontroller.GuardaConfiguracion)
 
-	app.Run(iris.Addr(":80"))
+	app.Run(iris.Addr(":8080"))
 }

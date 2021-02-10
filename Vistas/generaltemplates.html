@@ -50,13 +50,9 @@
                 {{end}}
 
                 {{if .Usuario.Administrativo}}
+                <a href="/calificaciones" id="calificacionesit" class="">Calificaciones</a>
                 <a href="/alumnos" id="alumnosit" class="">Alumnos</a>
                 <a href="/docentes" id="docentesit" class="">Docentes</a>
-                <a href="/calificaciones" id="calificacionesit" class="">Calificaciones</a>
-                <a href="/usuarios" id="usuariosit" class="">Usuarios</a>
-                <a href="/directorio" id="empresasit" class="">Directorio</a>
-                <a href="/horarios" id="espectacularesit" class="">Horarios</a>
-                <a href="/kardex" id="ventasit" class="">Kardex</a>
                 {{end}}
 
 
@@ -86,7 +82,7 @@
                 <a href="/kardex" id="ventasit" class="">Kardex</a>
                 {{end}}
                 <div class="mt-auto">
-                    <a href="/perfil" class="useron">{{.Usuario.Nombre}} {{.Usuario.Apellidos}}</a>
+                    <a href="/perfil" id="profileit" class="useron">{{.Usuario.Nombre}} {{.Usuario.Apellidos}}</a>
                     <a href="/logout" class="username">Cerrar Sesión</a>
                 </div>
             </div>

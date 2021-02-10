@@ -46,19 +46,19 @@ function Dropify(element, options) {
         allowedFormats: ['portrait', 'square', 'landscape'],
         allowedFileExtensions: ['*'],
         messages: {
-            'default': 'Drag and drop a file here or click',
-            'replace': 'Drag and drop or click to replace',
-            'remove':  'Remove',
-            'error':   'Ooops, something wrong happended.'
+            'default': 'Arrastra un archivo o da click para subir uno',
+            'replace': 'Arrasta o remplaza',
+            'remove':  'Quitar',
+            'error':   'Algo salio mal'
         },
         error: {
-            'fileSize': 'The file size is too big ({{ value }} max).',
+            'fileSize': 'El archivo es muy pesado recorta tu imagen ({{ value }} max).',
             'minWidth': 'The image width is too small ({{ value }}}px min).',
             'maxWidth': 'The image width is too big ({{ value }}}px max).',
             'minHeight': 'The image height is too small ({{ value }}}px min).',
             'maxHeight': 'The image height is too big ({{ value }}px max).',
-            'imageFormat': 'The image format is not allowed ({{ value }} only).',
-            'fileExtension': 'The file is not allowed ({{ value }} only).'
+            'imageFormat': 'El formato de la imagen no esta permitido ({{ value }} unicamente).',
+            'fileExtension': 'La extension del archivo no esta permitida ({{ value }} unicamente).'
         },
         tpl: {
             wrap:            '<div class="dropify-wrapper"></div>',

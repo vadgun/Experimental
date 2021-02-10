@@ -73,6 +73,47 @@ func ExtraeMateria(mat string) Materia {
 
 }
 
+//ActualizaConfig -> Actualiza la configuracion solicitada
+func ActualizaConfig(id string, config Configuracion) {
+
+	var idobj bson.ObjectId
+
+	idobj = bson.ObjectIdHex(id)
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C("CONFIG")
+	err1 := c.UpdateId(idobj, config)
+	if err1 != nil {
+		fmt.Println(err1)
+	}
+
+}
+
+//ExtraeConfigBoleta -> Extrae parametros generales de configuracio del centro escolar
+func ExtraeConfigBoleta() Configuracion {
+
+	var configuracion Configuracion
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	c := session.DB(conexiones.MONGO_DB).C("CONFIG")
+	err1 := c.Find(bson.M{"Configuracion": "General"}).One(&configuracion)
+	if err1 != nil {
+		fmt.Println(err1)
+	}
+
+	return configuracion
+
+}
+
 //ExtraeMateriasPorSemestre -> Extrae las materias por semestre y las devuelve
 func ExtraeMateriasPorSemestre(sem bson.ObjectId) []Materia {
 
@@ -434,6 +475,23 @@ func TraerSemestre(idsemestre string) Semestre {
 	}
 
 	return semestre
+
+}
+
+//ActualizaAlumno Actualiza los datos del alumno
+func ActualizaAlumno(alumno Alumno) {
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_AL)
+	err1 := c.UpdateId(alumno.ID, alumno)
+	if err1 != nil {
+		fmt.Println("alumno no actualizado", err1)
+	}
 
 }
 

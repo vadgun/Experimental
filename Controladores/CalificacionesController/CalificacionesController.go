@@ -18,6 +18,82 @@ import (
 	usuariosmodel "github.com/vadgun/Experimental/Modelos/UsuariosModel"
 )
 
+//Profile Edita el perfil del usuario logeado con la opcion de subir una imagen que puede ser usada con posterioridad
+func Profile(ctx iris.Context) {
+
+	userOn := indexmodel.GetUserOn(sessioncontroller.Sess.Start(ctx).GetString("UserID"))
+	ctx.ViewData("Usuario", userOn)
+
+	if userOn.Alumno {
+		var alumno calificacionesmodel.Alumno
+		alumno = calificacionesmodel.ExtraeAlumno(userOn.UserID.Hex())
+		ctx.ViewData("Alumno", alumno)
+
+	}
+
+	if err := ctx.View("Profile.html"); err != nil {
+		ctx.Application().Logger().Infof(err.Error())
+	}
+
+}
+
+//ActualizaUsuario -> Actualiza el usuario y agrega una imagen a su perfil
+func ActualizaUsuario(ctx iris.Context) {
+
+	userid := ctx.PostValue("userid") //Usuario Alumno, Docente o Administrativo
+	correo := ctx.PostValue("correousuario")
+	telefono := ctx.PostValue("telefonousuario")
+	var htmlcode string
+	var dirPath string
+	userOn := indexmodel.GetUserOn(sessioncontroller.Sess.Start(ctx).GetString("UserID")) // Usuario Logeado en el sistema MongoUser
+	imagen1, _, err := ctx.FormFile("imagenusuario")
+	check(err, "Error al seleccionar la imagen 1")
+	if userOn.Admin {
+		// dirPath = "./Recursos/Imagenes/Usuarios/Admin"
+	}
+
+	if userOn.Alumno {
+		alumno := calificacionesmodel.ExtraeAlumno(userid)
+		dirPath = "./Recursos/Imagenes/Usuarios/Alumnos"
+		if _, err := os.Stat(dirPath); os.IsNotExist(err) {
+			fmt.Println("el directorio no existe")
+			os.MkdirAll(dirPath, 0777)
+		} else {
+			fmt.Println("el directorio ya existe")
+		}
+		out, err := os.Create(alumno.Matricula)
+		check(err, "No se puede crear el archivo revisa los privilegios de escritura.")
+		defer out.Close()
+		_, err = io.Copy(out, imagen1)
+		check(err, "Error al escribir la imagen al directorio 1")
+		alumno.Imagen = dirPath + "/" + alumno.Matricula
+		alumno.CorreoE = correo
+		alumno.Telefono = telefono
+		calificacionesmodel.ActualizaAlumno(alumno)
+
+	}
+
+	if userOn.Administrativo {
+
+	}
+
+	if userOn.Docente {
+
+	}
+
+	if userOn.Director {
+
+	}
+
+	htmlcode += fmt.Sprintf(`<script>
+	alert("Perfil Guardado");
+		location.replace("/perfil");
+	</script>`)
+
+	ctx.HTML(htmlcode)
+
+}
+
 //Calificaciones -> Regresa la pagina de inicio
 func Calificaciones(ctx iris.Context) {
 	var usuario indexmodel.MongoUser
@@ -25,7 +101,6 @@ func Calificaciones(ctx iris.Context) {
 	autorizado2, _ := sessioncontroller.Sess.Start(ctx).GetBoolean("Autorizado")
 
 	if autorizado2 == false {
-		fmt.Println("AQUI 1")
 		usuario.Key = ctx.PostValue("pass")
 		usuario.Usuario = ctx.PostValue("usuario")
 		autorizado, usuario = indexmodel.VerificarUsuario(usuario)
@@ -45,7 +120,6 @@ func Calificaciones(ctx iris.Context) {
 	// "PermisoIndex" : 7
 
 	if autorizado || autorizado2 {
-		fmt.Println("AQUI 2")
 		userOn := indexmodel.GetUserOn(sessioncontroller.Sess.Start(ctx).GetString("UserID"))
 		ctx.ViewData("Usuario", userOn)
 		var materias []calificacionesmodel.Materia
@@ -137,7 +211,7 @@ func Alumnos(ctx iris.Context) {
 			ctx.Redirect("/login", iris.StatusSeeOther)
 		}
 
-		if userOn.Admin || usuario.Admin {
+		if userOn.Admin || usuario.Admin || userOn.Administrativo || usuario.Administrativo {
 			Semestres := usuariosmodel.ExtraeSemestres()
 			ctx.ViewData("Semestres", Semestres)
 		}
@@ -317,7 +391,7 @@ func ObtenerAlumnos(ctx iris.Context) {
 			</a>		
 
 			<a id="myLink3" href="#" onclick="alert('%v');return false;">
-			<img src="Recursos/Generales/Plugins/icons/build/svg/diff-renamed-16.svg" height="25" alt="Promover" data-toggle="tooltip" title="Promover de curso"/>
+			<img src="Recursos/Generales/Plugins/icons/build/svg/diff-renamed-16.svg" height="25" alt="Promover" data-toggle="tooltip" title="Editar Información"/>
 			</a>
 		</td>
 
@@ -510,13 +584,13 @@ func GuardarCalificaciones(ctx iris.Context) {
 	if actualizado {
 
 		htmlcode += fmt.Sprintf(`<script>
-		alert("Calificaciones Guardadas");
-		location.replace("/calificaciones");
+		alert("Calificaciones guardadas");
+			location.replace("/calificaciones");
 		</script>`)
 
 	} else {
 		htmlcode += fmt.Sprintf(`<script>
-		alert("Ocurrio un error");
+		alert("Algo salio mal");
 		location.replace("/calificaciones");
 		</script>`)
 
@@ -1087,19 +1161,143 @@ func GenerarBoleta(ctx iris.Context) {
 	var htmlcode string
 
 	var alumno calificacionesmodel.Alumno
+	var materias []calificacionesmodel.Materia
 
 	alumno = calificacionesmodel.ExtraeAlumno(data)
+
+	materias = calificacionesmodel.ExtraeMateriasPorSemestre(alumno.CursandoSem)
+
+	configuracionboleta := calificacionesmodel.ExtraeConfigBoleta()
 
 	pdf := gofpdf.New("P", "mm", "Letter", `./Recursos/font`)
 
 	tr := pdf.UnicodeTranslatorFromDescriptor("")
+
 	pdf.AddPage()
-	pdf.AddFont("Montse", "", "Montse.json")
-	pdf.SetFont("Montse", "", 20)
-	pdf.Cell(40, 10, tr(alumno.Nombre+" "+alumno.ApellidoP+" "+alumno.ApellidoM))
+
+	var opt gofpdf.ImageOptions
+	pdf.ImageOptions(`./Recursos/Imagenes/seplogo.png`, 12, 9, 50, 30, false, opt, 0, "")
+	pdf.ImageOptions(`./Recursos/Imagenes/Logoexp.png`, 155, 13, 50, 30, false, opt, 0, "")
+
+	pdf.SetXY(58, 12)
+	pdf.SetTextColor(155, 155, 155)
+	pdf.SetFont("Arial", "B", 9)
+	//ENCABEZADO DE LA BOLETA
+	pdf.CellFormat(100, 10, tr("SECRETARIA DE EDUCACIÓN"), "", 0, "C", false, 0, "")
+	pdf.SetXY(58, 16)
+	pdf.CellFormat(100, 10, tr("SUBSECRETARIA DE EDUCACIÓN FEDERALIZADA"), "", 0, "C", false, 0, "")
+	pdf.SetXY(58, 20)
+	pdf.CellFormat(100, 10, tr("DIRECCION DE EDUCACION SECUNDARIA Y SUPERIOR"), "", 0, "C", false, 0, "")
+	pdf.SetXY(58, 24)
+	pdf.CellFormat(100, 10, tr("DEPARAMENTO DE EDUCACION NORMAL"), "", 0, "C", false, 0, "")
+	pdf.SetXY(58, 28)
+	pdf.CellFormat(100, 10, tr("ESCUELA NORMAL EXPERIMENTAL"), "", 0, "C", false, 0, "")
+	pdf.SetXY(58, 32)
+	pdf.CellFormat(100, 10, tr(`"LA ENSEÑANZA E IGNACIO MANUEL ALTAMIRANO"`), "", 0, "C", false, 0, "")
+	pdf.SetXY(58, 36)
+	pdf.CellFormat(100, 10, tr("CLAVE 07DNL0001X"), "", 0, "C", false, 0, "")
+	pdf.SetTextColor(110, 110, 110)
+	pdf.SetXY(58, 43)
+	pdf.CellFormat(100, 10, tr("BOLETA DE CALIFICACIONES"), "", 0, "C", false, 0, "")
+
+	pdf.SetDrawColor(0, 0, 0)
+	pdf.SetLineWidth(0.4)
+	pdf.Line(10, 10, 206, 10) //Arriba
+	pdf.Line(9, 9, 207, 9)
+
+	pdf.Line(10, 270, 206, 270) //
+	pdf.Line(9, 271, 207, 271)  //Abajo bien
+
+	pdf.Line(10, 10, 10, 270) // izq
+	pdf.Line(9, 9, 9, 271)
+
+	pdf.Line(206, 10, 206, 270) //der bien
+	pdf.Line(207, 9, 207, 271)
+
+	//CUERPO DE LA BOLETA -> ENCABEZADO
+	pdf.SetLineWidth(0.3)
+	pdf.SetFont("Arial", "", 10)
+	pdf.SetTextColor(0, 0, 0)
+	pdf.SetXY(25, 58)
+	pdf.CellFormat(50, 5, tr("NOMBRE DEL ALUMNO:"), "", 0, "R", false, 0, "")
+	pdf.SetFont("Times", "B", 10)
+	pdf.CellFormat(100, 5, tr(alumno.Nombre+" "+alumno.ApellidoP+" "+alumno.ApellidoM), "1B", 0, "C", false, 0, "")
+	pdf.SetXY(25, 65)
+	pdf.SetFont("Arial", "", 10)
+	pdf.CellFormat(50, 5, tr("No. DE CONTROL:"), "", 0, "R", false, 0, "")
+	pdf.SetFont("Times", "B", 10)
+	pdf.CellFormat(100, 5, tr(alumno.Matricula), "1B", 0, "C", false, 0, "")
+
+	pdf.SetXY(58, 78)
+	pdf.CellFormat(100, 10, tr("LICENCIATURA EN EDUCACIÓN "+alumno.Licenciatura), "", 0, "C", false, 0, "")
+
+	pdf.SetXY(43, 93)
+	pdf.SetFont("Times", "", 10)
+	pdf.CellFormat(50, 5, tr("SEMESTRE:"), "", 0, "R", false, 0, "")
+	pdf.SetFont("Arial", "B", 11)
+	pdf.CellFormat(50, 3, tr(alumno.Semestre), "1B", 0, "C", false, 0, "")
+
+	pdf.SetXY(43, 98)
+	pdf.SetFont("Times", "", 10)
+	pdf.CellFormat(50, 5, tr("GRUPO:"), "", 0, "R", false, 0, "")
+	pdf.SetFont("Arial", "B", 11)
+	pdf.CellFormat(50, 3, tr("Ú N I C O"), "1B", 0, "C", false, 0, "")
+
+	pdf.SetXY(43, 103)
+	pdf.SetFont("Times", "", 10)
+	pdf.CellFormat(50, 5, tr("AÑO ESCOLAR:"), "", 0, "R", false, 0, "")
+	pdf.SetFont("Arial", "B", 11)
+	pdf.CellFormat(50, 3, tr(configuracionboleta.AnioEscolar), "1B", 0, "C", false, 0, "")
+
+	//CUERPO DE LA BOLETA -> MATERIAS Y CALIFICACIONES
+
+	pdf.SetXY(25, 120)
+	pdf.SetFont("Times", "", 12)
+	pdf.CellFormat(140, 8, tr("M A T E R I A S"), "1", 0, "C", false, 0, "")
+	pdf.CellFormat(25, 8, tr("C A L I F"), "1", 0, "C", false, 0, "")
+
+	pixelmateria := 7.0
+	iniciomaterias := 133
+
+	for k, v := range materias {
+		iniciomaterias = iniciomaterias + int(pixelmateria)
+
+		pdf.SetFont("Arial", "", 9)
+		pdf.SetXY(25, float64(iniciomaterias))
+		pdf.CellFormat(140, 7, tr(v.Materia), "1", 0, "L", false, 0, "")
+		pdf.CellFormat(25, 7, tr(fmt.Sprintf("%v", alumno.Calificaciones[k])), "1", 0, "C", false, 0, "")
+
+	}
+
+	// pdf.SetXY(25, 147)
+	// pdf.CellFormat(140, 7, tr("EL SUJETO Y SU FORMACION PERSONAL"), "1", 0, "L", false, 0, "")
+	// pdf.CellFormat(25, 7, tr("7"), "1", 0, "C", false, 0, "")
+
+	// var materia string
+
+	// materia = "HERRAMIENTAS PARA LA OBSERVACION Y ANALISIS DE LA PRACTICA EDUCATIVA"
+
+	// pdf.SetXY(25, 154)
+	// pdf.CellFormat(140, 7, tr(materia), "1", 0, "L", false, 0, "")
+	// pdf.CellFormat(25, 7, tr("7"), "1", 0, "C", false, 0, "")
+
+	//CUERPO DE LA BOLETA -> LUGAR FECHA Y FIRMAS
+	pdf.SetXY(58, 210)
+	pdf.CellFormat(100, 10, tr("TUXTLA CHICO, CHIAPAS A "+configuracionboleta.FechaBoleta), "", 0, "C", false, 0, "")
+
+	pdf.SetXY(20, 245)
+	pdf.SetFont("Times", "", 9)
+	pdf.CellFormat(100, 5, tr(configuracionboleta.SubDirector), "", 0, "C", false, 0, "")
+	pdf.SetXY(20, 250)
+	pdf.CellFormat(100, 5, tr("DIRECTOR"), "", 0, "C", false, 0, "")
+
+	pdf.SetXY(100, 245)
+	pdf.CellFormat(100, 5, tr(configuracionboleta.Director), "", 0, "C", false, 0, "")
+	pdf.SetXY(100, 250)
+	pdf.CellFormat(100, 5, tr("DIRECTOR"), "", 0, "C", false, 0, "")
 
 	// fileee := `.\Recursos\Archivos\` + data + `.pdf`
-	fileee := `./Recursos/Archivos/` + data + `.pdf`
+	fileee := `./Recursos/Archivos/` + alumno.Matricula + `.pdf`
 	// fileee := `../PDFEXPE/` + data + `.pdf`
 
 	err4 := pdf.OutputFileAndClose(fileee)
@@ -1110,7 +1308,7 @@ func GenerarBoleta(ctx iris.Context) {
 	} else {
 		htmlcode += fmt.Sprintf(`<script>
 		Descargar('%v');
-		</script>`, data)
+		</script>`, alumno.Matricula)
 	}
 
 	ctx.HTML(htmlcode)
@@ -1262,6 +1460,139 @@ func ImprimirCalificacion(ctx iris.Context) {
 		Descargar('%v');
 		</script>`, idalumno)
 	}
+
+	ctx.HTML(htmlcode)
+
+}
+
+//ObtenConfig -> Devuelve la configuracon solicitada
+func ObtenConfig(ctx iris.Context) {
+
+	tipoconfig := ctx.PostValue("data")
+
+	var htmlcode string
+
+	switch tipoconfig {
+	case "General":
+
+		configuracion := calificacionesmodel.ExtraeConfigBoleta()
+
+		htmlcode += fmt.Sprintf(`
+
+		<form action="/guardaconfiguracion" method="POST" >
+
+        <div class="col-sm-12">
+            <div class="form-group row">
+                <label for="centroescolar" class="col-sm-1 col-form-label negrita"> Centro Escolar: </label>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+
+					<input type="text" class="form-control" id="centroescolar" name="centroescolar" placeholder="Nombre del Centro Escolar" value="%v" required>
+                </div>
+                <label for="claveprim" class="col-sm-1 col-form-label negrita"> Clave Primaria: </label>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+				<input type="text" class="form-control" id="claveprim" name="claveprim" placeholder="Clave de Primaria" value="%v" required>
+
+                </div>
+                <label for="claveprees" class="col-sm-2 col-form-label negrita"> Clave Preescolar: </label>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+				<input type="text" class="form-control" id="claveprees" name="claveprees" placeholder="Clave de Preescolar" value="%v" required>
+                </div>
+            </div>
+            <div class="form-group row">
+				<label for="director" class="col-sm-1 col-form-label negrita"> Director: </label>
+				<div class="col-sm-3 col-md-3 col-lg-3">
+				<input type="text" class="form-control" id="director" name="director" placeholder="Nombre del Director" value="%v" required>
+
+				</div>
+				<label for="subdirector" class="col-sm-1 col-form-label negrita"> SubDirector: </label>
+				<div class="col-sm-3 col-md-3 col-lg-3">
+				<input type="text" class="form-control" id="subdirector" name="subdirector" placeholder="Nombre del Subdirector" value="%v" required>
+
+
+				</div>
+
+				<label for="horario" class="col-sm-1 col-form-label negrita"> Horario: </label>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+				<input type="text" class="form-control" id="horario" name="horario" placeholder="Nombre del Subdirector" value="%v" required>
+                </div>
+
+            </div>
+
+            <div class="form-group row">
+
+				<label for="fechaboleta" class="col-sm-1 col-form-label negrita"> Fecha Boleta: </label>
+				<div class="col-sm-3 col-md-3 col-lg-3">
+				<input type="text" class="form-control" id="fechaboleta" name="fechaboleta" placeholder="Fecha en letras de la boleta a imprimir" value="%v" required>
+
+
+				</div>
+
+				<label for="anioescolar" class="col-sm-1 col-form-label negrita"> Año Escolar: </label>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+				<input type="text" class="form-control" id="anioescolar" name="anioescolar" placeholder="Año escolar" value="%v" required>
+
+                </div>
+
+				<label for="domicilio" class="col-sm-1 col-form-label negrita"> Domicilio: </label>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+				<input type="text" class="form-control" id="domicilioce" name="domicilioce" placeholder="Domicilio completo del centro escolar" value="%v" required>
+
+            	</div>
+			</div>
+				<div class="form-group row">
+
+				<label for="mensaje" class="col-sm-12 col-form-label negrita"> Mensaje Diario: </label>
+                <div class="col-sm-10 col-md-10 col-lg-10">
+				<input type="text" class="form-control" id="mensaje" name="mensaje" placeholder="Mensaje diario para todos los usuarios" value="%v" required>
+				<input type="hidden" name="hiddenid" value="%v">
+				<input type="hidden" name="configuracion" value="%v">
+                </div>
+
+            </div>
+
+
+            <div class="text-center container "> 
+                <button type="submit"> Guardar Configuración</button>
+            </div>
+            </div>
+        </div>
+    </form>`, configuracion.CentroEscolar, configuracion.ClavePrimaria, configuracion.ClavePreescolar, configuracion.Director, configuracion.SubDirector, configuracion.Horario, configuracion.FechaBoleta, configuracion.AnioEscolar, configuracion.Domicilio, configuracion.MensajeDiario, configuracion.ID.Hex(), configuracion.Configuracion)
+
+		break
+	}
+
+	ctx.HTML(htmlcode)
+
+}
+
+//GuardaConfiguracion -> Guarda la configuracion previamente solicitada
+func GuardaConfiguracion(ctx iris.Context) {
+
+	var config calificacionesmodel.Configuracion
+
+	var htmlcode string
+
+	config.Configuracion = ctx.PostValue("configuracion")
+	config.CentroEscolar = ctx.PostValue("centroescolar")
+	config.ClavePrimaria = ctx.PostValue("claveprim")
+	config.ClavePreescolar = ctx.PostValue("claveprees")
+	config.Director = ctx.PostValue("director")
+	config.SubDirector = ctx.PostValue("subdirector")
+	config.Horario = ctx.PostValue("horario")
+	config.FechaBoleta = ctx.PostValue("fechaboleta")
+	config.AnioEscolar = ctx.PostValue("anioescolar")
+	config.Domicilio = ctx.PostValue("domicilioce")
+	config.MensajeDiario = ctx.PostValue("mensaje")
+	id := ctx.PostValue("hiddenid")
+
+	calificacionesmodel.ActualizaConfig(id, config)
+
+	htmlcode = fmt.Sprintf(`
+	<script>
+		alert("Configuracion Guardada - =)");
+		location.replace("/calificaciones");
+	</script>
+`)
 
 	ctx.HTML(htmlcode)
 
