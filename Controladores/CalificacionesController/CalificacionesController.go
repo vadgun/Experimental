@@ -1144,10 +1144,14 @@ func Ligar(ctx iris.Context) {
 
 		for _, vv := range usuarios {
 
-			if v.SiguienteSem == vv.Usuario {
+			// if v.SiguienteSem == vv.Usuario && v.AnteriorSem == vv.Key {
+			if v.Nombre+" "+v.ApellidoP+" "+v.ApellidoM == vv.Nombre+" "+vv.Apellidos {
 
 				if v.ID == vv.UserID && v.MongoUser == vv.ID {
 					fmt.Println("Son Iguales")
+					fmt.Println("alumno", v)
+					fmt.Println()
+					fmt.Println("usuario", vv)
 
 				} else {
 					fmt.Println("Son Diferentes... Igualando")
