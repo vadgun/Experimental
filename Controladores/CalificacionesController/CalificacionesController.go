@@ -1342,7 +1342,7 @@ func GenerarBoleta(ctx iris.Context) {
 	pdf.CellFormat(100, 10, tr("TUXTLA CHICO, CHIAPAS A "+fmt.Sprintf(`%v`, dia)+" DE "+mes+" DEL "+fmt.Sprintf(`%v`, anio)), "", 0, "C", false, 0, "")
 
 	pdf.SetXY(20, 245)
-	pdf.SetFont("Times", "B", 11)
+	pdf.SetFont("Times", "B", 9)
 	pdf.CellFormat(100, 5, tr(configuracionboleta.SubDirector), "", 0, "C", false, 0, "")
 	pdf.SetXY(20, 250)
 	pdf.CellFormat(100, 5, tr("SUBDIRECTORA ACADEMICA"), "", 0, "C", false, 0, "")
