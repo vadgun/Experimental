@@ -1155,6 +1155,42 @@ func CargarMasivoAlumnos(ctx iris.Context) {
 	ctx.HTML(htmlcode)
 }
 
+//ConvierteRomano -> De vuelve una cadena de texto con el numero romano
+func ConvierteRomano(num string) string {
+
+	var romano string
+
+	switch num {
+	case "1":
+		romano = "I"
+		break
+	case "2":
+		romano = "II"
+		break
+	case "3":
+		romano = "III"
+		break
+	case "4":
+		romano = "IV"
+		break
+	case "5":
+		romano = "V"
+		break
+	case "6":
+		romano = "VI"
+		break
+	case "7":
+		romano = "VII"
+		break
+	case "8":
+		romano = "VIII"
+		break
+	}
+
+	return romano
+
+}
+
 //GenerarBoleta Obtiene la id de alumno, y genera un documento que se genera y descarga o guarda o abre.
 func GenerarBoleta(ctx iris.Context) {
 	data := ctx.PostValue("data")
@@ -1172,6 +1208,8 @@ func GenerarBoleta(ctx iris.Context) {
 	pdf := gofpdf.New("P", "mm", "Letter", `./Recursos/font`)
 
 	tr := pdf.UnicodeTranslatorFromDescriptor("")
+
+	pdf.SetLineCapStyle("round")
 
 	pdf.AddPage()
 
@@ -1202,40 +1240,50 @@ func GenerarBoleta(ctx iris.Context) {
 
 	pdf.SetDrawColor(0, 0, 0)
 	pdf.SetLineWidth(0.4)
+
+	pdf.Line(8, 8, 208, 8)
 	pdf.Line(10, 10, 206, 10) //Arriba
 	pdf.Line(9, 9, 207, 9)
 
-	pdf.Line(10, 270, 206, 270) //
-	pdf.Line(9, 271, 207, 271)  //Abajo bien
+	pdf.Line(8, 272, 208, 272)
+	pdf.Line(10, 270, 206, 270)
+	pdf.Line(9, 271, 207, 271) //Abajo bien
 
+	pdf.Line(8, 8, 8, 272)
 	pdf.Line(10, 10, 10, 270) // izq
 	pdf.Line(9, 9, 9, 271)
 
+	pdf.Line(208, 8, 208, 272)
 	pdf.Line(206, 10, 206, 270) //der bien
 	pdf.Line(207, 9, 207, 271)
 
 	//CUERPO DE LA BOLETA -> ENCABEZADO
 	pdf.SetLineWidth(0.3)
-	pdf.SetFont("Arial", "", 10)
+	pdf.SetFont("Arial", "", 12)
 	pdf.SetTextColor(0, 0, 0)
-	pdf.SetXY(25, 58)
+	pdf.SetXY(32, 58)
 	pdf.CellFormat(50, 5, tr("NOMBRE DEL ALUMNO:"), "", 0, "R", false, 0, "")
-	pdf.SetFont("Times", "B", 10)
+	pdf.SetFont("Times", "B", 12)
 	pdf.CellFormat(100, 5, tr(alumno.Nombre+" "+alumno.ApellidoP+" "+alumno.ApellidoM), "1B", 0, "C", false, 0, "")
-	pdf.SetXY(25, 65)
-	pdf.SetFont("Arial", "", 10)
+	pdf.SetXY(32, 65)
+	pdf.SetFont("Arial", "", 12)
 	pdf.CellFormat(50, 5, tr("No. DE CONTROL:"), "", 0, "R", false, 0, "")
-	pdf.SetFont("Times", "B", 10)
+	pdf.SetFont("Times", "B", 12)
 	pdf.CellFormat(100, 5, tr(alumno.Matricula), "1B", 0, "C", false, 0, "")
 
 	pdf.SetXY(58, 78)
-	pdf.CellFormat(100, 10, tr("LICENCIATURA EN EDUCACIÓN "+alumno.Licenciatura), "", 0, "C", false, 0, "")
+	pdf.AddFont("Montse", "B", "Montse.json")
+	pdf.SetFont("Montse", "B", 17)
+	licmayus := strings.ToUpper(alumno.Licenciatura)
+	pdf.CellFormat(100, 10, tr("LICENCIATURA EN EDUCACIÓN "+licmayus), "", 0, "C", false, 0, "")
 
 	pdf.SetXY(43, 93)
 	pdf.SetFont("Times", "", 10)
 	pdf.CellFormat(50, 5, tr("SEMESTRE:"), "", 0, "R", false, 0, "")
 	pdf.SetFont("Arial", "B", 11)
-	pdf.CellFormat(50, 3, tr(alumno.Semestre), "1B", 0, "C", false, 0, "")
+
+	semestreRomano := ConvierteRomano(alumno.Semestre)
+	pdf.CellFormat(50, 3, tr(semestreRomano), "1B", 0, "C", false, 0, "")
 
 	pdf.SetXY(43, 98)
 	pdf.SetFont("Times", "", 10)
@@ -1252,48 +1300,56 @@ func GenerarBoleta(ctx iris.Context) {
 	//CUERPO DE LA BOLETA -> MATERIAS Y CALIFICACIONES
 
 	pdf.SetXY(25, 120)
-	pdf.SetFont("Times", "", 12)
+	pdf.SetFont("Times", "B", 12)
 	pdf.CellFormat(140, 8, tr("M A T E R I A S"), "1", 0, "C", false, 0, "")
-	pdf.CellFormat(25, 8, tr("C A L I F"), "1", 0, "C", false, 0, "")
+	pdf.CellFormat(25, 8, tr("C A L I F."), "1", 0, "C", false, 0, "")
+
+	pdf.Line(26, 121, 164, 121)  //Arriba
+	pdf.Line(26, 127, 164, 127)  //Abajo bien
+	pdf.Line(26, 121, 26, 127)   //izq
+	pdf.Line(164, 121, 164, 127) //der
+
+	pdf.Line(166, 121, 189, 121) //Arriba
+	pdf.Line(166, 127, 189, 127) //Abajo bien
+	pdf.Line(166, 121, 166, 127) //izq
+	pdf.Line(189, 121, 189, 127) //der
 
 	pixelmateria := 7.0
 	iniciomaterias := 133
+	pdf.SetFont("Arial", "B", 10)
 
 	for k, v := range materias {
 		iniciomaterias = iniciomaterias + int(pixelmateria)
 
-		pdf.SetFont("Arial", "", 9)
 		pdf.SetXY(25, float64(iniciomaterias))
-		pdf.CellFormat(140, 7, tr(v.Materia), "1", 0, "L", false, 0, "")
+		materiamayus := strings.ToUpper(v.Materia)
+		pdf.CellFormat(140, 7, tr(materiamayus), "1", 0, "L", false, 0, "")
 		pdf.CellFormat(25, 7, tr(fmt.Sprintf("%v", alumno.Calificaciones[k])), "1", 0, "C", false, 0, "")
 
 	}
 
-	// pdf.SetXY(25, 147)
-	// pdf.CellFormat(140, 7, tr("EL SUJETO Y SU FORMACION PERSONAL"), "1", 0, "L", false, 0, "")
-	// pdf.CellFormat(25, 7, tr("7"), "1", 0, "C", false, 0, "")
+	var horafecha time.Time
 
-	// var materia string
-
-	// materia = "HERRAMIENTAS PARA LA OBSERVACION Y ANALISIS DE LA PRACTICA EDUCATIVA"
-
-	// pdf.SetXY(25, 154)
-	// pdf.CellFormat(140, 7, tr(materia), "1", 0, "L", false, 0, "")
-	// pdf.CellFormat(25, 7, tr("7"), "1", 0, "C", false, 0, "")
+	horafecha = time.Now()
+	dia := horafecha.Day()
+	mess := horafecha.Month().String()
+	mes := MesEspanol(mess)
+	anio := horafecha.Year()
 
 	//CUERPO DE LA BOLETA -> LUGAR FECHA Y FIRMAS
 	pdf.SetXY(58, 210)
-	pdf.CellFormat(100, 10, tr("TUXTLA CHICO, CHIAPAS A "+configuracionboleta.FechaBoleta), "", 0, "C", false, 0, "")
+	pdf.SetFont("Times", "", 10)
+	pdf.CellFormat(100, 10, tr("TUXTLA CHICO, CHIAPAS A "+fmt.Sprintf(`%v`, dia)+" DE "+mes+" DEL "+fmt.Sprintf(`%v`, anio)), "", 0, "C", false, 0, "")
 
 	pdf.SetXY(20, 245)
-	pdf.SetFont("Times", "", 9)
+	pdf.SetFont("Times", "B", 11)
 	pdf.CellFormat(100, 5, tr(configuracionboleta.SubDirector), "", 0, "C", false, 0, "")
 	pdf.SetXY(20, 250)
-	pdf.CellFormat(100, 5, tr("DIRECTOR"), "", 0, "C", false, 0, "")
+	pdf.CellFormat(100, 5, tr("SUBDIRECTORA ACADEMICA"), "", 0, "C", false, 0, "")
 
-	pdf.SetXY(100, 245)
+	pdf.SetXY(105, 245)
 	pdf.CellFormat(100, 5, tr(configuracionboleta.Director), "", 0, "C", false, 0, "")
-	pdf.SetXY(100, 250)
+	pdf.SetXY(105, 250)
 	pdf.CellFormat(100, 5, tr("DIRECTOR"), "", 0, "C", false, 0, "")
 
 	// fileee := `.\Recursos\Archivos\` + data + `.pdf`
@@ -1596,4 +1652,49 @@ func GuardaConfiguracion(ctx iris.Context) {
 
 	ctx.HTML(htmlcode)
 
+}
+
+//MesEspanol Regresa el mes en español.
+func MesEspanol(mes string) string {
+	var mess string
+	switch mes {
+	case "January":
+		mess = "ENERO"
+		break
+	case "February":
+		mess = "FEBRERO"
+		break
+	case "March":
+		mess = "MARZO"
+		break
+	case "April":
+		mess = "ABRL"
+		break
+	case "May":
+		mess = "MAYO"
+		break
+	case "June":
+		mess = "JUNIO"
+		break
+	case "July":
+		mess = "JULIO"
+		break
+	case "August":
+		mess = "AGOSTO"
+		break
+	case "September":
+		mess = "SEPTIEMBRE"
+		break
+
+	case "October":
+		mess = "OCTUBRE"
+		break
+	case "November":
+		mess = "NOVIEMBRE"
+		break
+	case "December":
+		mess = "DICIEMBRE"
+		break
+	}
+	return mess
 }
