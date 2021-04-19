@@ -78,10 +78,11 @@ func main() {
 
 	app.Post("/kardex", indexcontroller.Index)
 	app.Get("/kardex", indexcontroller.Index)
+	app.Get("/reloj", indexcontroller.Reloj)
 
 	app.Post("/ligarusuarios", calificacionescontroller.Ligar)
 	app.Post("/obtenconfig", calificacionescontroller.ObtenConfig)
 	app.Post("/guardaconfiguracion", calificacionescontroller.GuardaConfiguracion)
 
-	app.Run(iris.Addr(":80"))
+	app.Run(iris.Addr(":8080"))
 }

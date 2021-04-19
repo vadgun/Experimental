@@ -61,6 +61,7 @@ func TienePermiso(indexpermiso int, user1, user2 MongoUser) bool {
 	var isdocente bool
 	var isadministrativo bool
 	var isdirector bool
+	var iscontador bool
 
 	var permisos Permiso
 
@@ -82,6 +83,10 @@ func TienePermiso(indexpermiso int, user1, user2 MongoUser) bool {
 		}
 		if user1.Director == true || user1.Director {
 			isdirector = true
+		}
+
+		if user1.Contador == true || user1.Contador {
+			iscontador = true
 		}
 	}
 	session, err := mgo.Dial(conexiones.MONGO_SERVER)
@@ -145,6 +150,16 @@ func TienePermiso(indexpermiso int, user1, user2 MongoUser) bool {
 			return true
 		} else {
 			fmt.Println("Es docente y no tiene permiso")
+			return false
+		}
+	}
+
+	if iscontador {
+		if permisos.Contador[indexpermiso] == 1 {
+			fmt.Println("Es contador y tiene permiso")
+			return true
+		} else {
+			fmt.Println("Es contador y no tiene permiso")
 			return false
 		}
 	}

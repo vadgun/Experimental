@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="Recursos/Generales/Plugins/dropify/css/dropify.css">
     <link rel="stylesheet" type="text/css" href="Recursos/Generales/Plugins/sweetalert/css/sweetalert2.css">
     <link rel="stylesheet" type="text/css" href="Recursos/Locales/Index/css/index.css">
+    
 
 </head>
 <body>
@@ -41,19 +42,29 @@
                 <!-- <a href="/inscripcion" id="inscripcionit" class="">Inscripción</a> -->
                 <!-- <a href="/horarios" id="espectacularesit" class="">Horarios</a> -->
                 <!-- <a href="/kardex" id="ventasit" class="">Kardex</a> -->
+                <a href="/reloj" id="ventasit" class="">Reloj</a>
                 {{end}}
 
                 {{if .Usuario.Docente}}
                 <a href="/calificaciones" id="calificacionesit" class="">Calificaciones</a>
                 <a href="/horarios" id="espectacularesit" class="">Horarios</a>
                 <a href="/alumnos" id="alumnosit" class="">Alumnos</a>
+                <a href="/reloj" id="ventasit" class="">Reloj</a>
                 {{end}}
 
                 {{if .Usuario.Administrativo}}
                 <a href="/calificaciones" id="calificacionesit" class="">Calificaciones</a>
                 <a href="/alumnos" id="alumnosit" class="">Alumnos</a>
                 <a href="/docentes" id="docentesit" class="">Docentes</a>
+                <a href="/reloj" id="ventasit" class="">Reloj</a>
                 {{end}}
+
+                {{if .Usuario.Contador}}
+                <a href="/inscripcion" id="inscripcionit" class="">Inscripción</a>
+                <a href="/reloj" id="ventasit" class="">Reloj</a>
+                {{end}}
+
+            
 
 
                 {{if .Usuario.Director}}
@@ -67,6 +78,7 @@
                 <a href="/buscador" id="materialesit" class="">Buscador</a>
                 <a href="/horarios" id="espectacularesit" class="">Horarios</a>
                 <a href="/kardex" id="ventasit" class="">Kardex</a>
+                <a href="/reloj" id="ventasit" class="">Reloj</a>
                 {{end}}
 
                 {{if .Usuario.Admin}}
@@ -80,6 +92,7 @@
                 <a href="/buscador" id="materialesit" class="">Buscador</a>
                 <a href="/horarios" id="espectacularesit" class="">Horarios</a>
                 <a href="/kardex" id="ventasit" class="">Kardex</a>
+                <a href="/reloj" id="relojit" class="">Reloj</a>
                 {{end}}
                 <div class="mt-auto">
                     <a href="/perfil" id="profileit" class="useron">{{.Usuario.Nombre}} {{.Usuario.Apellidos}}</a>

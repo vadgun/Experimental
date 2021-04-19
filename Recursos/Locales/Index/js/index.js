@@ -9,6 +9,8 @@ let inscripcionit= document.getElementById("inscripcionit");
 let asignacionit= document.getElementById("asignacionit");
 let usuariosit= document.getElementById("usuariosit");
 let profileit= document.getElementById("profileit");
+let relojit= document.getElementById("relojit");
+
 
 
 

@@ -268,7 +268,7 @@ func ObtenerAlumnosCalif(ctx iris.Context) {
 		for _, vm := range materias {
 
 			htmlcode += fmt.Sprintf(`
-		   <th class="textocentrado">
+		   <th colspan="2" class="textocentrado">
 		   		%v
 		  	</th>`, vm.Materia)
 		}
@@ -287,8 +287,34 @@ func ObtenerAlumnosCalif(ctx iris.Context) {
 		// }
 
 		for ka, v := range alumnos {
+
+			if ka == 0 {
+				htmlcode += fmt.Sprintf(`
+				<tr >		
+				`)
+				for i := -1; i < len(materias); i++ {
+
+					if i != -1 {
+						htmlcode += fmt.Sprintf(`
+						<td class="textocentrado"> CLF </td >
+						<td class="textocentrado"> AST </td >
+						`)
+					} else {
+						htmlcode += fmt.Sprintf(`
+						<td >   </td >
+						<td >  </td >
+						`)
+					}
+
+				}
+
+				htmlcode += fmt.Sprintf(`
+				</tr >		
+				`)
+			}
+
 			htmlcode += fmt.Sprintf(`
-		<tr>
+		<tr >
 		<td>%v</td>
 		<td>%v %v %v</td>
 		`, ka+1, v.ApellidoP, v.ApellidoM, v.Nombre)
@@ -298,12 +324,15 @@ func ObtenerAlumnosCalif(ctx iris.Context) {
 				if v.Calificaciones[i] <= reprobado {
 					htmlcode += fmt.Sprintf(`
 					<td class="reprobado">%v</td>
-					`, v.Calificaciones[i])
+					<td class="reprobado">%v</td>
+					`, v.Calificaciones[i], v.Asistencias[i])
 
 				} else {
 					htmlcode += fmt.Sprintf(`
+				
 				<td class="noreprobado">%v</td>
-				`, v.Calificaciones[i])
+				<td class="noreprobado">%v</td>
+				`, v.Calificaciones[i], v.Asistencias[i])
 				}
 
 			}
@@ -1262,7 +1291,11 @@ func GenerarBoleta(ctx iris.Context) {
 	pdf.SetFont("Arial", "", 12)
 	pdf.SetTextColor(0, 0, 0)
 	pdf.SetXY(32, 58)
-	pdf.CellFormat(50, 5, tr("NOMBRE DEL ALUMNO:"), "", 0, "R", false, 0, "")
+	if alumno.Sexo == "Femenino" {
+		pdf.CellFormat(50, 5, tr("NOMBRE DE LA ALUMNA:"), "", 0, "R", false, 0, "")
+	} else {
+		pdf.CellFormat(50, 5, tr("NOMBRE DEL ALUMNO:"), "", 0, "R", false, 0, "")
+	}
 	pdf.SetFont("Times", "B", 12)
 	pdf.CellFormat(100, 5, tr(alumno.Nombre+" "+alumno.ApellidoP+" "+alumno.ApellidoM), "1B", 0, "C", false, 0, "")
 	pdf.SetXY(32, 65)
