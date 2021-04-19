@@ -84,5 +84,5 @@ func main() {
 	app.Post("/obtenconfig", calificacionescontroller.ObtenConfig)
 	app.Post("/guardaconfiguracion", calificacionescontroller.GuardaConfiguracion)
 
-	app.Run(iris.Addr(":8080"))
+	app.Run(iris.Addr(":80"))
 }
