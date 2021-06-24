@@ -76,13 +76,17 @@ func main() {
 	app.Post("/horarios", indexcontroller.Index)
 	app.Get("/horarios", indexcontroller.Index)
 
-	app.Post("/kardex", indexcontroller.Index)
-	app.Get("/kardex", indexcontroller.Index)
+	app.Post("/kardex", indexcontroller.Semestres)
+	app.Get("/kardex", indexcontroller.Semestres)
 	app.Get("/reloj", indexcontroller.Reloj)
 
 	app.Post("/ligarusuarios", calificacionescontroller.Ligar)
 	app.Post("/obtenconfig", calificacionescontroller.ObtenConfig)
 	app.Post("/guardaconfiguracion", calificacionescontroller.GuardaConfiguracion)
 
-	app.Run(iris.Addr(":80"))
+	app.Post("/editardatosdealumno", indexcontroller.EditarDatosDeAlumno)
+
+	app.Post("/editaralumno", indexcontroller.EditarAlumno)
+
+	app.Run(iris.Addr(":8080"))
 }

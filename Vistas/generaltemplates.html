@@ -41,58 +41,59 @@
                 <a href="/calificaciones" id="calificacionesit" class="">Calificaciones</a>
                 <!-- <a href="/inscripcion" id="inscripcionit" class="">Inscripción</a> -->
                 <!-- <a href="/horarios" id="espectacularesit" class="">Horarios</a> -->
-                <!-- <a href="/kardex" id="ventasit" class="">Kardex</a> -->
-                <a href="/reloj" id="ventasit" class="">Reloj</a>
+                <a href="/reloj" id="relojit" class="">Reloj</a>
                 {{end}}
 
                 {{if .Usuario.Docente}}
                 <a href="/calificaciones" id="calificacionesit" class="">Calificaciones</a>
                 <a href="/horarios" id="espectacularesit" class="">Horarios</a>
                 <a href="/alumnos" id="alumnosit" class="">Alumnos</a>
-                <a href="/reloj" id="ventasit" class="">Reloj</a>
+                <a href="/kardex" id="semestresit" class="">Semestres</a>
+                <a href="/reloj" id="relojit" class="">Reloj</a>
                 {{end}}
 
                 {{if .Usuario.Administrativo}}
                 <a href="/calificaciones" id="calificacionesit" class="">Calificaciones</a>
                 <a href="/alumnos" id="alumnosit" class="">Alumnos</a>
                 <a href="/docentes" id="docentesit" class="">Docentes</a>
-                <a href="/reloj" id="ventasit" class="">Reloj</a>
+                <a href="/kardex" id="semestresit" class="">Semestres</a>
+                <a href="/reloj" id="relojit" class="">Reloj</a>
                 {{end}}
 
                 {{if .Usuario.Contador}}
                 <a href="/inscripcion" id="inscripcionit" class="">Inscripción</a>
-                <a href="/reloj" id="ventasit" class="">Reloj</a>
+                <a href="/reloj" id="relojit" class="">Reloj</a>
                 {{end}}
 
             
 
 
                 {{if .Usuario.Director}}
+                <a href="/alumnos" id="alumnosit" class="">Alumnos</a>
+                <a href="/asignacion" id="asignacionit" class="">Asignación de  Mat</a>
+                <a href="/buscador" id="materialesit" class="">Buscador</a>
                 <a href="/calificaciones" id="calificacionesit" class="">Calificaciones</a>
                 <a href="/inscripcion" id="inscripcionit" class="">Inscripción</a>
-                <a href="/asignacion" id="asignacionit" class="">Asignación de  Mat</a>
-                <a href="/alumnos" id="alumnosit" class="">Alumnos</a>
+                <a href="/directorio" id="empresasit" class="">Directorio</a>
                 <a href="/docentes" id="docentesit" class="">Docentes</a>
                 <a href="/usuarios" id="usuariosit" class="">Usuarios</a>
-                <a href="/directorio" id="empresasit" class="">Directorio</a>
-                <a href="/buscador" id="materialesit" class="">Buscador</a>
                 <a href="/horarios" id="espectacularesit" class="">Horarios</a>
-                <a href="/kardex" id="ventasit" class="">Kardex</a>
-                <a href="/reloj" id="ventasit" class="">Reloj</a>
+                <a href="/kardex" id="semestresit" class="">Semestres</a>
+                <a href="/reloj" id="relojit" class="">Reloj</a>
                 {{end}}
 
                 {{if .Usuario.Admin}}
-                <a href="/calificaciones" id="calificacionesit" class="">Calificaciones</a>
-                <a href="/inscripcion" id="inscripcionit" class="">Inscripción</a>
-                <a href="/asignacion" id="asignacionit" class="">Asignación de  Mat</a>
                 <a href="/alumnos" id="alumnosit" class="">Alumnos</a>
-                <a href="/docentes" id="docentesit" class="">Docentes</a>
-                <a href="/usuarios" id="usuariosit" class="">Usuarios</a>
-                <a href="/directorio" id="empresasit" class="">Directorio</a>
+                <a href="/asignacion" id="asignacionit" class="">Asignación de  Mat</a>
                 <a href="/buscador" id="materialesit" class="">Buscador</a>
+                <a href="/calificaciones" id="calificacionesit" class="">Calificaciones</a>
+                <a href="/directorio" id="empresasit" class="">Directorio</a>
+                <a href="/docentes" id="docentesit" class="">Docentes</a>
                 <a href="/horarios" id="espectacularesit" class="">Horarios</a>
-                <a href="/kardex" id="ventasit" class="">Kardex</a>
+                <a href="/inscripcion" id="inscripcionit" class="">Inscripción</a>
                 <a href="/reloj" id="relojit" class="">Reloj</a>
+                <a href="/kardex" id="semestresit" class="">Semestres</a>
+                <a href="/usuarios" id="usuariosit" class="">Usuarios</a>
                 {{end}}
                 <div class="mt-auto">
                     <a href="/perfil" id="profileit" class="useron">{{.Usuario.Nombre}} {{.Usuario.Apellidos}}</a>

@@ -162,6 +162,10 @@ a.selected{
   font-weight: bold;
 }
 
+.negrita2{
+  color: #818181;
+}
+
 .small-font-label{
   font-size: 0.4em;
 }
@@ -252,4 +256,12 @@ border:4px solid black;
 
   .imgperfil{
     width: 100%;
+  }
+
+  .coloresexoticos{
+    background-color: #4EA7F0;
+  }
+
+  .midcenter{
+    font-size: 6em;
   }

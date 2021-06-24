@@ -402,6 +402,9 @@ func ObtenerAlumnos(ctx iris.Context) {
 	  <tbody>`, "%%", "%%", "%%")
 
 		for k, v := range alumnos {
+
+			nombrecompleto := v.ApellidoP + " " + v.ApellidoM + " " + v.Nombre
+
 			htmlcode += fmt.Sprintf(`
 		<tr>
 		<td>%v</td>
@@ -419,14 +422,14 @@ func ObtenerAlumnos(ctx iris.Context) {
 			<img src="Recursos/Generales/Plugins/icons/build/svg/file-badge-16.svg" height="25" alt="Ver Boleta" data-toggle="tooltip" title="Ver boleta"/>
 			</a>		
 
-			<a id="myLink3" href="#" onclick="alert('%v');return false;">
-			<img src="Recursos/Generales/Plugins/icons/build/svg/diff-renamed-16.svg" height="25" alt="Promover" data-toggle="tooltip" title="Editar Información"/>
+			<a id="myLink3" href="#" onclick="EditarAlumno('%v:%s');return false;">
+			<img src="Recursos/Generales/Plugins/icons/build/svg/search-16.svg" height="25" alt="Promover" data-toggle="tooltip" title="Editar Información"/>
 			</a>
 		</td>
 
 		</tr>
 
-		`, k+1, v.ApellidoP, v.ApellidoM, v.Nombre, v.SiguienteSem, v.AnteriorSem, v.Licenciatura, v.ID.Hex(), v.ID.Hex(), v.ID.Hex())
+		`, k+1, v.ApellidoP, v.ApellidoM, v.Nombre, v.SiguienteSem, v.AnteriorSem, v.Licenciatura, v.ID.Hex(), v.ID.Hex(), v.ID.Hex(), nombrecompleto)
 
 		}
 

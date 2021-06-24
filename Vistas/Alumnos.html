@@ -88,6 +88,219 @@
 <br>
 <hr>
 </div>
+
+
+<!-- Modal EDITAR ALUMNOS-->
+<div class="modal fade" id="ModalEditarAlumnos" tabindex="-1" role="dialog" aria-labelledby="ModalEditarAlumnos" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="color: black;">
+                <h5 class="modal-title" id="titulomodal"></h5><small class="text-muted">&nbsp;Editando alumno &nbsp;</small>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+
+            <div id="alumnosmodal" class="modal-body">
+
+                <!-- form editar alumnos -->
+                <form action="/editaralumno" method="POST" >
+                    <div class="form-row">
+                      <div class="form-group col-md-4">
+                        <label class="negrita negrita2" for="nombre">Nombre :</label>
+                        <input type="hidden" id="datas1" name="datas1">
+                        <input type="text" placeholder="vacío" class="form-control" id="nombre" name="nombre" required>
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label class="negrita negrita2" for="apellidop">Apellido Paterno :</label>
+                        <input type="text" placeholder="vacío" class="form-control" id="apellidop" name="apellidop" required>
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label class="negrita negrita2" for="apellidom">Apellido Materno :</label>
+                        <input type="text" placeholder="vacío" class="form-control" id="apellidom" name="apellidom" required>
+                      </div>
+                    </div> <!-- 1er row -->
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                          <label class="negrita negrita2" for="matricula">Matricula :</label>
+                          <input type="text" placeholder="vacío" class="form-control" id="matricula" name="matricula" required>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="negrita negrita2" for="curp">Curp :</label>
+                            <input type="text" placeholder="vacío" class="form-control" id="curp" name="curp" required>
+                          </div>
+                        <div class="form-group col-md-4">
+                            <label class="negrita negrita2" for="fechanac">Fecha de Nacimiento :</label>
+                            <input type="date" class="form-control" id="fechanac" name="fechanac" required>
+                        </div>
+                    </div> <!-- 2da row -->
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label class="negrita negrita2" for="calle">Calle :</label>
+                            <input type="text" placeholder="vacío" class="form-control" id="calle" name="calle" >
+                          </div>
+
+                          <div class="form-group col-md-2">
+                            <label class="negrita negrita2" for="numero">Número :</label>
+                            <input type="text" placeholder="vacío" class="form-control" id="numero" name="numero">
+                          </div>
+
+                          <div class="form-group col-md-6">
+                            <label class="negrita negrita2" for="colAsentamiento">Colonia o Asentamiento :</label>
+                            <input type="text" placeholder="vacío" class="form-control" id="colAsentamiento" name="colAsentamiento">
+                          </div>
+
+
+                    </div> <!-- 3ra row -->
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label class="negrita negrita2" for="municipio">Municipio :</label>
+                            <input type="text" placeholder="vacío" class="form-control" id="municipio" name="municipio">
+                          </div>
+
+                          <div class="form-group col-md-3">
+                            <label class="negrita negrita2" for="estado">Estado :</label>
+                            <input type="text" placeholder="vacío" class="form-control" id="estado" name="estado">
+                          </div>
+
+                          <div class="form-group col-md-3">
+                            <label class="negrita negrita2" for="telefono">Teléfono :</label>
+                            <input type="text" placeholder="vacío" class="form-control" id="telefono" name="telefono">
+                          </div>
+
+
+                    </div> <!-- 4ta row -->
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label class="negrita negrita2" for="tipoSangre">Tipo de Sangre :</label>
+                            <input type="text" placeholder="vacío" class="form-control" id="tipoSangre" name="tipoSangre" required>
+                          </div>
+
+                          <div class="form-group col-md-4">
+                            <label class="negrita negrita2" for="sexo">Sexo :</label>
+                            <select id="sexo" name="sexo" class="form-control" required>
+                                <option >Selecciona una opción</option>
+                                <option value="Masculino"> Masculino</option>
+                                <option value="Femenino"> Femenino</option>
+                              </select>
+                          </div>
+
+                          <div class="form-group col-md-4">
+                            <label class="negrita negrita2" for="nss">Numero Seguro Social :</label>
+                            <input type="text" placeholder="vacío" class="form-control" id="nss" name="nss">
+                          </div>
+
+
+                    </div> <!-- 5ta row -->
+
+                    <div class="form-row">
+                        <div class="form-group col-md-5">
+                            <label class="negrita negrita2" for="licenciatura">Licenciatura :</label>
+                            <select id="licenciatura" name="licenciatura" class="form-control" required>
+                                <option >Selecciona una opción</option>
+                                <option value="Preescolar"> Licenciatura en Educación Preescolar</option>
+                                <option value="Primaria"> Licenciatura en Educación Primaria</option>
+                              </select>
+                          </div>
+
+                          <div class="form-group col-md-3">
+                            <label class="negrita negrita2" for="plan">Plan :</label>
+                            <select id="plan" name="plan" class="form-control" required>
+                                <option >Selecciona</option>
+                                <option value="2021"> 2021</option>
+                                <option value="2018"> 2018</option>
+                                <option value="2012"> 2012</option>
+                              </select>
+                          </div>
+
+                          <div class="form-group col-md-4">
+                            <label class="negrita negrita2" for="semestre">Semestre Actual :</label>
+                            <input type="text" placeholder="vacío" class="form-control" id="semestrealum" name="semestrealum" required>
+                          </div>
+
+
+                    </div> <!-- 6ta row -->
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label class="negrita negrita2" for="tutor">Tutor :</label>
+                            <input type="text" placeholder="vacío" class="form-control" id="tutor" name="tutor">
+                          </div>
+
+                          <div class="form-group col-md-4">
+                            <label class="negrita negrita2" for="ocupaciontutor">Ocupación de Tutor :</label>
+                            <input type="text" placeholder="vacío" class="form-control" id="ocupaciontutor" name="ocupaciontutor">
+                          </div>
+
+                          <div class="form-group col-md-4">
+                            <label class="negrita negrita2" for="parentescoTutor">Parentesco de Tutor :</label>
+                            <input type="text" placeholder="vacío" class="form-control" id="parentescoTutor" name="parentescoTutor">
+                          </div>
+
+
+                    </div> <!-- 7ta row -->
+
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label class="negrita negrita2" for="contactoemergencia">Contacto en caso de emergencia :</label>
+                            <input type="text" placeholder="vacío" class="form-control" id="contactoemergencia" name="contactoemergencia">
+                          </div>
+
+                          <div class="form-group col-md-6">
+                            <label class="negrita negrita2" for="difdomtutor">Diferente domicilio del Tutor :</label>
+                            <input type="text" placeholder="vacío" class="form-control" id="difdomtutor" name="difdomtutor">
+                          </div>
+
+
+
+
+                    </div> <!-- 8ta row -->
+
+                    <div class="form-row">
+                          <div class="form-group col-md-6">
+                            <label class="negrita negrita2" for="refdomicilio">Referencias domiciliares :</label>
+                            <input type="text" placeholder="vacío" class="form-control" id="refdomicilio" name="refdomicilio">
+                          </div>
+
+                          <div class="form-group col-md-6">
+                            <label class="negrita negrita2" for="correoe">Correo Electronico :</label>
+                            <input type="text" placeholder="vacío" class="form-control" id="correoe" name="correoe">
+                          </div>
+
+
+                    </div> <!-- 9ta row -->    
+                    <div class="form-row centrado">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div> <!-- 10ma row -->    
+
+                  </form>
+            </div> <!-- Modal-body  -->
+            
+            <hr>
+            <div class="modal-footer centrado">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar sin cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script>alumnosit.classList.add("selected");</script>
 <div id="answer"></div>
 {{template "footerTemplate" .}}
