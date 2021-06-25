@@ -414,22 +414,22 @@ func ObtenerAlumnos(ctx iris.Context) {
 		<td>%v</td>
 		
 		<td class="textocentrado">
-			<a id="myLink1" href="#" onclick="alert('%v');return false;">
-				<img src="Recursos/Generales/Plugins/icons/build/svg/link-external-24.svg" height="25" alt="Ver Calificaciones" data-toggle="tooltip" title="Imprimir Calificaciones"/>
-			</a>
-
 			<a id="myLink2" href="#" onclick="GenerarBoleta('%v');return false;">
-			<img src="Recursos/Generales/Plugins/icons/build/svg/file-badge-16.svg" height="25" alt="Ver Boleta" data-toggle="tooltip" title="Ver boleta"/>
+			<img src="Recursos/Generales/Plugins/icons/build/svg/file-badge-16.svg" height="25" alt="Ver Boleta" data-toggle="tooltip" title="Generar boleta oficial"/>
 			</a>		
 
 			<a id="myLink3" href="#" onclick="EditarAlumno('%v:%s');return false;">
 			<img src="Recursos/Generales/Plugins/icons/build/svg/search-16.svg" height="25" alt="Promover" data-toggle="tooltip" title="Editar Información"/>
 			</a>
+
+			<a id="myLink1" href="#" onclick="PromoverAlumno('%v');return false;">
+			<img src="Recursos/Generales/Plugins/icons/build/svg/mortar-board-16.svg" height="25" alt="Promover curso" data-toggle="tooltip" title="Promover de Curso"/>
+			</a>
 		</td>
 
 		</tr>
 
-		`, k+1, v.ApellidoP, v.ApellidoM, v.Nombre, v.SiguienteSem, v.AnteriorSem, v.Licenciatura, v.ID.Hex(), v.ID.Hex(), v.ID.Hex(), nombrecompleto)
+		`, k+1, v.ApellidoP, v.ApellidoM, v.Nombre, v.SiguienteSem, v.AnteriorSem, v.Licenciatura, v.ID.Hex(), v.ID.Hex(), nombrecompleto, v.ID.Hex())
 
 		}
 
@@ -1733,4 +1733,129 @@ func MesEspanol(mes string) string {
 		break
 	}
 	return mess
+}
+
+//ObtenerDocente -> Regresa el docente con sus materias en tabla a la peticion de asignar materias
+func ObtenerDocente(ctx iris.Context) {
+	var htmlcode string
+	var nombrecompleto string
+	iddocente := ctx.PostValue("data")
+	docente := calificacionesmodel.ExtraeDocente(iddocente)
+	nombrecompleto = docente.Nombre + " " + docente.ApellidoP + " " + docente.ApellidoM
+	htmlcode += fmt.Sprintf(`<hr><h6 style="text-align:center;">Materias correspondientes a %v :</h6><br><table class="table table-sm" style="font-size: small;">
+	<thead>
+		<th>#</th>
+		<th>Materia</th>
+		<th>Horas</th>
+		<th>Creditos</th>
+		<th>Semestre</th>
+		<th>Plan</th>
+		<th>Licenciatura</th>
+	</thead>
+	<tbody>`, nombrecompleto)
+	for k, v := range docente.Materias {
+		var materia calificacionesmodel.Materia
+		var semestre calificacionesmodel.Semestre
+		materia = calificacionesmodel.ExtraeMateria(v.Hex())
+		semestre = calificacionesmodel.ExtraeSemestre(materia.Semestre)
+		htmlcode += fmt.Sprintf(`
+		<tr>
+			<td>%v</td>
+			<td>%v</td>
+			<td>%v</td>
+			<td>%v</td>
+			<td>%v</td>
+			<td>%v</td>
+			<td>%v</td>
+		</tr>`, k+1, materia.Materia, materia.Horas, materia.Creditos, semestre.Semestre, materia.Plan, materia.Licenciatura)
+	}
+	htmlcode += fmt.Sprintf(`</tbody></table>`)
+	ctx.HTML(htmlcode)
+}
+
+//PromoverAlumno -> Acepta la peticion
+func PromoverAlumno(ctx iris.Context) {
+
+	idalumno := ctx.PostValue("data")
+	var htmlcode string
+
+	var resetcalif []float64
+	var resetasist []float64
+	var kardex calificacionesmodel.Kardex
+
+	var alumno calificacionesmodel.Alumno
+
+	alumno = calificacionesmodel.ExtraeAlumno(idalumno)
+
+	//Crear un registo para el Kardex
+
+	kardex.Alumno = alumno.ID
+	kardex.IDSem = alumno.CursandoSem
+	kardex.Calificaciones = alumno.Calificaciones
+	kardex.Asistencias = alumno.Asistencias
+	kardex.Materias = alumno.Materias
+
+	switch alumno.Semestre {
+	case "0":
+		alumno.Semestre = "1"
+		alumno.CursandoSem = calificacionesmodel.SiguienteSemestre(alumno.Semestre, alumno.Licenciatura, alumno.Plan)
+		break
+	case "1":
+		alumno.Semestre = "2"
+		alumno.CursandoSem = calificacionesmodel.SiguienteSemestre(alumno.Semestre, alumno.Licenciatura, alumno.Plan)
+		break
+	case "2":
+		alumno.Semestre = "3"
+		alumno.CursandoSem = calificacionesmodel.SiguienteSemestre(alumno.Semestre, alumno.Licenciatura, alumno.Plan)
+		break
+	case "3":
+		alumno.Semestre = "4"
+		alumno.CursandoSem = calificacionesmodel.SiguienteSemestre(alumno.Semestre, alumno.Licenciatura, alumno.Plan)
+		break
+	case "4":
+		alumno.Semestre = "5"
+		alumno.CursandoSem = calificacionesmodel.SiguienteSemestre(alumno.Semestre, alumno.Licenciatura, alumno.Plan)
+		break
+	case "5":
+		alumno.Semestre = "6"
+		alumno.CursandoSem = calificacionesmodel.SiguienteSemestre(alumno.Semestre, alumno.Licenciatura, alumno.Plan)
+		break
+	case "6":
+		alumno.Semestre = "7"
+		alumno.CursandoSem = calificacionesmodel.SiguienteSemestre(alumno.Semestre, alumno.Licenciatura, alumno.Plan)
+		break
+	case "7":
+		alumno.Semestre = "8"
+		alumno.CursandoSem = calificacionesmodel.SiguienteSemestre(alumno.Semestre, alumno.Licenciatura, alumno.Plan)
+		break
+	case "8":
+		alumno.Semestre = "E"
+		break
+	}
+
+	alumno.Calificaciones = resetcalif
+	alumno.Asistencias = resetasist
+	alumno.Materias = calificacionesmodel.ExtraeMateriasPorSemestreID(alumno.CursandoSem)
+
+	for k := range alumno.Materias {
+		alumno.Calificaciones = append(alumno.Calificaciones, 5.0)
+		alumno.Asistencias = append(alumno.Asistencias, 50.00)
+		k = k + 1
+	}
+
+	htmlcode = fmt.Sprintf(`
+	<script>
+	Swal.fire(
+		'Muy bien!',
+		'Este alumno ha sido promovido!',
+		'success'
+	)
+	</script>`)
+
+	calificacionesmodel.ActualizaAlumno(alumno)
+
+	calificacionesmodel.GuardaKardex(kardex)
+
+	ctx.HTML(htmlcode)
+
 }

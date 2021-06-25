@@ -2,201 +2,1672 @@
 {{template "navbartemplate" .}}
 <div class="col-lg-10 col-md-10 rouded-lg">
     <div class="container mt-4">
-<h1 class="text-center">Semestres</h1>
-<hr>
+        <h1 class="text-center">Semestres</h1>
+        <hr>
+        <div class="centrado">
+            <div class="col-md-6 textocentrado">
+                <h1 class="display-4">Primaria</h1>
+            </div>
 
-<div class="centrado">
-    <div class="col-md-6 textocentrado"><h1 class="display-4">Primaria</h1></div>
-    
-    <div class="col-md-6 textocentrado"><h1 class="display-4">Preescolar</h1></div>
-</div> <!-- 1st row  -->
-<hr>
-<div class="centrado">
-    <div class="col-md-5 textocentrado">
-        <table class="table">
-            <tbody>
-              <tr>
-                <th>Español Español Español Español Español Español</th>
-                <td>Marko Aurelio</td>
-              </tr>
-              <tr>
-                <th>Matematicas Matematicas Matematicas Matematicas</th>
-                <td>Platon Vbarishdicov</td>
-              </tr>
-              <tr>
-                <th>Ciencias</th>
-                <td>Larry Wilkins</td>
-              </tr>
-              <tr>
-                <th>Español Español Español Español Español Español</th>
-                <td>Marko Aurelio</td>
-              </tr>
-              <tr>
-                <th>Matematicas Matematicas Matematicas Matematicas</th>
-                <td>Platon Vbarishdicov</td>
-              </tr>
-              <tr>
-                <th>Ciencias</th>
-                <td>Larry Wilkins</td>
-              </tr>
-              <tr>
-                <th>Español Español Español Español Español Español</th>
-                <td>Marko Aurelio</td>
-              </tr>
-              <tr>
-                <th>Matematicas Matematicas Matematicas Matematicas</th>
-                <td>Platon Vbarishdicov</td>
-              </tr>
-              <tr>
-                <th>Ciencias</th>
-                <td>Larry Wilkins</td>
-              </tr>
-            </tbody>
-          </table>
+            <div class="col-md-6 textocentrado">
+                <h1 class="display-4">Preescolar</h1>
+            </div>
+        </div> <!-- 1st row  -->
+        <hr>
+
+        <div class="centrado">
+            <!--  M E N U   D E   P L A N E S  -->
+            <a class="btn btn-info" data-toggle="collapse" href="#infoprimerplan" role="button" aria-expanded="false"
+                aria-controls="infoprimerplan">
+                <!-- Corresponde al primer plan de 2012 -->
+                2012
+            </a>&nbsp;
+            <a class="btn btn-dark" data-toggle="collapse" href="#infosegundoplan" role="button" aria-expanded="false"
+                aria-controls="infosegundoplan">
+                <!-- Corresponde al segundo plan de 2018 -->
+                2018
+            </a>&nbsp;
+            <a class="btn btn-warning" data-toggle="collapse" href="#infotercerplan" role="button" aria-expanded="false"
+                aria-controls="infotercerplan">
+                <!-- Corresponde al tercer plan de 2021 -->
+                2021
+            </a>&nbsp;
+
+            <!-- 4to plan no disponible -->
+        </div>
+        <p></p>
+        <div class="collapse" id="infoprimerplan">
+            <!-- I N I C I O    D E    P L A N   2 0 1 2 -->
+            <div class="centrado card card-body">
+                <div class="centrado">
+                    <!-- todos los semestres de los planes encontrados los numeros 1 2 3 7 8-->
+                    <!-- Corresponde al primer plan de 2012 -->
+                    <a class="btn btn-info" data-toggle="collapse" href="#infoprimerplanprimersemestre" role="button"
+                        aria-expanded="false" aria-controls="infoprimerplanprimersemestre">
+                        1
+                    </a>&nbsp;
+                    <a class="btn btn-info" data-toggle="collapse" href="#infoprimerplansegundosemestre" role="button"
+                        aria-expanded="false" aria-controls="infoprimerplansegundosemestre">
+                        2
+                    </a>&nbsp;
+                    <a class="btn btn-info" data-toggle="collapse" href="#infoprimerplantercersemestre" role="button"
+                        aria-expanded="false" aria-controls="infoprimerplantercersemestre">
+                        3
+                    </a>&nbsp;
+                    <a class="btn btn-info" data-toggle="collapse" href="#infoprimerplancuartosemestre" role="button"
+                        aria-expanded="false" aria-controls="infoprimerplancuartosemestre">
+                        4
+                    </a>&nbsp;
+                    <a class="btn btn-info" data-toggle="collapse" href="#infoprimerplanquintosemestre" role="button"
+                        aria-expanded="false" aria-controls="infoprimerplanquintosemestre">
+                        5
+                    </a>&nbsp;
+                    <a class="btn btn-info" data-toggle="collapse" href="#infoprimerplansextosemestre" role="button"
+                        aria-expanded="false" aria-controls="infoprimerplansextosemestre">
+                        6
+                    </a>&nbsp;
+                    <a class="btn btn-info" data-toggle="collapse" href="#infoprimerplanseptimosemestre" role="button"
+                        aria-expanded="false" aria-controls="infoprimerplanseptimosemestre">
+                        7
+                    </a>&nbsp;
+                    <a class="btn btn-info" data-toggle="collapse" href="#infoprimerplanoctavosemestre" role="button"
+                        aria-expanded="false" aria-controls="infoprimerplanoctavosemestre">
+                        8
+                    </a>&nbsp;
+                </div>
+
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPpp2012:=.Ppp2012}}
+                {{$xPppre2012:=.Pppre2012}}
+                <div class="collapse" id="infoprimerplanprimersemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .App2012}}
+                                <p>{{.App2012}} Alumnos : {{.Hpp2012}} Hombres y {{.Mupp2012}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mpp2012}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mpp2012}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPpp2012 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Appre2012}}
+                                <p>{{.Appre2012}} Alumnos : {{.Hppre2012}} Hombres y {{.Muppre2012}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mppre2012}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mppre2012}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPppre2012 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        1er semestre 2012
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  1/24 flipcard-->
+
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPsp2012:=.Psp2012}}
+                {{$xPspre2012:=.Pspre2012}}
+                <div class="collapse" id="infoprimerplansegundosemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .Asp2012}}
+                                <p>{{.Asp2012}} Alumnos : {{.Hsp2012}} Hombres y {{.Musp2012}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Msp2012}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Msp2012}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPsp2012 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Aspre2012}}
+                                <p>{{.Aspre2012}} Alumnos : {{.Hspre2012}} Hombres y {{.Musppre2012}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mspre2012}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mspre2012}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPspre2012 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        2do semestre 2012
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  2/24 flipcard-->
+
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPtp2012:=.Ptp2012}}
+                {{$xPtpre2012:=.Ptpre2012}}
+                <div class="collapse" id="infoprimerplantercersemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .Atp2012}}
+                                <p>{{.Atp2012}} Alumnos : {{.Htp2012}} Hombres y {{.Mutp2012}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mtp2012}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mtp2012}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPtp2012 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Atpre2012}}
+                                <p>{{.Atpre2012}} Alumnos : {{.Htpre2012}} Hombres y {{.Mutpre2012}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mtpre2012}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mtpre2012}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPtpre2012 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        3er semestre 2012
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  3/24 flipcard-->
+
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPcp2012:=.Pcp2012}}
+                {{$xPcpre2012:=.Pcpre2012}}
+                <div class="collapse" id="infoprimerplancuartosemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .Acp2012}}
+                                <p>{{.Acp2012}} Alumnos : {{.Hcp2012}} Hombres y {{.Mucp2012}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mcp2012}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mcp2012}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPcp2012 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Acpre2012}}
+                                <p>{{.Acpre2012}} Alumnos : {{.Hcpre2012}} Hombres y {{.Mucpre2012}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mcpre2012}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mcpre2012}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPcpre2012 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        4to semestre 2012
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  4/24 flipcard-->
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPqp2012:=.Pqp2012}}
+                {{$xPqpre2012:=.Pqpre2012}}
+                <div class="collapse" id="infoprimerplanquintosemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .Aqp2012}}
+                                <p>{{.Aqp2012}} Alumnos : {{.Hqp2012}} Hombres y {{.Muqp2012}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mqp2012}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mqp2012}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPqp2012 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Aqpre2012}}
+                                <p>{{.Aqpre2012}} Alumnos : {{.Hqpre2012}} Hombres y {{.Muqpre2012}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mqpre2012}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mqpre2012}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPqpre2012 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        5to semestre 2012
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  5/24 flipcard-->
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPsxp2012:=.Psxp2012}}
+                {{$xPsxpre2012:=.Psxpre2012}}
+                <div class="collapse" id="infoprimerplansextosemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .Asxp2012}}
+                                <p>{{.Asxp2012}} Alumnos : {{.Hsxp2012}} Hombres y {{.Musxp2012}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Msxp2012}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Msxp2012}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPsxp2012 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Asxpre2012}}
+                                <p>{{.Asxpre2012}} Alumnos : {{.Hsxpre2012}} Hombres y {{.Musxpre2012}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Msxpre2012}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Msxpre2012}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPsxpre2012 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        6to semestre 2012
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  6/24 flipcard-->
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPstp2012:=.Pstp2012}}
+                {{$xPstpre2012:=.Pstpre2012}}
+                <div class="collapse" id="infoprimerplanseptimosemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .Astp2012}}
+                                <p>{{.Astp2012}} Alumnos : {{.Hstp2012}} Hombres y {{.Mustp2012}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mstp2012}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mstp2012}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPstp2012 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Astpre2012}}
+                                <p>{{.Astpre2012}} Alumnos : {{.Hstpre2012}} Hombres y {{.Mustpre2012}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mstpre2012}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mstpre2012}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPstpre2012 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        7mo semestre 2012
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  7/24 flipcard-->
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPop2012:=.Pop2012}}
+                {{$xPopre2012:=.Popre2012}}
+                <div class="collapse" id="infoprimerplanoctavosemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .Aop2012}}
+                                <p>{{.Aop2012}} Alumnos : {{.Hop2012}} Hombres y {{.Muop2012}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mop2012}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mop2012}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPop2012 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Aopre2012}}
+                                <p>{{.Aopre2012}} Alumnos : {{.Hopre2012}} Hombres y {{.Muopre2012}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mopre2012}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mopre2012}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPopre2012 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        8vo semestre 2012
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  8/24 flipcard-->
+
+            </div>
+            <br>
+        </div> <!-- 2nd row  -->
+        <!-- F I N    D E    P L A N   2 0 1 2 -->
+
+        <div class="collapse" id="infosegundoplan">
+            <!-- I N I C I O    D E    P L A N   2 0 1 8 -->
+            <div class="centrado card card-body">
+                <div class="centrado">
+                    <!-- todos los semestres de los planes encontrados los numeros 1 2 3 7 8-->
+                    <!-- Corresponde al primer plan de 2018 -->
+                    <a class="btn btn-dark" data-toggle="collapse" href="#infosegundoplanprimersemestre" role="button"
+                        aria-expanded="false" aria-controls="infosegundoplanprimersemestre">
+                        1
+                    </a>&nbsp;
+                    <a class="btn btn-dark" data-toggle="collapse" href="#infosegundoplansegundosemestre" role="button"
+                        aria-expanded="false" aria-controls="infosegundoplansegundosemestre">
+                        2
+                    </a>&nbsp;
+                    <a class="btn btn-dark" data-toggle="collapse" href="#infosegundoplantercersemestre" role="button"
+                        aria-expanded="false" aria-controls="infosegundoplantercersemestre">
+                        3
+                    </a>&nbsp;
+                    <a class="btn btn-dark" data-toggle="collapse" href="#infosegundoplancuartosemestre" role="button"
+                        aria-expanded="false" aria-controls="infosegundoplancuartosemestre">
+                        4
+                    </a>&nbsp;
+                    <a class="btn btn-dark" data-toggle="collapse" href="#infosegundoplanquintosemestre" role="button"
+                        aria-expanded="false" aria-controls="infosegundoplanquintosemestre">
+                        5
+                    </a>&nbsp;
+                    <a class="btn btn-dark" data-toggle="collapse" href="#infosegundoplansextosemestre" role="button"
+                        aria-expanded="false" aria-controls="infosegundoplansextosemestre">
+                        6
+                    </a>&nbsp;
+                    <a class="btn btn-dark" data-toggle="collapse" href="#infosegundoplanseptimosemestre" role="button"
+                        aria-expanded="false" aria-controls="infosegundoplanseptimosemestre">
+                        7
+                    </a>&nbsp;
+                    <a class="btn btn-dark" data-toggle="collapse" href="#infosegundoplanoctavosemestre" role="button"
+                        aria-expanded="false" aria-controls="infosegundoplanoctavosemestre">
+                        8
+                    </a>&nbsp;
+                </div>
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPpp2018:=.Ppp2018}}
+                {{$xPppre2018:=.Pppre2018}}
+                <div class="collapse" id="infosegundoplanprimersemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .App2018}}
+                                <p>{{.App2018}} Alumnos : {{.Hpp2018}} Hombres y {{.Mupp2018}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mpp2018}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mpp2018}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPpp2018 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Appre2018}}
+                                <p>{{.Appre2018}} Alumnos : {{.Hppre2018}} Hombres y {{.Muppre2018}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mppre2018}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mppre2018}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPppre2018 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        1er semestre 2018
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  9/24 flipcard-->
+
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPsp2018:=.Psp2018}}
+                {{$xPspre2018:=.Pspre2018}}
+                <div class="collapse" id="infosegundoplansegundosemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .Asp2018}}
+                                <p>{{.Asp2018}} Alumnos : {{.Hsp2018}} Hombres y {{.Musp2018}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Msp2018}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Msp2018}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPsp2018 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Aspre2018}}
+                                <p>{{.Aspre2018}} Alumnos : {{.Hspre2018}} Hombres y {{.Musppre2018}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mspre2018}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mspre2018}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPspre2018 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        2do semestre 2018
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  10/24 flipcard-->
+
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPtp2018:=.Ptp2018}}
+                {{$xPtpre2018:=.Ptpre2018}}
+                <div class="collapse" id="infosegundoplantercersemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .Atp2018}}
+                                <p>{{.Atp2018}} Alumnos : {{.Htp2018}} Hombres y {{.Mutp2018}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mtp2018}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mtp2018}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPtp2018 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Atpre2018}}
+                                <p>{{.Atpre2018}} Alumnos : {{.Htpre2018}} Hombres y {{.Mutpre2018}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mtpre2018}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mtpre2018}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPtpre2018 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        3er semestre 2018
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  11/24 flipcard-->
+
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPcp2018:=.Pcp2018}}
+                {{$xPcpre2018:=.Pcpre2018}}
+                <div class="collapse" id="infosegundoplancuartosemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .Acp2018}}
+                                <p>{{.Acp2018}} Alumnos : {{.Hcp2018}} Hombres y {{.Mucp2018}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mcp2018}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mcp2018}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPcp2018 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Acpre2018}}
+                                <p>{{.Acpre2018}} Alumnos : {{.Hcpre2018}} Hombres y {{.Mucpre2018}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mcpre2018}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mcpre2018}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPcpre2018 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        4to semestre 2018
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  12/24 flipcard-->
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPqp2018:=.Pqp2018}}
+                {{$xPqpre2018:=.Pqpre2018}}
+                <div class="collapse" id="infosegundoplanquintosemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .Aqp2018}}
+                                <p>{{.Aqp2018}} Alumnos : {{.Hqp2018}} Hombres y {{.Muqp2018}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mqp2018}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mqp2018}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPqp2018 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Aqpre2018}}
+                                <p>{{.Aqpre2018}} Alumnos : {{.Hqpre2018}} Hombres y {{.Muqpre2018}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mqpre2018}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mqpre2018}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPqpre2018 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        5to semestre 2018
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  13/24 flipcard-->
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPsxp2018:=.Psxp2018}}
+                {{$xPsxpre2018:=.Psxpre2018}}
+                <div class="collapse" id="infosegundoplansextosemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .Asxp2018}}
+                                <p>{{.Asxp2018}} Alumnos : {{.Hsxp2018}} Hombres y {{.Musxp2018}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Msxp2018}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Msxp2018}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPsxp2018 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Asxpre2018}}
+                                <p>{{.Asxpre2018}} Alumnos : {{.Hsxpre2018}} Hombres y {{.Musxpre2018}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Msxpre2018}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Msxpre2018}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPsxpre2018 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        6to semestre 2018
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  14/24 flipcard-->
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPstp2018:=.Pstp2018}}
+                {{$xPstpre2018:=.Pstpre2018}}
+                <div class="collapse" id="infosegundoplanseptimosemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .Astp2018}}
+                                <p>{{.Astp2018}} Alumnos : {{.Hstp2018}} Hombres y {{.Mustp2018}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mstp2018}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mstp2018}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPstp2018 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Astpre2018}}
+                                <p>{{.Astpre2018}} Alumnos : {{.Hstpre2018}} Hombres y {{.Mustpre2018}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mstpre2018}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mstpre2018}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPstpre2018 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        7mo semestre 2018
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  15/24 flipcard-->
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPop2018:=.Pop2018}}
+                {{$xPopre2018:=.Popre2018}}
+                <div class="collapse" id="infosegundoplanoctavosemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .Aop2018}}
+                                <p>{{.Aop2018}} Alumnos : {{.Hop2018}} Hombres y {{.Muop2018}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mop2018}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mop2018}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPop2018 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Aopre2018}}
+                                <p>{{.Aopre2018}} Alumnos : {{.Hopre2018}} Hombres y {{.Muopre2018}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mopre2018}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mopre2018}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPopre2018 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        8vo semestre 2018
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  16/24 flipcard-->
+            </div>
+            <br>
+        </div> <!-- 2nd row  -->
+        <!-- F I N    D E    P L A N   2 0 1 8 -->
+
+        <div class="collapse" id="infotercerplan">
+            <!-- I N I C I O    D E    P L A N   2 0 2 1 -->
+            <div class="centrado card card-body">
+                <div class="centrado">
+                    <!-- todos los semestres de los planes encontrados los numeros 1 2 3 7 8-->
+                    <!-- Corresponde al primer plan de 2012 -->
+                    <a class="btn btn-warning" data-toggle="collapse" href="#infotercerplanprimersemestre" role="button"
+                        aria-expanded="false" aria-controls="infotercerplanprimersemestre">
+                        1
+                    </a>&nbsp;
+                    <a class="btn btn-warning" data-toggle="collapse" href="#infotercerplansegundosemestre"
+                        role="button" aria-expanded="false" aria-controls="infotercerplansegundosemestre">
+                        2
+                    </a>&nbsp;
+                    <a class="btn btn-warning" data-toggle="collapse" href="#infotercerplantercersemestre" role="button"
+                        aria-expanded="false" aria-controls="infotercerplantercersemestre">
+                        3
+                    </a>&nbsp;
+                    <a class="btn btn-warning" data-toggle="collapse" href="#infotercerplancuartosemestre" role="button"
+                        aria-expanded="false" aria-controls="infotercerplancuartosemestre">
+                        4
+                    </a>&nbsp;
+                    <a class="btn btn-warning" data-toggle="collapse" href="#infotercerplanquintosemestre" role="button"
+                        aria-expanded="false" aria-controls="infotercerplanquintosemestre">
+                        5
+                    </a>&nbsp;
+                    <a class="btn btn-warning" data-toggle="collapse" href="#infotercerplansextosemestre" role="button"
+                        aria-expanded="false" aria-controls="infotercerplansextosemestre">
+                        6
+                    </a>&nbsp;
+                    <a class="btn btn-warning" data-toggle="collapse" href="#infotercerplanseptimosemestre"
+                        role="button" aria-expanded="false" aria-controls="infotercerplanseptimosemestre">
+                        7
+                    </a>&nbsp;
+                    <a class="btn btn-warning" data-toggle="collapse" href="#infotercerplanoctavosemestre" role="button"
+                        aria-expanded="false" aria-controls="infotercerplanoctavosemestre">
+                        8
+                    </a>&nbsp;
+                </div>
+
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPpp2021:=.Ppp2021}}
+                {{$xPppre2021:=.Pppre2021}}
+                <div class="collapse" id="infotercerplanprimersemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .App2021}}
+                                <p>{{.App2021}} Alumnos : {{.Hpp2021}} Hombres y {{.Mupp2021}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mpp2021}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mpp2021}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPpp2021 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Appre2021}}
+                                <p>{{.Appre2021}} Alumnos : {{.Hppre2021}} Hombres y {{.Muppre2021}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mppre2021}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mppre2021}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPppre2021 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        1er semestre 2021
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  17/24 flipcard-->
+
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPsp2021:=.Psp2021}}
+                {{$xPspre2021:=.Pspre2021}}
+                <div class="collapse" id="infotercerplansegundosemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .Asp2021}}
+                                <p>{{.Asp2021}} Alumnos : {{.Hsp2021}} Hombres y {{.Musp2021}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Msp2021}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Msp2021}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPsp2021 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Aspre2021}}
+                                <p>{{.Aspre2021}} Alumnos : {{.Hspre2021}} Hombres y {{.Musppre2021}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mspre2021}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mspre2021}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPspre2021 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        2do semestre 2021
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  18/24 flipcard-->
+
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPtp2021:=.Ptp2021}}
+                {{$xPtpre2021:=.Ptpre2021}}
+                <div class="collapse" id="infotercerplantercersemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .Atp2021}}
+                                <p>{{.Atp2021}} Alumnos : {{.Htp2021}} Hombres y {{.Mutp2021}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mtp2021}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mtp2021}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPtp2021 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Atpre2021}}
+                                <p>{{.Atpre2021}} Alumnos : {{.Htpre2021}} Hombres y {{.Mutpre2021}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mtpre2021}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mtpre2021}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPtpre2021 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        3er semestre 2021
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  19/24 flipcard-->
+
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPcp2021:=.Pcp2021}}
+                {{$xPcpre2021:=.Pcpre2021}}
+                <div class="collapse" id="infotercerplancuartosemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .Acp2021}}
+                                <p>{{.Acp2021}} Alumnos : {{.Hcp2021}} Hombres y {{.Mucp2021}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mcp2021}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mcp2021}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPcp2021 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Acpre2021}}
+                                <p>{{.Acpre2021}} Alumnos : {{.Hcpre2021}} Hombres y {{.Mucpre2021}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mcpre2021}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mcpre2021}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPcpre2021 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        4to semestre 2021
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  20/24 flipcard-->
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPqp2021:=.Pqp2021}}
+                {{$xPqpre2021:=.Pqpre2021}}
+                <div class="collapse" id="infotercerplanquintosemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .Aqp2021}}
+                                <p>{{.Aqp2021}} Alumnos : {{.Hqp2021}} Hombres y {{.Muqp2021}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mqp2021}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mqp2021}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPqp2021 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Aqpre2021}}
+                                <p>{{.Aqpre2021}} Alumnos : {{.Hqpre2021}} Hombres y {{.Muqpre2021}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mqpre2021}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mqpre2021}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPqpre2021 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        5to semestre 2021
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  21/24 flipcard-->
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPsxp2021:=.Psxp2021}}
+                {{$xPsxpre2021:=.Psxpre2021}}
+                <div class="collapse" id="infotercerplansextosemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .Asxp2021}}
+                                <p>{{.Asxp2021}} Alumnos : {{.Hsxp2021}} Hombres y {{.Musxp2021}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Msxp2021}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Msxp2021}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPsxp2021 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Asxpre2021}}
+                                <p>{{.Asxpre2021}} Alumnos : {{.Hsxpre2021}} Hombres y {{.Musxpre2021}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Msxpre2021}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Msxpre2021}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPsxpre2021 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        6to semestre 2021
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  22/24 flipcard-->
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPstp2021:=.Pstp2021}}
+                {{$xPstpre2021:=.Pstpre2021}}
+                <div class="collapse" id="infotercerplanseptimosemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .Astp2021}}
+                                <p>{{.Astp2021}} Alumnos : {{.Hstp2021}} Hombres y {{.Mustp2021}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mstp2021}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mstp2021}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPstp2021 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Astpre2021}}
+                                <p>{{.Astpre2021}} Alumnos : {{.Hstpre2021}} Hombres y {{.Mustpre2021}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mstpre2021}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mstpre2021}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPstpre2021 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        7mo semestre 2021
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  23/24 flipcard-->
+                <!-- INICIO DE  BLOQUE DE FLIPCARD -->
+                {{$xPop2021:=.Pop2021}}
+                {{$xPopre2021:=.Popre2021}}
+                <div class="collapse" id="infotercerplanoctavosemestre">
+                    <div class="centrado card card-body">
+                        <div class="centrado">
+                            <div class="col-md-6 textocentrado">
+                                {{if .Aop2021}}
+                                <p>{{.Aop2021}} Alumnos : {{.Hop2021}} Hombres y {{.Muop2021}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mop2021}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mop2021}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPop2021 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                            <div class="col-md-6 textocentrado">
+                                {{if .Aopre2021}}
+                                <p>{{.Aopre2021}} Alumnos : {{.Hopre2021}} Hombres y {{.Muopre2021}} Mujeres</p>
+                                {{else}}
+                                <p>No hay alumnos inscritos actualmente</p>
+                                {{end}}
+                                {{if .Mopre2021}}
+                                <!-- Table inicio -->
+                                <table class="table table-sm" style="font-size: small;">
+                                    <tbody>
+                                        {{range $index,$value := .Mopre2021}}
+                                        <tr>
+                                            <th>{{$value.Materia}} - {{$value.Horas}}hrs - {{$value.Creditos}}cdr </th>
+                                            <td>{{index $xPopre2021 $index}}</td>
+                                        </tr>
+                                        {{end}}
+                                    </tbody>
+                                </table>
+                                <!-- Table fin -->
+                                {{else}}
+                                <hr>
+                                <p style="font-size: small;">No hay materias dadas de alta</p>
+                                {{end}}
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="centrado">
+                        8vo semestre 2021
+                    </div>
+                </div>
+                <!-- FIN DE  BLOQUE DE FLIPCARD  24/24 flipcard-->
+            </div>
+            <br>
+        </div> <!-- 2nd row  -->
+        <!-- F I N    D E    P L A N   2 0 2 1 -->
+
     </div>
-    <div class="col-md-1 coloresexoticos text-center"> <label class="midcenter">1</label> </div>
-    <div class="col-md-5 textocentrado">
-        <table class="table">
-            <tbody>
-              <tr>
-                <th>Español Español Español Español Español Español</th>
-                <td>Marko Aurelio</td>
-              </tr>
-              <tr>
-                <th>Matematicas Matematicas Matematicas Matematicas</th>
-                <td>Platon Vbarishdicov</td>
-              </tr>
-              <tr>
-                <th>Ciencias</th>
-                <td>Larry Wilkins</td>
-              </tr>
-              <tr>
-                <th>Español Español Español Español Español Español</th>
-                <td>Marko Aurelio</td>
-              </tr>
-              <tr>
-                <th>Matematicas Matematicas Matematicas Matematicas</th>
-                <td>Platon Vbarishdicov</td>
-              </tr>
-              <tr>
-                <th>Ciencias</th>
-                <td>Larry Wilkins</td>
-              </tr>
-              <tr>
-                <th>Español Español Español Español Español Español</th>
-                <td>Marko Aurelio</td>
-              </tr>
-              <tr>
-                <th>Matematicas Matematicas Matematicas Matematicas</th>
-                <td>Platon Vbarishdicov</td>
-              </tr>
-              <tr>
-                <th>Ciencias</th>
-                <td>Larry Wilkins</td>
-              </tr>
-            </tbody>
-          </table>
-    </div>
-
-</div> <!-- 2nd row  -->
-<hr>
-<div class="centrado">
-    <div class="col-md-5 textocentrado">
-        <table class="table">
-            <tbody>
-              <tr>
-                <th>Español Español Español Español Español Español</th>
-                <td>Marko Aurelio</td>
-              </tr>
-              <tr>
-                <th>Matematicas Matematicas Matematicas Matematicas</th>
-                <td>Platon Vbarishdicov</td>
-              </tr>
-              <tr>
-                <th>Ciencias</th>
-                <td>Larry Wilkins</td>
-              </tr>
-              <tr>
-                <th>Español Español Español Español Español Español</th>
-                <td>Marko Aurelio</td>
-              </tr>
-              <tr>
-                <th>Matematicas Matematicas Matematicas Matematicas</th>
-                <td>Platon Vbarishdicov</td>
-              </tr>
-              <tr>
-                <th>Ciencias</th>
-                <td>Larry Wilkins</td>
-              </tr>
-              <tr>
-                <th>Español Español Español Español Español Español</th>
-                <td>Marko Aurelio</td>
-              </tr>
-              <tr>
-                <th>Matematicas Matematicas Matematicas Matematicas</th>
-                <td>Platon Vbarishdicov</td>
-              </tr>
-              <tr>
-                <th>Ciencias</th>
-                <td>Larry Wilkins</td>
-              </tr>
-            </tbody>
-          </table>
-    </div>
-    <div class="col-md-1 coloresexoticos text-center"> <label class="midcenter">2</label> </div>
-    <div class="col-md-5 textocentrado">
-        <table class="table">
-            <tbody>
-              <tr>
-                <th>Español Español Español Español Español Español</th>
-                <td>Marko Aurelio</td>
-              </tr>
-              <tr>
-                <th>Matematicas Matematicas Matematicas Matematicas</th>
-                <td>Platon Vbarishdicov</td>
-              </tr>
-              <tr>
-                <th>Ciencias</th>
-                <td>Larry Wilkins</td>
-              </tr>
-              <tr>
-                <th>Español Español Español Español Español Español</th>
-                <td>Marko Aurelio</td>
-              </tr>
-              <tr>
-                <th>Matematicas Matematicas Matematicas Matematicas</th>
-                <td>Platon Vbarishdicov</td>
-              </tr>
-              <tr>
-                <th>Ciencias</th>
-                <td>Larry Wilkins</td>
-              </tr>
-              <tr>
-                <th>Español Español Español Español Español Español</th>
-                <td>Marko Aurelio</td>
-              </tr>
-              <tr>
-                <th>Matematicas Matematicas Matematicas Matematicas</th>
-                <td>Platon Vbarishdicov</td>
-              </tr>
-              <tr>
-                <th>Ciencias</th>
-                <td>Larry Wilkins</td>
-              </tr>
-            </tbody>
-          </table>
-    </div>
-
-</div> <!-- 3rd row  -->
-
-
-<br>
-<hr>
-
-
-
-
-</div>
-<script>semestresit.classList.add("selected");</script>
-{{template "footerTemplate" .}}
-
+    <script>semestresit.classList.add("selected");</script>
+    {{template "footerTemplate" .}}

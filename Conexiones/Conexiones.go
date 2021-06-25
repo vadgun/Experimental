@@ -10,4 +10,5 @@ const (
 	MONGO_DB_SM  = "Semestres"
 	MONGO_DB_U   = "Usuarios"
 	MONGO_DB_PR  = "Permisos"
+	MONGO_DB_KR  = "Kardex"
 )

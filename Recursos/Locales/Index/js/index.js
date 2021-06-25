@@ -13,6 +13,32 @@ let relojit= document.getElementById("relojit");
 let semestresit= document.getElementById("semestresit");
 
 
+function VerMaterias(data){
+    if (data != ""){
+    $.ajax({
+        url: '/obtenerDocente',
+        data: { data:data },
+        type: 'POST',
+        dataType: 'html',
+        success: function(result) {
+            console.log("Operacion Realizada con Exito");
+            $("#tabladematerias").html(result);
+        },
+        error: function(xhr, status) {
+            console.log("Error en la consulta");
+        },
+        complete: function(xhr, status) {
+            console.log("Ver materias de docente realizado");
+            
+        }
+    });
+    }else{
+        $("#tabladematerias").html('<div class="centrado"><h4>Selecciona un docente para ver la lista de sus materias</h4></div>');
+        return false
+    }
+
+}
+
 function EnviarAsignacion(){
 
     var plan = document.getElementById("plan");
@@ -154,6 +180,7 @@ function AsignarMateria(data){
                   success: function(result) {
                       console.log("Operacion Realizada con Exito");
                         $("#answer").html(result);
+                        VerMaterias(docenteevaluado.value);
 
                   },
                   error: function(xhr, status) {
@@ -207,7 +234,7 @@ function RevocarMateria(data){
                   success: function(result) {
                       console.log("Operacion Realizada con Exito");
                         $("#answer").html(result);
-
+                        VerMaterias(docenteevaluado.value);
                   },
                   error: function(xhr, status) {
                       console.log("Error en la consulta");
@@ -471,6 +498,45 @@ function Config(data){
             
         }
     });
+}
+
+function PromoverAlumno(data){
+
+    Swal.fire({
+        title: '¿Promover este alumno?',
+        text: "Se añadiran materias nuevas, siempre y cuando estas existan primero",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, continuar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+      
+            $.ajax({
+                url: '/promoverAlumno',
+                data: {data:data},
+                type: 'POST',
+                dataType: 'html',
+                success: function(result) {
+                    console.log("Operacion Promover Alumno con Exito");
+                    $("#answer").html(result);
+                    
+                },
+                error: function(xhr, status) {
+                    console.log("Error Promover Alumno");
+                },
+                complete: function(xhr, status) {
+                    console.log("Promover Alumno Terminado");
+                    SolicitarAlumnos();
+                }
+            });  
+      
+        }else if (result.isDismissed) {
+          Swal.fire("El alumno no ha sido promovido");
+        }
+      })
+
 }
 
 $('.dropify').dropify();  

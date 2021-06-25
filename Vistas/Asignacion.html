@@ -3,78 +3,95 @@
 {{template "navbartemplate" .}}
 <div class="col-lg-10 col-md-10 rouded-lg">
     <div class="container mt-4">
-<h1 class="text-center">Asignación de Materias</h1>
-<hr>
-<div class="" id="AsignacionContainer">
+        <h1 class="text-center">Asignación de Materias</h1>
+        <hr>
+        <div class="" id="AsignacionContainer">
 
-    <!-- Tabla de materias, que se rellenan de un formulario de seleccion Plan y Licenciatura -->
+            <!-- Tabla de materias, que se rellenan de un formulario de seleccion Plan y Licenciatura -->
 
-    <form method="" action="" name="AsignacionMaterias" id="AsignacionMaterias" >
+            <form method="" action="" name="AsignacionMaterias" id="AsignacionMaterias">
 
-        <div class="col-12">        
-            
-            
+                <div class="col-12">
+
+
+                    <br>
+                    <div class="form-group row">
+                        <label for="plan" class="col-sm-1 col-form-label negrita"> Plan: </label>
+                        <div class="col-sm-2 col-md-4 col-lg-4">
+                            <select name="plan" id="plan" class="form-control" required value=""
+                                onchange="EnviarAsignacion();">
+                                <option value="">Selecciona un plan de estudios</option>
+                                <option value="2012">2012</option>
+                                <option value="2018">2018</option>
+                                <option value="2021">2021</option>
+                            </select>
+                        </div>
+
+                        <label for="licenciatura" class="col-sm-2 col-form-label negrita"> Licenciatura: </label>
+                        <div class="col-sm-2 col-md-4 col-lg-4">
+                            <select class="form-control" id="licenciatura" name="licenciatura" value=""
+                                onchange="EnviarAsignacion();">
+                                <option value="">Selecciona una Licenciatura</option>
+                                <option value="Primaria">Primaria</option>
+                                <option value="Preescolar">Preescolar</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row form-group centrado">
+                        <label for="semestre" class="col-sm-2 col-form-label negrita"> Semestre: </label>
+                        <div class="col-sm-2 col-md-4 col-lg-4">
+                            <select class="form-control" id="semestre" name="semestre" value=""
+                                onchange="EnviarAsignacion();">
+                                <option value="">Selecciona el semestre</option>
+                                {{range $index,$value := .Semestres}}
+                                <option value="{{$value.ID.Hex}}">{{$value.Semestre}} - {{$value.Licenciatura}} -
+                                    {{$value.Plan}}</option>
+                                {{end}}
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+
+
+            <form method="" action="" name="AsignacionDocente" id="AsignacionDocente">
+                <div class="col-12">
+                    <br>
+                    <div class="form-group row centrado">
+                        <label for="docenteevaluado" class="col-sm-2 col-form-label negrita"> Docente a designar:
+                        </label>
+                        <div class="col-sm-2 col-md-4 col-lg-4">
+                            <select class="form-control" id="docenteevaluado" name="docenteevaluado" value="" onchange="VerMaterias(this.value)">
+                                <option value="">Selecciona Docente</option>
+                                {{range $index,$value := .Docentes}}
+                                <option value="{{$value.ID.Hex}}">{{$value.Nombre}} {{$value.ApellidoP}}
+                                    {{$value.ApellidoM}} </option>
+                                {{end}}
+                            </select>
+
+                        </div>
+                    </div>
+            </form>
+
+            <div class="container" id="AsignacionTable">
+
+            </div>
             <br>
-            <div class="form-group row">
-                <label for="plan" class="col-sm-1 col-form-label negrita"> Plan: </label>
-                <div class="col-sm-2 col-md-4 col-lg-4">
-                    <select name="plan" id="plan" class="form-control" required value="" onchange="EnviarAsignacion();">
-                        <option value="">Selecciona un plan de estudios</option>
-                        <option value="2012">2012</option>
-                        <option value="2018">2018</option>
-                    </select>
-                </div>
-            
-                <label for="licenciatura" class="col-sm-2 col-form-label negrita"> Licenciatura: </label>
-                <div class="col-sm-2 col-md-4 col-lg-4">
-                    <select class="form-control" id="licenciatura" name="licenciatura" value="" onchange="EnviarAsignacion();">
-                        <option value="">Selecciona una Licenciatura</option>
-                        <option value="Primaria">Primaria</option>
-                        <option value="Preescolar">Preescolar</option>
-                    </select>
-                </div>
-            </div>
 
-            <div class="row form-group centrado">
-                <label for="semestre" class="col-sm-2 col-form-label negrita"> Semestre: </label>
-                <div class="col-sm-2 col-md-4 col-lg-4">
-                    <select class="form-control" id="semestre" name="semestre" value="" onchange="EnviarAsignacion();" >
-                        <option value="">Selecciona el semestre</option>
-                        {{range $index,$value := .Semestres}}
-                        <option value="{{$value.ID.Hex}}">{{$value.Semestre}} - {{$value.Licenciatura}} - {{$value.Plan}}</option>
-                        {{end}}
-                    </select>
+            <div class="container" id="tabladematerias">
+
+                <div class="centrado">
+                    
+                    <h4>Selecciona un docente para ver la lista de sus materias</h4>
+
                 </div>
+                
             </div>
 
         </div>
-    </form>
-
-        
-        <form method="" action="" name="AsignacionDocente" id="AsignacionDocente" >
-            <div class="col-12">            
-                <br>
-                <div class="form-group row centrado">
-                    <label for="docenteevaluado" class="col-sm-2 col-form-label negrita"> Docente a evaluar: </label>
-                    <div class="col-sm-2 col-md-4 col-lg-4">
-                        <select class="form-control" id="docenteevaluado" name="docenteevaluado" value="" >
-                            <option value="">Selecciona Docente</option>
-                            {{range $index,$value := .Docentes}}
-                                <option value="{{$value.ID.Hex}}">{{$value.Nombre}} {{$value.ApellidoP}} {{$value.ApellidoM}} </option>
-                            {{end}}
-                        </select>
-
-                </div>
-            </div>
-        </form>   
-    
-        <div class="container" id="AsignacionTable">
-
-        </div>
-
-
-</div>
-</div>
-<script>asignacionit.classList.add("selected");</script>
-<div id="answer"></div>
-{{template "footerTemplate" .}}
+    </div>
+    <script>asignacionit.classList.add("selected");</script>
+    <div id="answer"></div>
+    {{template "footerTemplate" .}}

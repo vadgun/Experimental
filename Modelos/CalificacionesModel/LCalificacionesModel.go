@@ -134,6 +134,32 @@ func ExtraeMateriasPorSemestre(sem bson.ObjectId) []Materia {
 
 }
 
+//ExtraeMateriasPorSemestreID -> Extrae las materias por semestre y las devuelve
+func ExtraeMateriasPorSemestreID(sem bson.ObjectId) []bson.ObjectId {
+
+	var materias []Materia
+
+	var bsonss []bson.ObjectId
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_MT)
+	err1 := c.Find(bson.M{"Semestre": sem}).All(&materias)
+	if err1 != nil {
+		fmt.Println(err1)
+	}
+
+	for _, v := range materias {
+		bsonss = append(bsonss, v.ID)
+	}
+
+	return bsonss
+
+}
+
 //PersonalDocenteActivo Devuelve el personal docente activo para ser elegible en la materia
 func PersonalDocenteActivo() []Docente {
 
@@ -327,6 +353,84 @@ func ExtraeDocentes(materias []Materia) []Docente {
 	return docentes
 }
 
+//ExtraeDocentes -> Regresa el docente de materia
+func ExtraeDocentesArr(materias []Materia) []string {
+	var docentes []Docente
+	var docente Docente
+	var docentevacio Docente
+
+	var docentesarr []string
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_DC)
+
+	for _, v := range materias {
+
+		var matess []bson.ObjectId
+		matess = append(matess, v.ID)
+		// err1 := c.Find(bson.M{"Materias": bson.M{"$in": v.ID}}).One(&docente)
+		err1 := c.Find(bson.M{"Materias": bson.M{"$in": matess}}).One(&docente)
+
+		// o2 := bson.M{"$group" :bson.M{"_id": "$channel","Total": bson.M{"$sum": 1,},
+
+		if err1 != nil {
+			fmt.Println("1", err1)
+			docentes = append(docentes, docentevacio)
+		} else {
+			docentes = append(docentes, docente)
+		}
+	}
+
+	var cadena string
+	for _, vv := range docentes {
+
+		cadena = vv.Nombre + " " + vv.ApellidoP + " " + vv.ApellidoM + " / " + vv.Telefono1 + " / " + vv.CorreoE
+
+		if vv.ID == "" {
+			docentesarr = append(docentesarr, "Sin docente asignado")
+		} else {
+			docentesarr = append(docentesarr, cadena)
+		}
+
+	}
+
+	return docentesarr
+}
+
+//HombresyMujeres -> Devuelve la cantidad de alumnos divididos en hombres y mujeres inscritos al semestre
+func HombresyMujeres(semestre bson.ObjectId) (int, int) {
+	var hombres int
+	var mujeres int
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var err1 error
+	var err2 error
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_AL)
+	hombres, err1 = c.Find(bson.M{"CursandoSem": semestre, "Sexo": "Masculino"}).Count()
+	mujeres, err2 = c.Find(bson.M{"CursandoSem": semestre, "Sexo": "Femenino"}).Count()
+
+	if err1 != nil {
+		fmt.Println("1", err1)
+	}
+
+	if err2 != nil {
+		fmt.Println("1", err2)
+	}
+
+	return hombres, mujeres
+}
+
 //ExtraeSemestreString -> Regresa el semestre a la peticion
 func ExtraeSemestreString(semestrestring string) Semestre {
 
@@ -368,6 +472,26 @@ func ExtraeSemestre(idsemestre bson.ObjectId) Semestre {
 	}
 
 	return semestre
+}
+
+//ExtraeSemestres -> Regresa todos los semestres a la peticion
+func ExtraeSemestres() []Semestre {
+
+	var semestres []Semestre
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_SM)
+	err1 := c.Find(bson.M{}).All(&semestres)
+	if err1 != nil {
+		fmt.Println("1", err1)
+	}
+
+	return semestres
 }
 
 //GuardarCapturaCalificaciones -> Guarda las calificaciones a cada alumno
@@ -495,6 +619,21 @@ func ActualizaAlumno(alumno Alumno) {
 
 }
 
+//GuardaKardex Guarda la informacion de un documento de kardex de un semestre de un alumno
+func GuardaKardex(kardex Kardex) {
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_KR)
+	err1 := c.Insert(kardex)
+	if err1 != nil {
+		fmt.Println("kardex no guardado", err1)
+	}
+}
+
 //ExtraeAlumno -> Regresa el alumno por idstring
 func ExtraeAlumno(idalum string) Alumno {
 
@@ -553,4 +692,50 @@ func HerramientaAsignacionAlumnos(alumno Alumno) {
 	if err1 != nil {
 		fmt.Println("No se encontro el alumno en la base de datos", err1)
 	}
+}
+
+//ExtraeDocente -> Regresa el docente a la peticion de asignar materia
+func ExtraeDocente(iddocente string) Docente {
+
+	var docente Docente
+
+	objiddocente := bson.ObjectIdHex(iddocente)
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_DC)
+	err1 := c.FindId(objiddocente).One(&docente)
+	if err1 != nil {
+		fmt.Println("No se encontro el docente en la base de datos", err1)
+	}
+
+	return docente
+
+}
+
+//SiguienteSemestre -> Regresa el siguiente semestre a partir del numero de semestre, licenciatura y plan (1,Primaria,2012)
+func SiguienteSemestre(numsemestre, lic, plan string) bson.ObjectId {
+
+	var semestre Semestre
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var busqueda string
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_SM)
+	err1 := c.Find(bson.M{"Semestre": numsemestre, "Licenciatura": lic, "Plan": plan}).One(&semestre)
+	if err1 != nil {
+		fmt.Println("No se encontro el semestre en la base de datos", err1, "+||||+", busqueda, lic, plan)
+	}
+
+	return semestre.ID
+
 }

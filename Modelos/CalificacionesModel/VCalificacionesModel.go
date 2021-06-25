@@ -174,3 +174,13 @@ type Semestre struct {
 	Plan         string          `bson:"Plan"`
 	Materias     []bson.ObjectId `bson:"Materias"`
 }
+
+//Kardex -> Controla un documento de kardex que sera usado buscado y ubuicado con el id del alumno
+type Kardex struct {
+	ID             bson.ObjectId   `bson:"_id,omitempty"`
+	Alumno         bson.ObjectId   `bson:"Alumno"`
+	IDSem          bson.ObjectId   `bson:"IDSem"`
+	Calificaciones []float64       `bson:"Calificaciones"`
+	Asistencias    []float64       `bson:"Asistencias"`
+	Materias       []bson.ObjectId `bson:"Materias"`
+}

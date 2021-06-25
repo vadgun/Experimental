@@ -88,5 +88,8 @@ func main() {
 
 	app.Post("/editaralumno", indexcontroller.EditarAlumno)
 
-	app.Run(iris.Addr(":8080"))
+	app.Post("/obtenerDocente", calificacionescontroller.ObtenerDocente)
+
+	app.Post("/promoverAlumno", calificacionescontroller.PromoverAlumno)
+	app.Run(iris.Addr(":80"))
 }

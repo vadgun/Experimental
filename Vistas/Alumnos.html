@@ -199,7 +199,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-5">
                             <label class="negrita negrita2" for="licenciatura">Licenciatura :</label>
-                            <select id="licenciatura" name="licenciatura" class="form-control" required>
+                            <select id="licenciatura" name="licenciatura" class="form-control" disabled>
                                 <option >Selecciona una opción</option>
                                 <option value="Preescolar"> Licenciatura en Educación Preescolar</option>
                                 <option value="Primaria"> Licenciatura en Educación Primaria</option>
@@ -208,7 +208,7 @@
 
                           <div class="form-group col-md-3">
                             <label class="negrita negrita2" for="plan">Plan :</label>
-                            <select id="plan" name="plan" class="form-control" required>
+                            <select id="plan" name="plan" class="form-control" disabled>
                                 <option >Selecciona</option>
                                 <option value="2021"> 2021</option>
                                 <option value="2018"> 2018</option>
@@ -218,7 +218,7 @@
 
                           <div class="form-group col-md-4">
                             <label class="negrita negrita2" for="semestre">Semestre Actual :</label>
-                            <input type="text" placeholder="vacío" class="form-control" id="semestrealum" name="semestrealum" required>
+                            <input type="text" placeholder="vacío" class="form-control" id="semestrealum" name="semestrealum" readonly>
                           </div>
 
 
@@ -304,3 +304,5 @@
 <script>alumnosit.classList.add("selected");</script>
 <div id="answer"></div>
 {{template "footerTemplate" .}}
+
+
