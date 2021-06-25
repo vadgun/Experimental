@@ -539,4 +539,8 @@ function PromoverAlumno(data){
 
 }
 
+function EditarDocente(data){
+    alert(data);
+}
+
 $('.dropify').dropify();  

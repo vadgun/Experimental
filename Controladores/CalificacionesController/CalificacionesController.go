@@ -290,7 +290,7 @@ func ObtenerAlumnosCalif(ctx iris.Context) {
 
 			if ka == 0 {
 				htmlcode += fmt.Sprintf(`
-				<tr >		
+				<tr >
 				`)
 				for i := -1; i < len(materias); i++ {
 
@@ -309,7 +309,7 @@ func ObtenerAlumnosCalif(ctx iris.Context) {
 				}
 
 				htmlcode += fmt.Sprintf(`
-				</tr >		
+				</tr >
 				`)
 			}
 
@@ -329,7 +329,7 @@ func ObtenerAlumnosCalif(ctx iris.Context) {
 
 				} else {
 					htmlcode += fmt.Sprintf(`
-				
+
 				<td class="noreprobado">%v</td>
 				<td class="noreprobado">%v</td>
 				`, v.Calificaciones[i], v.Asistencias[i])
@@ -412,11 +412,11 @@ func ObtenerAlumnos(ctx iris.Context) {
 		<td>%v</td>
 		<td>%v</td>
 		<td>%v</td>
-		
+
 		<td class="textocentrado">
 			<a id="myLink2" href="#" onclick="GenerarBoleta('%v');return false;">
 			<img src="Recursos/Generales/Plugins/icons/build/svg/file-badge-16.svg" height="25" alt="Ver Boleta" data-toggle="tooltip" title="Generar boleta oficial"/>
-			</a>		
+			</a>
 
 			<a id="myLink3" href="#" onclick="EditarAlumno('%v:%s');return false;">
 			<img src="Recursos/Generales/Plugins/icons/build/svg/search-16.svg" height="25" alt="Promover" data-toggle="tooltip" title="Editar Información"/>
@@ -544,7 +544,7 @@ func AgregarCalificacion(ctx iris.Context) {
 
 		htmlcode += fmt.Sprintf(`
 		<tr>
-		<td>%v %v %v 
+		<td>%v %v %v
 		<input type="hidden" name="idalumno%v" value="%v">
 		</td>`, v.ApellidoP, v.ApellidoM, v.Nombre, k, v.ID.Hex())
 
@@ -556,11 +556,11 @@ func AgregarCalificacion(ctx iris.Context) {
 		}
 
 		htmlcode += fmt.Sprintf(`
-				<td class="text-center"> 
+				<td class="text-center">
 					<input type="number" class="form-control letrasGrandes" name="calificacion%v" value="%v">
-					
+
 				</td>
-				<td class="text-center"> 
+				<td class="text-center">
 				<input type="number" class="form-control letrasGrandes" name="asistencia%v" value="%v">
 				</td>
 		</tr>`, k, v.Calificaciones[index], k, v.Asistencias[index])
@@ -578,7 +578,7 @@ func AgregarCalificacion(ctx iris.Context) {
 	<input type="hidden" name="index" value="%v">
 	<input type="hidden" name="numalumnos" value="%v">
 	<br>
-    <div class="text-center container "> 
+    <div class="text-center container ">
  <button type="submit"> Guardar Calificaciones</button>
  </div>
 
@@ -660,7 +660,7 @@ func CrearFormulario(ctx iris.Context) {
                         <option value="2012">2012</option>
                         <option value="2018">2018</option>
                         <option value="2021">2021</option>
-                    </select>  
+                    </select>
                 </div>
                 <label for="licenciatura" class="col-sm-2 col-form-label negrita"> Licenciatura: </label>
                 <div class="col-sm-2 col-md-2 col-lg-2">
@@ -668,7 +668,7 @@ func CrearFormulario(ctx iris.Context) {
                         <option value="">selecciona</option>
                         <option value="Primaria">Primaria</option>
                         <option value="Preescolar">Preescolar</option>
-                    </select>  
+                    </select>
                 </div>
             </div>
             <div class="form-group row">
@@ -697,14 +697,14 @@ func CrearFormulario(ctx iris.Context) {
             </div>
             <div class="form-group row">
 
-            <div class="text-center container "> 
+            <div class="text-center container ">
                 <button type="submit"> Guardar Materia</button>
             </div>
             </div>
         </div>
     </form>
 
-		
+
 		`)
 
 		break
@@ -729,7 +729,7 @@ func CrearFormulario(ctx iris.Context) {
                         <option value="7">7</option>
                         <option value="8">8</option>
 
-                    </select> 
+                    </select>
 
                 </div>
                 <label for="plan" class="col-sm-1 col-form-label negrita"> Plan: </label>
@@ -739,7 +739,7 @@ func CrearFormulario(ctx iris.Context) {
                         <option value="2012">2012</option>
                         <option value="2018">2018</option>
                         <option value="2021">2021</option>
-                    </select>  
+                    </select>
                 </div>
                 <label for="licenciatura" class="col-sm-2 col-form-label negrita"> Licenciatura: </label>
                 <div class="col-sm-2 col-md-2 col-lg-2">
@@ -747,24 +747,24 @@ func CrearFormulario(ctx iris.Context) {
                         <option value="">selecciona</option>
                         <option value="Primaria">Primaria</option>
                         <option value="Preescolar">Preescolar</option>
-                    </select>  
+                    </select>
                 </div>
             </div>
 
-            <div class="text-center container "> 
+            <div class="text-center container ">
                 <button type="submit"> Guardar Semestre</button>
             </div>
             </div>
         </div>
     </form>
-		
+
 		`)
 
 		break
 	case "Docentes":
 
 		htmlcode += fmt.Sprintf(`
-			
+
 		`)
 
 		break
@@ -773,19 +773,19 @@ func CrearFormulario(ctx iris.Context) {
 		<form method="POST" enctype="multipart/form-data" action="/cargarmasivoalumnos" name="cargarmasivoalumnos" id="cargarmasivoalumnos">
 		<div class="col-12">
 			<h6 class="border-bottoms">Archivo de carga de Alumnos:</h6>
-			
+
 			<div class="form-group row">
-			
+
 				<label for="archivoalumnos" class="col-sm-3 col-form-label negrita"> Selecciona archivo : </label>
 				<div class="col-sm-6">
 					<input type="file" class="form-control" id="archivoalumnos" name="archivoalumnos" required>
-				</div>			
+				</div>
 
-			
+
 				<div class="col-sm-3">
 					<button type="submit" class="btn btn-primary">Cargar Alumnos</button>
 				</div>
-	
+
 			</div>
 		</div>
 		</form>
@@ -1364,18 +1364,18 @@ func GenerarBoleta(ctx iris.Context) {
 
 	}
 
-	var horafecha time.Time
+	// var horafecha time.Time
 
-	horafecha = time.Now()
-	dia := horafecha.Day()
-	mess := horafecha.Month().String()
-	mes := MesEspanol(mess)
-	anio := horafecha.Year()
+	// horafecha = time.Now()
+	// dia := horafecha.Day()
+	// mess := horafecha.Month().String()
+	// mes := MesEspanol(mess)
+	// anio := horafecha.Year()
 
 	//CUERPO DE LA BOLETA -> LUGAR FECHA Y FIRMAS
 	pdf.SetXY(58, 210)
 	pdf.SetFont("Times", "", 10)
-	pdf.CellFormat(100, 10, tr("TUXTLA CHICO, CHIAPAS A "+fmt.Sprintf(`%v`, dia)+" DE "+mes+" DEL "+fmt.Sprintf(`%v`, anio)), "", 0, "C", false, 0, "")
+	pdf.CellFormat(100, 10, tr("TUXTLA CHICO, CHIAPAS A "+configuracionboleta.FechaBoleta), "", 0, "C", false, 0, "")
 
 	pdf.SetXY(20, 245)
 	pdf.SetFont("Times", "B", 9)
@@ -1643,7 +1643,7 @@ func ObtenConfig(ctx iris.Context) {
             </div>
 
 
-            <div class="text-center container "> 
+            <div class="text-center container ">
                 <button type="submit"> Guardar Configuración</button>
             </div>
             </div>
