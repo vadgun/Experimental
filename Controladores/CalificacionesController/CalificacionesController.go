@@ -1352,13 +1352,13 @@ func GenerarBoleta(ctx iris.Context) {
 
 	pixelmateria := 7.0
 	iniciomaterias := 133
-	pdf.SetFont("Arial", "B", 10)
+	pdf.SetFont("Arial", "B", 9)
 
 	for k, v := range materias {
 		iniciomaterias = iniciomaterias + int(pixelmateria)
 
-		if len(v.Materia) > 64 {
-			pdf.SetFont("Arial", "B", 9)
+		if len(v.Materia) < 64 {
+			pdf.SetFont("Arial", "B", 10)
 		}
 
 		pdf.SetXY(25, float64(iniciomaterias))
