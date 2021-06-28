@@ -1357,6 +1357,10 @@ func GenerarBoleta(ctx iris.Context) {
 	for k, v := range materias {
 		iniciomaterias = iniciomaterias + int(pixelmateria)
 
+		if len(v.Materia) > 64 {
+			pdf.SetFont("Arial", "B", 9)
+		}
+
 		pdf.SetXY(25, float64(iniciomaterias))
 		materiamayus := strings.ToUpper(v.Materia)
 		pdf.CellFormat(140, 7, tr(materiamayus), "1", 0, "L", false, 0, "")
