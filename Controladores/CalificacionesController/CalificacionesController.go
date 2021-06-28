@@ -1352,19 +1352,24 @@ func GenerarBoleta(ctx iris.Context) {
 
 	pixelmateria := 7.0
 	iniciomaterias := 133
-	pdf.SetFont("Arial", "B", 9)
+	pdf.SetFont("Arial", "B", 10)
 
 	for k, v := range materias {
 		iniciomaterias = iniciomaterias + int(pixelmateria)
 
-		if len(v.Materia) < 64 {
+		if len(v.Materia) > 64 {
+			pdf.SetFont("Arial", "B", 9)
+			pdf.SetXY(25, float64(iniciomaterias))
+			materiamayus := strings.ToUpper(v.Materia)
+			pdf.CellFormat(140, 7, tr(materiamayus), "1", 0, "L", false, 0, "")
+			pdf.CellFormat(25, 7, tr(fmt.Sprintf("%v", alumno.Calificaciones[k])), "1", 0, "C", false, 0, "")
+		} else {
 			pdf.SetFont("Arial", "B", 10)
+			pdf.SetXY(25, float64(iniciomaterias))
+			materiamayus := strings.ToUpper(v.Materia)
+			pdf.CellFormat(140, 7, tr(materiamayus), "1", 0, "L", false, 0, "")
+			pdf.CellFormat(25, 7, tr(fmt.Sprintf("%v", alumno.Calificaciones[k])), "1", 0, "C", false, 0, "")
 		}
-
-		pdf.SetXY(25, float64(iniciomaterias))
-		materiamayus := strings.ToUpper(v.Materia)
-		pdf.CellFormat(140, 7, tr(materiamayus), "1", 0, "L", false, 0, "")
-		pdf.CellFormat(25, 7, tr(fmt.Sprintf("%v", alumno.Calificaciones[k])), "1", 0, "C", false, 0, "")
 
 	}
 
