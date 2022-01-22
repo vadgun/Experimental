@@ -717,6 +717,24 @@ func ExtraeDocente(iddocente string) Docente {
 
 }
 
+func ActualizarMateriasDocente(docente Docente) {
+
+	var materiasVacias []bson.ObjectId
+	docente.Materias = materiasVacias
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_DC)
+	err1 := c.UpdateId(docente.ID, docente)
+	if err1 != nil {
+		fmt.Println("error eliminando materias de docente ", err1)
+	}
+
+}
+
 //SiguienteSemestre -> Regresa el siguiente semestre a partir del numero de semestre, licenciatura y plan (1,Primaria,2012)
 func SiguienteSemestre(numsemestre, lic, plan string) bson.ObjectId {
 
@@ -737,5 +755,25 @@ func SiguienteSemestre(numsemestre, lic, plan string) bson.ObjectId {
 	}
 
 	return semestre.ID
+
+}
+
+func RemoverUsuarioAlumno(idAlumno, idUser bson.ObjectId) bool {
+
+	var eliminado bool
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_AL)
+	d := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_U)
+
+	c.RemoveId(idAlumno)
+	d.RemoveId(idUser)
+
+	return eliminado
 
 }

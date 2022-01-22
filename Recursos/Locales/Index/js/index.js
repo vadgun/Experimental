@@ -39,6 +39,45 @@ function VerMaterias(data){
 
 }
 
+function EliminarMateriasDocente(data){
+
+    Swal.fire({
+        title: '¿Limpiar materias del docente?',
+        text: "Se eliminaran las materias del docente seleccionado",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, continuar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+      
+            $.ajax({
+                url: '/limpiarMateriasDocente',
+                data: {data:data},
+                type: 'POST',
+                dataType: 'html',
+                success: function(result) {
+                    console.log("Operacion Limpiar materias con Exito");
+                    $("#answer").html(result);
+                    
+                },
+                error: function(xhr, status) {
+                    console.log("Error limpiar materias");
+                },
+                complete: function(xhr, status) {
+                    console.log("Limpiar materias de docente Terminado");
+                    VerMaterias(data);
+                }
+            });  
+      
+        }else if (result.isDismissed) {
+          Swal.fire("El docente no ha sido modificado");
+        }
+      })
+
+}
+
 function EnviarAsignacion(){
 
     var plan = document.getElementById("plan");
@@ -119,8 +158,10 @@ function EditarAlumno(data){
                     document.getElementById("tipoSangre").value = result.TipoSangre;
                     document.getElementById("sexo").value = result.Sexo;
                     document.getElementById("licenciatura").value = result.Licenciatura;
+                    document.getElementById("licenciaturahidden").value = result.Licenciatura;
                     document.getElementById("semestrealum").value = result.Semestre;
                     document.getElementById("plan").value = result.Plan;
+                    document.getElementById("planhidden").value = result.Plan;
                     document.getElementById("nss").value = result.Nss;
                     document.getElementById("tutor").value = result.Tutor;
                     document.getElementById("ocupaciontutor").value = result.OcupacionTutor;
@@ -542,5 +583,46 @@ function PromoverAlumno(data){
 function EditarDocente(data){
     alert(data);
 }
+
+function EliminarAlumno(data){
+
+    Swal.fire({
+        title: '¿Eliminar este alumno?',
+        text: "Se eliminara el usuario de la base de datos",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, continuar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+      
+            $.ajax({
+                url: '/eliminarAlumno',
+                data: {data:data},
+                type: 'POST',
+                dataType: 'html',
+                success: function(result) {
+                    console.log("Operacion Eliminar Alumno con Exito");
+                    $("#answer").html(result);
+                    
+                },
+                error: function(xhr, status) {
+                    console.log("Error Eliminar Alumno");
+                },
+                complete: function(xhr, status) {
+                    console.log("Eliminar Alumno Terminado");
+                    SolicitarAlumnos();
+                }
+            });  
+      
+        }else if (result.isDismissed) {
+          Swal.fire("El alumno no ha sido eliminado");
+        }
+      })
+
+}
+
+
 
 $('.dropify').dropify();  

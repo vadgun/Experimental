@@ -94,6 +94,7 @@ func AltaDeUsuario(ctx iris.Context) { // la 1ra es del docente y la 2da del mon
 		semestre := calificacionesmodel.ExtraeSemestre(idsemestre)
 		alumno.Plan = semestre.Plan
 		alumno.Licenciatura = semestre.Licenciatura
+		alumno.Semestre = semestre.Semestre
 
 		alumno.Materias = semestre.Materias
 
@@ -116,6 +117,8 @@ func AltaDeUsuario(ctx iris.Context) { // la 1ra es del docente y la 2da del mon
 		//mongouser.Edad = CalcularEdad(alumno.FechaNac)int
 		mongouser.Usuario = ctx.PostValue("nameuser")
 		mongouser.Key = ctx.PostValue("passuser")
+		alumno.SiguienteSem = ctx.PostValue("nameuser")
+		alumno.AnteriorSem = ctx.PostValue("passuser")
 		mongouser.Puesto = "Alumno de la Licenciatura" + ctx.PostValue("licenciatura")
 		mongouser.Nombre2 = "Alumno"
 		//mongouser.UserID= variable para bson package

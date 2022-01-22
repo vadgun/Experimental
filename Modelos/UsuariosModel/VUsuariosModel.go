@@ -84,7 +84,7 @@ func ExtraeSemestres() []calificacionesmodel.Semestre {
 		log.Fatal(err)
 	}
 	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_SM)
-	err1 := c.Find(bson.M{}).All(&semestres)
+	err1 := c.Find(bson.M{}).Sort("Licenciatura", "Semestre", "Plan").All(&semestres)
 	if err1 != nil {
 		fmt.Println(err1)
 	}

@@ -104,9 +104,9 @@ func EditarAlumno(ctx iris.Context) {
 	alumno.Telefono = ctx.PostValue("telefono")
 	alumno.TipoSangre = ctx.PostValue("tipoSangre")
 	alumno.Sexo = ctx.PostValue("sexo")
-	alumno.Licenciatura = ctx.PostValue("licenciatura")
+	alumno.Licenciatura = ctx.PostValue("licenciaturahidden")
 	alumno.Semestre = ctx.PostValue("semestrealum")
-	alumno.Plan = ctx.PostValue("plan")
+	alumno.Plan = ctx.PostValue("planhidden")
 	alumno.Nss = ctx.PostValue("nss")
 	alumno.Tutor = ctx.PostValue("tutor")
 	alumno.OcupacionTutor = ctx.PostValue("ocupaciontutor")
@@ -115,8 +115,6 @@ func EditarAlumno(ctx iris.Context) {
 	alumno.DiferenteDomicilioTutor = ctx.PostValue("difdomtutor")
 	alumno.ReferenciasDomicilio = ctx.PostValue("refdomicilio")
 	alumno.CorreoE = ctx.PostValue("correoe")
-
-	fmt.Println(alumno)
 
 	calificacionesmodel.ActualizaAlumno(alumno)
 
@@ -906,9 +904,6 @@ func Semestres(ctx iris.Context) {
 		ctx.ViewData("Msp2012", materiassegundoprimaria2012)
 		//Profesores
 		ctx.ViewData("Psp2012", profesoressegundoprimaria2012)
-		fmt.Println("--------------------------------------")
-		fmt.Println("SEMESTRE 2 primaria - ", materiasprimeropreescolar2012)
-		fmt.Println("--------------------------------------")
 		//Hombres y Mujeres
 		ctx.ViewData("Asp2012", hombressegundoprimaria2012+mujeressegundoprimaria2012)
 		ctx.ViewData("Hsp2012", hombressegundoprimaria2012)

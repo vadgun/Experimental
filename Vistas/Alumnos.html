@@ -199,7 +199,8 @@
                     <div class="form-row">
                         <div class="form-group col-md-5">
                             <label class="negrita negrita2" for="licenciatura">Licenciatura :</label>
-                            <select id="licenciatura" name="licenciatura" class="form-control" disabled>
+                            <input type="hidden" name="licenciaturahidden" id="licenciaturahidden">
+                            <select id="licenciatura" name="licenciatura" class="form-control" readonly>
                                 <option >Selecciona una opción</option>
                                 <option value="Preescolar"> Licenciatura en Educación Preescolar</option>
                                 <option value="Primaria"> Licenciatura en Educación Primaria</option>
@@ -208,7 +209,8 @@
 
                           <div class="form-group col-md-3">
                             <label class="negrita negrita2" for="plan">Plan :</label>
-                            <select id="plan" name="plan" class="form-control" disabled>
+                            <input type="hidden" name="planhidden" id="planhidden">
+                            <select id="plan" name="plan" class="form-control" readonly>
                                 <option >Selecciona</option>
                                 <option value="2021"> 2021</option>
                                 <option value="2018"> 2018</option>

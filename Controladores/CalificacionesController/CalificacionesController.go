@@ -425,11 +425,15 @@ func ObtenerAlumnos(ctx iris.Context) {
 			<a id="myLink1" href="#" onclick="PromoverAlumno('%v');return false;">
 			<img src="Recursos/Generales/Plugins/icons/build/svg/mortar-board-16.svg" height="25" alt="Promover curso" data-toggle="tooltip" title="Promover de Curso"/>
 			</a>
+
+			<a id="myLink1" href="#" onclick="EliminarAlumno('%v');return false;">
+			<img src="Recursos/Generales/Plugins/icons/build/svg/trashcan-16.svg" height="25" alt="Eliminar Alumno" data-toggle="tooltip" title="Eliminar Alumno"/>
+			</a>
 		</td>
 
 		</tr>
 
-		`, k+1, v.ApellidoP, v.ApellidoM, v.Nombre, v.SiguienteSem, v.AnteriorSem, v.Licenciatura, v.ID.Hex(), v.ID.Hex(), nombrecompleto, v.ID.Hex())
+		`, k+1, v.ApellidoP, v.ApellidoM, v.Nombre, v.SiguienteSem, v.AnteriorSem, v.Licenciatura, v.ID.Hex(), v.ID.Hex(), nombrecompleto, v.ID.Hex(), v.ID.Hex())
 
 		}
 
@@ -1751,7 +1755,14 @@ func ObtenerDocente(ctx iris.Context) {
 	iddocente := ctx.PostValue("data")
 	docente := calificacionesmodel.ExtraeDocente(iddocente)
 	nombrecompleto = docente.Nombre + " " + docente.ApellidoP + " " + docente.ApellidoM
-	htmlcode += fmt.Sprintf(`<hr><h6 style="text-align:center;">Materias correspondientes a %v :</h6><br><table class="table table-sm" style="font-size: small;">
+
+	if len(docente.Materias) == 0 {
+
+		htmlcode += fmt.Sprintf(`<hr><h6 style="text-align:center;">Niguna materia asignada a %v </h6><br>`, nombrecompleto)
+
+	} else {
+
+		htmlcode += fmt.Sprintf(`<hr><h6 style="text-align:center;">Materias correspondientes a %v :</h6><br><table class="table table-sm" style="font-size: small;">
 	<thead>
 		<th>#</th>
 		<th>Materia</th>
@@ -1762,12 +1773,12 @@ func ObtenerDocente(ctx iris.Context) {
 		<th>Licenciatura</th>
 	</thead>
 	<tbody>`, nombrecompleto)
-	for k, v := range docente.Materias {
-		var materia calificacionesmodel.Materia
-		var semestre calificacionesmodel.Semestre
-		materia = calificacionesmodel.ExtraeMateria(v.Hex())
-		semestre = calificacionesmodel.ExtraeSemestre(materia.Semestre)
-		htmlcode += fmt.Sprintf(`
+		for k, v := range docente.Materias {
+			var materia calificacionesmodel.Materia
+			var semestre calificacionesmodel.Semestre
+			materia = calificacionesmodel.ExtraeMateria(v.Hex())
+			semestre = calificacionesmodel.ExtraeSemestre(materia.Semestre)
+			htmlcode += fmt.Sprintf(`
 		<tr>
 			<td>%v</td>
 			<td>%v</td>
@@ -1777,9 +1788,40 @@ func ObtenerDocente(ctx iris.Context) {
 			<td>%v</td>
 			<td>%v</td>
 		</tr>`, k+1, materia.Materia, materia.Horas, materia.Creditos, semestre.Semestre, materia.Plan, materia.Licenciatura)
+		}
+		htmlcode += fmt.Sprintf(`</tbody></table>`)
+
+		htmlcode += fmt.Sprintf(`<div class="container centrado"> 
+			<a class="btn btn-danger btn-large padd" href="Javascript:EliminarMateriasDocente('%v');" role="button">Limpiar Materias</a>&nbsp;
+	</div>`, docente.ID.Hex())
+
 	}
-	htmlcode += fmt.Sprintf(`</tbody></table>`)
+
 	ctx.HTML(htmlcode)
+}
+
+func EliminarAlumno(ctx iris.Context) {
+
+	idalumno := ctx.PostValue("data")
+	var htmlcode string
+
+	htmlcode = fmt.Sprintf(`
+	<script>
+	Swal.fire(
+		'Todo correcto!',
+		'Este alumno ha sido elimnado!',
+		'success'
+	)
+	</script>`)
+
+	alumno := calificacionesmodel.ExtraeAlumno(idalumno)
+
+	fmt.Println("Alumno a eliminar")
+
+	calificacionesmodel.RemoverUsuarioAlumno(alumno.ID, alumno.MongoUser)
+
+	ctx.HTML(htmlcode)
+
 }
 
 //PromoverAlumno -> Acepta la peticion
@@ -1864,6 +1906,31 @@ func PromoverAlumno(ctx iris.Context) {
 	calificacionesmodel.ActualizaAlumno(alumno)
 
 	calificacionesmodel.GuardaKardex(kardex)
+
+	ctx.HTML(htmlcode)
+
+}
+
+func LimpiarMateriasDocente(ctx iris.Context) {
+
+	iddocente := ctx.PostValue("data")
+
+	var htmlcode string
+
+	fmt.Println(iddocente)
+
+	docente := calificacionesmodel.ExtraeDocente(iddocente)
+
+	calificacionesmodel.ActualizarMateriasDocente(docente)
+
+	htmlcode = fmt.Sprintf(`
+	<script>
+	Swal.fire(
+		'Muy bien!',
+		'Las materias han sido eliminadas!',
+		'success'
+	)
+	</script>`)
 
 	ctx.HTML(htmlcode)
 
