@@ -345,6 +345,8 @@ func ExtraeDocentes(materias []Materia) []Docente {
 
 		if err1 != nil {
 			fmt.Println("1", err1)
+			docente.Nombre = "Sin asignación"
+			docentes = append(docentes, docente)
 		} else {
 			docentes = append(docentes, docente)
 		}
