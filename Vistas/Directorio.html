@@ -21,7 +21,7 @@
 
                 <div class="centrado">
                     
-                    <h4>Introduce algo . . </h4>
+                    <h4>Teclea letra por letra . . </h4>
 
                 </div>
                 
@@ -29,6 +29,66 @@
 
         </div>
     </div>
-    <script>asignacionit.classList.add("selected");</script>
+
+
+    <!-- Modal EDITAR MATERIAS-->
+<div class="modal fade" id="ModalEditarMateria" tabindex="-1" role="dialog" aria-labelledby="ModalEditarMateria" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="color: black;">
+                <h5 class="modal-title" id="titulomodal"></h5><small class="text-muted">&nbsp;Editando Materia &nbsp;</small>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+
+            <div id="alumnosmodal" class="modal-body">
+
+                <!-- form editar materia -->
+                <form action="/editarmateria" method="POST" >
+                    <div class="form-row">
+                      <div class="form-group col-md-4">
+                        <label class="negrita negrita2" for="materia">Materia :</label>
+                        <input type="hidden" id="datasM" name="datasM">
+                        <input type="text" placeholder="vacío" class="form-control" id="materia" name="materia" required>
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label class="negrita negrita2" for="horas">Horas :</label>
+                        <input type="text" placeholder="vacío" class="form-control" id="horas" name="horas" required>
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label class="negrita negrita2" for="creditos">Creditos :</label>
+                        <input type="text" placeholder="vacío" class="form-control" id="creditos" name="creditos" required>
+                      </div>
+                    </div> <!-- 1er row -->
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                          <label class="negrita negrita2" for="semestre">Semestre :</label>
+                          <input type="text" placeholder="vacío" class="form-control" id="semestre" name="semestre" readonly>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="negrita negrita2" for="plan">Plan :</label>
+                            <input type="text" placeholder="vacío" class="form-control" id="plan" name="plan" readonly>
+                          </div>
+                        <div class="form-group col-md-4">
+                            <label class="negrita negrita2" for="licenciatura">Licenciatura :</label>
+                            <input type="text" class="form-control" id="licenciatura" name="licenciatura" readonly>
+                        </div>
+                    </div> <!-- 2da row -->
+                    <div class="form-row centrado">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div> <!-- 10ma row -->    
+
+                  </form>
+            </div> <!-- Modal-body  -->
+            
+            <hr>
+            <div class="modal-footer centrado">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar sin cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>directorioit.classList.add("selected");</script>
     <div id="answer"></div>
     {{template "footerTemplate" .}}

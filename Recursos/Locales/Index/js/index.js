@@ -39,6 +39,89 @@ function GetCoworker(data){
 }
 
 
+
+function ModificarMateria(data){
+
+        var str = data;
+        var res = str.split(":");
+    
+    
+        Swal.fire({
+            title: '¿Editar Materia?',
+            text: res[1],
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, continuar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+          
+              $.ajax({
+                url: '/editardatosdemateria',
+                data: { data: res[0]},
+                type: 'POST',
+                dataType: 'json',
+                success: function(result) {
+                    console.log("Operacion Realizada con Exito");
+                    //$("#answer").html(result);
+                    console.log(result);
+                    $("#titulomodal").html(res[1]);
+
+                      
+                    document.getElementById("datasM").value = result.ID;
+                    document.getElementById("materia").value = result.Materia;
+                    document.getElementById("plan").value = result.Plan;
+                    document.getElementById("licenciatura").value = result.Licenciatura;
+                    ObtenerSemestre(result.Semestre);
+                    document.getElementById("horas").value = result.Horas;
+                    document.getElementById("creditos").value = result.Creditos;
+                          
+    
+                    $('#ModalEditarMateria').modal('show');
+    
+                },
+                error: function(xhr, status) {
+                    console.log("Error en la consulta");
+                },
+                complete: function(xhr, status) {
+                    console.log("Editar materia completado");
+                    
+                }
+            });  
+          
+            }else if (result.isDismissed) {
+              Swal.fire("La materia no se modificará");
+            }
+          })
+    
+    }
+
+function ObtenerSemestre(data){
+
+    
+     
+    $.ajax({
+        url: '/consultaSemestre',
+        data: { data:data },
+        type: 'POST',
+        dataType: 'html',
+        success: function(result) {
+            console.log("Operacion Realizada con Exito");     
+            console.log(result);
+            document.getElementById("semestre").value = result;
+        },
+        error: function(xhr, status) {
+            console.log("Error en la consulta");
+        },
+        complete: function(xhr, status) {
+            console.log("Consulta Semestre realizado");
+            
+        }
+    });
+
+}
+
 function VerMaterias(data){
     if (data != ""){
     $.ajax({

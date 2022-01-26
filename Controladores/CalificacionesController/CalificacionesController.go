@@ -2007,29 +2007,48 @@ func BuscarMateria(ctx iris.Context) {
 
 }
 
+//ModificarMateria -> Editar datos en un modal?
 func ModificarMateria(ctx iris.Context) {
+	idsalumno := ctx.PostValue("data")
+	var materia calificacionesmodel.Materia
+	materia = calificacionesmodel.ExtraeMateria(idsalumno)
+	ctx.JSON(materia)
+}
+
+//EditarMateria -> Guarda los datos modificados del alumno previamente solicitado
+func EditarMateria(ctx iris.Context) {
+
+	idsmateria := ctx.PostValue("datasM")
 
 	var htmlcode string
-	idmateria := ctx.PostValue("data")
-	fmt.Println(idmateria)
+	var materia calificacionesmodel.Materia
 
-	materia := calificacionesmodel.ExtraeMateria(idmateria)
+	materia = calificacionesmodel.ExtraeMateria(idsmateria)
 
-	materia.Materia = ctx.PostValue("nombremat")
-	materia.Horas = ctx.PostValue("horasmat")
-	materia.Creditos = ctx.PostValue("creditosmat")
+	materia.Materia = ctx.PostValue("materia")
+	materia.Horas = ctx.PostValue("horas")
+	materia.Creditos = ctx.PostValue("creditos")
 
 	calificacionesmodel.ActualizarMateria(materia)
 
 	htmlcode = fmt.Sprintf(`
 	<script>
-	Swal.fire(
-		'Muy bien!',
-		'Las materia han sido modificada!',
-		'success'
-	)
-	</script>`)
+		alert("Materia Guardada =)");
+		location.replace("/directorio");
+	</script>
+`)
 
 	ctx.HTML(htmlcode)
+}
+
+func ConsultaSemestre(ctx iris.Context) {
+
+	idsemestre := ctx.PostValue("data")
+
+	var semestre calificacionesmodel.Semestre
+
+	semestre = calificacionesmodel.ExtraeSemestreString(idsemestre)
+
+	ctx.HTML(semestre.Semestre)
 
 }

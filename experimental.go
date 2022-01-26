@@ -97,7 +97,10 @@ func main() {
 	app.Post("/limpiarMateriasDocente", calificacionescontroller.LimpiarMateriasDocente)
 
 	app.Post("/buscarMateria", calificacionescontroller.BuscarMateria)
-	app.Post("/editarmaterias", calificacionescontroller.ModificarMateria)
+	app.Post("/editardatosdemateria", calificacionescontroller.ModificarMateria)
+	app.Post("/editarmateria", calificacionescontroller.EditarMateria)
 
-	app.Run(iris.Addr(":8080"))
+	app.Post("/consultaSemestre", calificacionescontroller.ConsultaSemestre)
+
+	app.Run(iris.Addr(":80"))
 }
