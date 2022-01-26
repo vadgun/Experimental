@@ -13,6 +13,32 @@ let relojit= document.getElementById("relojit");
 let semestresit= document.getElementById("semestresit");
 
 
+$( "#buscador" ).keyup(function() {
+    buscar = $("#buscador").val();
+    GetCoworker(buscar);
+});
+
+function GetCoworker(data){
+
+    $.ajax({
+        url: '/buscarMateria',
+        data: {data:data},
+        type :'POST',
+        dataType : 'html',
+        success : function(result) {
+            console.log("Operacion Realizada con Exito");
+            $("#tabladematerias").html(result);
+        },
+        error : function(xhr, status){
+            console.log("Error en la consulta")
+        },
+        complete : function(xhr, status){
+            console.log("Proceso Terminado")
+        }
+    });
+}
+
+
 function VerMaterias(data){
     if (data != ""){
     $.ajax({

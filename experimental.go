@@ -67,8 +67,8 @@ func main() {
 	app.Post("/docentes", calificacionescontroller.Docentes)
 	app.Get("/docentes", calificacionescontroller.Docentes)
 
-	app.Post("/directorio", indexcontroller.Index)
-	app.Get("/directorio", indexcontroller.Index)
+	app.Post("/directorio", indexcontroller.Directorio)
+	app.Get("/directorio", indexcontroller.Directorio)
 
 	app.Post("/buscador", indexcontroller.Index)
 	app.Get("/buscador", indexcontroller.Index)
@@ -96,5 +96,8 @@ func main() {
 
 	app.Post("/limpiarMateriasDocente", calificacionescontroller.LimpiarMateriasDocente)
 
-	app.Run(iris.Addr(":80"))
+	app.Post("/buscarMateria", calificacionescontroller.BuscarMateria)
+	app.Post("/editarmaterias", calificacionescontroller.ModificarMateria)
+
+	app.Run(iris.Addr(":8080"))
 }

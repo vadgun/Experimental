@@ -1,0 +1,34 @@
+<!-- H E A D    H T M L -->
+{{template "headTemplate"}}
+{{template "navbartemplate" .}}
+<div class="col-lg-10 col-md-10 rouded-lg">
+    <div class="container mt-4">
+        <h1 class="text-center">Directorio de la Base de datos</h1>
+        <hr>
+        <div class="" id="AsignacionContainer">
+
+            <div class="container h-100">
+                <div class="row h-100 justify-content-center align-items-center">
+                    <div class="form-group">
+                        <label for="buscador" class="center">Buscar Materia:</label>
+                        <input type="text" size="50" class="form-control" id="buscador" placeholder="Nombre de la materia" autofocus>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="container" id="tabladematerias">
+
+                <div class="centrado">
+                    
+                    <h4>Introduce algo . . </h4>
+
+                </div>
+                
+            </div>
+
+        </div>
+    </div>
+    <script>asignacionit.classList.add("selected");</script>
+    <div id="answer"></div>
+    {{template "footerTemplate" .}}

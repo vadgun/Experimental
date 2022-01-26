@@ -1917,8 +1917,6 @@ func LimpiarMateriasDocente(ctx iris.Context) {
 
 	var htmlcode string
 
-	fmt.Println(iddocente)
-
 	docente := calificacionesmodel.ExtraeDocente(iddocente)
 
 	calificacionesmodel.ActualizarMateriasDocente(docente)
@@ -1928,6 +1926,106 @@ func LimpiarMateriasDocente(ctx iris.Context) {
 	Swal.fire(
 		'Muy bien!',
 		'Las materias han sido eliminadas!',
+		'success'
+	)
+	</script>`)
+
+	ctx.HTML(htmlcode)
+
+}
+
+func BuscarMateria(ctx iris.Context) {
+	var htmlcode string
+	informacion := ctx.PostValue("data")
+	registros := calificacionesmodel.ExtraeBusquedaDeMaterias(informacion)
+	htmlcode += fmt.Sprintf(`<table class="table table-hover table-sm table-striped">`)
+	htmlcode += fmt.Sprintf(`<tr>`)
+	htmlcode += fmt.Sprintf(`
+      <th>#</th>
+      <th>Nombre</th>
+      <th>Plan</th>
+      <th>Licenciatura</th>
+	  <th>Semestre</th>
+	  <th>Horas</th>
+	  <th>Creditos</th>
+	  <th>Acciones</th>
+	  `)
+
+	htmlcode += fmt.Sprintf(`<tr>`)
+	for k, v := range registros {
+		htmlcode += fmt.Sprintf(`<tr>`)
+		htmlcode += fmt.Sprintf(`<td>`)
+		htmlcode += fmt.Sprintf(`%v`, k+1)
+		htmlcode += fmt.Sprintf(`</td>`)
+
+		htmlcode += fmt.Sprintf(`<td>`)
+		htmlcode += fmt.Sprintf(`%v`, v.Materia)
+		htmlcode += fmt.Sprintf(`</td>`)
+
+		htmlcode += fmt.Sprintf(`<td>`)
+		htmlcode += fmt.Sprintf(`%v`, v.Plan)
+		htmlcode += fmt.Sprintf(`</td>`)
+
+		htmlcode += fmt.Sprintf(`<td>`)
+		htmlcode += fmt.Sprintf(`%v`, v.Licenciatura)
+		htmlcode += fmt.Sprintf(`</td>`)
+
+		htmlcode += fmt.Sprintf(`<td>`)
+
+		semestre := calificacionesmodel.ExtraeSemestre(v.Semestre)
+
+		htmlcode += fmt.Sprintf(`%v`, semestre.Semestre)
+
+		htmlcode += fmt.Sprintf(`</td>`)
+
+		htmlcode += fmt.Sprintf(`<td>`)
+		htmlcode += fmt.Sprintf(`%v`, v.Horas)
+		htmlcode += fmt.Sprintf(`</td>`)
+
+		htmlcode += fmt.Sprintf(`<td>`)
+		htmlcode += fmt.Sprintf(`%v`, v.Creditos)
+		htmlcode += fmt.Sprintf(`</td>`)
+
+		htmlcode += fmt.Sprintf(`<td>`)
+
+		htmlcode += fmt.Sprintf(`
+			<button class="btn-sm" title="ModificarMateria" onclick="ModificarMateria('%v');">
+				<img src="Recursos/Generales/Plugins/icons/build/svg/tools-24.svg" height="15" alt="Modificar"/>
+			</button>
+			`, v.ID.Hex())
+
+		htmlcode += fmt.Sprintf(`</td>`)
+
+		htmlcode += fmt.Sprintf(`</tr>`)
+	}
+	htmlcode += fmt.Sprintf(`</table>`)
+
+	htmlcode += fmt.Sprintf(`
+	</div>`)
+
+	ctx.HTML(htmlcode)
+
+}
+
+func ModificarMateria(ctx iris.Context) {
+
+	var htmlcode string
+	idmateria := ctx.PostValue("data")
+	fmt.Println(idmateria)
+
+	materia := calificacionesmodel.ExtraeMateria(idmateria)
+
+	materia.Materia = ctx.PostValue("nombremat")
+	materia.Horas = ctx.PostValue("horasmat")
+	materia.Creditos = ctx.PostValue("creditosmat")
+
+	calificacionesmodel.ActualizarMateria(materia)
+
+	htmlcode = fmt.Sprintf(`
+	<script>
+	Swal.fire(
+		'Muy bien!',
+		'Las materia han sido modificada!',
 		'success'
 	)
 	</script>`)

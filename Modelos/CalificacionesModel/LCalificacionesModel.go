@@ -73,6 +73,22 @@ func ExtraeMateria(mat string) Materia {
 
 }
 
+func ActualizarMateria(materia Materia) {
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_MT)
+	err1 := c.UpdateId(materia.ID, materia)
+	if err1 != nil {
+		fmt.Println(err1)
+	}
+
+}
+
 //ActualizaConfig -> Actualiza la configuracion solicitada
 func ActualizaConfig(id string, config Configuracion) {
 
@@ -777,5 +793,26 @@ func RemoverUsuarioAlumno(idAlumno, idUser bson.ObjectId) bool {
 	d.RemoveId(idUser)
 
 	return eliminado
+
+}
+
+func ExtraeBusquedaDeMaterias(buscar string) []Materia {
+
+	var materias []Materia
+
+	session, err := mgo.Dial(conexiones.MONGO_SERVER)
+	defer session.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Buscando :", buscar)
+
+	c := session.DB(conexiones.MONGO_DB).C(conexiones.MONGO_DB_MT)
+	err1 := c.Find(bson.M{"Materia": bson.RegEx{buscar, "i"}}).Sort("Materia").All(&materias)
+	if err1 != nil {
+		fmt.Println(err1)
+	}
+
+	return materias
 
 }
