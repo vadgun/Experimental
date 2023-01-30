@@ -10,7 +10,7 @@ import (
 	indexmodel "github.com/vadgun/Experimental/Modelos/IndexModel"
 )
 
-//Index -> Regresa la pagina de inicio
+// Index -> Regresa la pagina de inicio
 func Index(ctx iris.Context) {
 	var usuario indexmodel.MongoUser
 	var autorizado bool
@@ -38,7 +38,7 @@ func Index(ctx iris.Context) {
 	}
 }
 
-//Directorio -> Regresa la pagina de inicio
+// Directorio -> Regresa la pagina de inicio
 func Directorio(ctx iris.Context) {
 	var usuario indexmodel.MongoUser
 	var autorizado bool
@@ -95,7 +95,7 @@ func Directorio(ctx iris.Context) {
 	}
 }
 
-//Reloj -> Regresa la pagina de inicio
+// Reloj -> Regresa la pagina de inicio
 func Reloj(ctx iris.Context) {
 	var usuario indexmodel.MongoUser
 	var autorizado bool
@@ -123,7 +123,7 @@ func Reloj(ctx iris.Context) {
 	}
 }
 
-//EditarDatosDeAlumno -> Editar datos en un modal?
+// EditarDatosDeAlumno -> Editar datos en un modal?
 func EditarDatosDeAlumno(ctx iris.Context) {
 	idstalumno := ctx.PostValue("data")
 	var alumno calificacionesmodel.Alumno
@@ -131,7 +131,7 @@ func EditarDatosDeAlumno(ctx iris.Context) {
 	ctx.JSON(alumno)
 }
 
-//EditarAlumno -> Guarda los datos modificados del alumno previamente solicitado
+// EditarAlumno -> Guarda los datos modificados del alumno previamente solicitado
 func EditarAlumno(ctx iris.Context) {
 
 	idstalumno := ctx.PostValue("datas1")
@@ -188,7 +188,7 @@ func EditarAlumno(ctx iris.Context) {
 
 }
 
-//Semestres -> Regresa la pagina de semestres
+// Semestres -> Regresa la pagina de semestres
 func Semestres(ctx iris.Context) {
 	var usuario indexmodel.MongoUser
 	var autorizado bool
@@ -395,98 +395,98 @@ func Semestres(ctx iris.Context) {
 		var mujeresoctavopreescolar2018 int
 		//preescolar 2018
 
-		var primeroprimaria2021 calificacionesmodel.Semestre
-		var segundoprimaria2021 calificacionesmodel.Semestre
-		var terceroprimaria2021 calificacionesmodel.Semestre
-		var cuartoprimaria2021 calificacionesmodel.Semestre
-		var quintoprimaria2021 calificacionesmodel.Semestre
-		var sextoprimaria2021 calificacionesmodel.Semestre
-		var septimoprimaria2021 calificacionesmodel.Semestre
-		var octavoprimaria2021 calificacionesmodel.Semestre
+		var primeroprimaria2022 calificacionesmodel.Semestre
+		var segundoprimaria2022 calificacionesmodel.Semestre
+		var terceroprimaria2022 calificacionesmodel.Semestre
+		var cuartoprimaria2022 calificacionesmodel.Semestre
+		var quintoprimaria2022 calificacionesmodel.Semestre
+		var sextoprimaria2022 calificacionesmodel.Semestre
+		var septimoprimaria2022 calificacionesmodel.Semestre
+		var octavoprimaria2022 calificacionesmodel.Semestre
 
-		var materiasprimeroprimaria2021 []calificacionesmodel.Materia
-		var materiassegundoprimaria2021 []calificacionesmodel.Materia
-		var materiasterceroprimaria2021 []calificacionesmodel.Materia
-		var materiascuartoprimaria2021 []calificacionesmodel.Materia
-		var materiasquintoprimaria2021 []calificacionesmodel.Materia
-		var materiassextoprimaria2021 []calificacionesmodel.Materia
-		var materiasseptimoprimaria2021 []calificacionesmodel.Materia
-		var materiasoctavoprimaria2021 []calificacionesmodel.Materia
+		var materiasprimeroprimaria2022 []calificacionesmodel.Materia
+		var materiassegundoprimaria2022 []calificacionesmodel.Materia
+		var materiasterceroprimaria2022 []calificacionesmodel.Materia
+		var materiascuartoprimaria2022 []calificacionesmodel.Materia
+		var materiasquintoprimaria2022 []calificacionesmodel.Materia
+		var materiassextoprimaria2022 []calificacionesmodel.Materia
+		var materiasseptimoprimaria2022 []calificacionesmodel.Materia
+		var materiasoctavoprimaria2022 []calificacionesmodel.Materia
 
-		var profesoresprimeroprimaria2021 []string
-		var profesoressegundoprimaria2021 []string
-		var profesoresterceroprimaria2021 []string
-		var profesorescuartoprimaria2021 []string
-		var profesoresquintoprimaria2021 []string
-		var profesoressextoprimaria2021 []string
-		var profesoresseptimoprimaria2021 []string
-		var profesoresoctavoprimaria2021 []string
+		var profesoresprimeroprimaria2022 []string
+		var profesoressegundoprimaria2022 []string
+		var profesoresterceroprimaria2022 []string
+		var profesorescuartoprimaria2022 []string
+		var profesoresquintoprimaria2022 []string
+		var profesoressextoprimaria2022 []string
+		var profesoresseptimoprimaria2022 []string
+		var profesoresoctavoprimaria2022 []string
 
-		var hombresprimeroprimaria2021 int //1
-		var hombressegundoprimaria2021 int //2
-		var hombresterceroprimaria2021 int //3
-		var hombrescuartoprimaria2021 int  //4
-		var hombresquintoprimaria2021 int  //5
-		var hombressextoprimaria2021 int   //6
-		var hombresseptimoprimaria2021 int //7
-		var hombresoctavoprimaria2021 int  //8
+		var hombresprimeroprimaria2022 int //1
+		var hombressegundoprimaria2022 int //2
+		var hombresterceroprimaria2022 int //3
+		var hombrescuartoprimaria2022 int  //4
+		var hombresquintoprimaria2022 int  //5
+		var hombressextoprimaria2022 int   //6
+		var hombresseptimoprimaria2022 int //7
+		var hombresoctavoprimaria2022 int  //8
 
-		var mujeresprimeroprimaria2021 int
-		var mujeressegundoprimaria2021 int
-		var mujeresterceroprimaria2021 int
-		var mujerescuartoprimaria2021 int
-		var mujeresquintoprimaria2021 int
-		var mujeressextoprimaria2021 int
-		var mujeresseptimoprimaria2021 int
-		var mujeresoctavoprimaria2021 int
+		var mujeresprimeroprimaria2022 int
+		var mujeressegundoprimaria2022 int
+		var mujeresterceroprimaria2022 int
+		var mujerescuartoprimaria2022 int
+		var mujeresquintoprimaria2022 int
+		var mujeressextoprimaria2022 int
+		var mujeresseptimoprimaria2022 int
+		var mujeresoctavoprimaria2022 int
 
-		//primaria 2021
+		//primaria 2022
 
-		var primeropreescolar2021 calificacionesmodel.Semestre
-		var segundopreescolar2021 calificacionesmodel.Semestre
-		var terceropreescolar2021 calificacionesmodel.Semestre
-		var cuartopreescolar2021 calificacionesmodel.Semestre
-		var quintopreescolar2021 calificacionesmodel.Semestre
-		var sextopreescolar2021 calificacionesmodel.Semestre
-		var septimopreescolar2021 calificacionesmodel.Semestre
-		var octavopreescolar2021 calificacionesmodel.Semestre
+		var primeropreescolar2022 calificacionesmodel.Semestre
+		var segundopreescolar2022 calificacionesmodel.Semestre
+		var terceropreescolar2022 calificacionesmodel.Semestre
+		var cuartopreescolar2022 calificacionesmodel.Semestre
+		var quintopreescolar2022 calificacionesmodel.Semestre
+		var sextopreescolar2022 calificacionesmodel.Semestre
+		var septimopreescolar2022 calificacionesmodel.Semestre
+		var octavopreescolar2022 calificacionesmodel.Semestre
 
-		var materiasprimeropreescolar2021 []calificacionesmodel.Materia
-		var materiassegundopreescolar2021 []calificacionesmodel.Materia
-		var materiasterceropreescolar2021 []calificacionesmodel.Materia
-		var materiascuartopreescolar2021 []calificacionesmodel.Materia
-		var materiasquintopreescolar2021 []calificacionesmodel.Materia
-		var materiassextopreescolar2021 []calificacionesmodel.Materia
-		var materiasseptimopreescolar2021 []calificacionesmodel.Materia
-		var materiasoctavopreescolar2021 []calificacionesmodel.Materia
+		var materiasprimeropreescolar2022 []calificacionesmodel.Materia
+		var materiassegundopreescolar2022 []calificacionesmodel.Materia
+		var materiasterceropreescolar2022 []calificacionesmodel.Materia
+		var materiascuartopreescolar2022 []calificacionesmodel.Materia
+		var materiasquintopreescolar2022 []calificacionesmodel.Materia
+		var materiassextopreescolar2022 []calificacionesmodel.Materia
+		var materiasseptimopreescolar2022 []calificacionesmodel.Materia
+		var materiasoctavopreescolar2022 []calificacionesmodel.Materia
 
-		var profesoresprimeropreescolar2021 []string
-		var profesoressegundopreescolar2021 []string
-		var profesoresterceropreescolar2021 []string
-		var profesorescuartopreescolar2021 []string
-		var profesoresquintopreescolar2021 []string
-		var profesoressextopreescolar2021 []string
-		var profesoresseptimopreescolar2021 []string
-		var profesoresoctavopreescolar2021 []string
+		var profesoresprimeropreescolar2022 []string
+		var profesoressegundopreescolar2022 []string
+		var profesoresterceropreescolar2022 []string
+		var profesorescuartopreescolar2022 []string
+		var profesoresquintopreescolar2022 []string
+		var profesoressextopreescolar2022 []string
+		var profesoresseptimopreescolar2022 []string
+		var profesoresoctavopreescolar2022 []string
 
-		var hombresprimeropreescolar2021 int //1
-		var hombressegundopreescolar2021 int //2
-		var hombresterceropreescolar2021 int //3
-		var hombrescuartopreescolar2021 int  //4
-		var hombresquintopreescolar2021 int  //5
-		var hombressextopreescolar2021 int   //6
-		var hombresseptimopreescolar2021 int //7
-		var hombresoctavopreescolar2021 int  //8
+		var hombresprimeropreescolar2022 int //1
+		var hombressegundopreescolar2022 int //2
+		var hombresterceropreescolar2022 int //3
+		var hombrescuartopreescolar2022 int  //4
+		var hombresquintopreescolar2022 int  //5
+		var hombressextopreescolar2022 int   //6
+		var hombresseptimopreescolar2022 int //7
+		var hombresoctavopreescolar2022 int  //8
 
-		var mujeresprimeropreescolar2021 int
-		var mujeressegundopreescolar2021 int
-		var mujeresterceropreescolar2021 int
-		var mujerescuartopreescolar2021 int
-		var mujeresquintopreescolar2021 int
-		var mujeressextopreescolar2021 int
-		var mujeresseptimopreescolar2021 int
-		var mujeresoctavopreescolar2021 int
-		//preescolar 2021
+		var mujeresprimeropreescolar2022 int
+		var mujeressegundopreescolar2022 int
+		var mujeresterceropreescolar2022 int
+		var mujerescuartopreescolar2022 int
+		var mujeresquintopreescolar2022 int
+		var mujeressextopreescolar2022 int
+		var mujeresseptimopreescolar2022 int
+		var mujeresoctavopreescolar2022 int
+		//preescolar 2022
 
 		for _, vv := range semestres {
 
@@ -526,19 +526,19 @@ func Semestres(ctx iris.Context) {
 						break
 					}
 					break
-				case "2021":
+				case "2022":
 					switch vv.Licenciatura {
 					case "Primaria":
-						primeroprimaria2021 = calificacionesmodel.ExtraeSemestre(vv.ID)
-						materiasprimeroprimaria2021 = calificacionesmodel.ExtraeMateriasPorSemestre(primeroprimaria2021.ID)
-						profesoresprimeroprimaria2021 = calificacionesmodel.ExtraeDocentesArr(materiasprimeroprimaria2021)
-						hombresprimeroprimaria2021, mujeresprimeroprimaria2021 = calificacionesmodel.HombresyMujeres(primeroprimaria2021.ID)
+						primeroprimaria2022 = calificacionesmodel.ExtraeSemestre(vv.ID)
+						materiasprimeroprimaria2022 = calificacionesmodel.ExtraeMateriasPorSemestre(primeroprimaria2022.ID)
+						profesoresprimeroprimaria2022 = calificacionesmodel.ExtraeDocentesArr(materiasprimeroprimaria2022)
+						hombresprimeroprimaria2022, mujeresprimeroprimaria2022 = calificacionesmodel.HombresyMujeres(primeroprimaria2022.ID)
 						break
 					case "Preescolar":
-						primeropreescolar2021 = calificacionesmodel.ExtraeSemestre(vv.ID)
-						materiasprimeropreescolar2021 = calificacionesmodel.ExtraeMateriasPorSemestre(primeropreescolar2021.ID)
-						profesoresprimeropreescolar2021 = calificacionesmodel.ExtraeDocentesArr(materiasprimeropreescolar2021)
-						hombresprimeropreescolar2021, mujeresprimeropreescolar2021 = calificacionesmodel.HombresyMujeres(primeropreescolar2021.ID)
+						primeropreescolar2022 = calificacionesmodel.ExtraeSemestre(vv.ID)
+						materiasprimeropreescolar2022 = calificacionesmodel.ExtraeMateriasPorSemestre(primeropreescolar2022.ID)
+						profesoresprimeropreescolar2022 = calificacionesmodel.ExtraeDocentesArr(materiasprimeropreescolar2022)
+						hombresprimeropreescolar2022, mujeresprimeropreescolar2022 = calificacionesmodel.HombresyMujeres(primeropreescolar2022.ID)
 						break
 					}
 					break
@@ -581,19 +581,19 @@ func Semestres(ctx iris.Context) {
 					}
 
 					break
-				case "2021":
+				case "2022":
 					switch vv.Licenciatura {
 					case "Primaria":
-						segundoprimaria2021 = calificacionesmodel.ExtraeSemestre(vv.ID)
-						materiassegundoprimaria2021 = calificacionesmodel.ExtraeMateriasPorSemestre(segundoprimaria2021.ID)
-						profesoressegundoprimaria2021 = calificacionesmodel.ExtraeDocentesArr(materiassegundoprimaria2021)
-						hombressegundoprimaria2021, mujeressegundoprimaria2021 = calificacionesmodel.HombresyMujeres(segundoprimaria2021.ID)
+						segundoprimaria2022 = calificacionesmodel.ExtraeSemestre(vv.ID)
+						materiassegundoprimaria2022 = calificacionesmodel.ExtraeMateriasPorSemestre(segundoprimaria2022.ID)
+						profesoressegundoprimaria2022 = calificacionesmodel.ExtraeDocentesArr(materiassegundoprimaria2022)
+						hombressegundoprimaria2022, mujeressegundoprimaria2022 = calificacionesmodel.HombresyMujeres(segundoprimaria2022.ID)
 						break
 					case "Preescolar":
-						segundopreescolar2021 = calificacionesmodel.ExtraeSemestre(vv.ID)
-						materiassegundopreescolar2021 = calificacionesmodel.ExtraeMateriasPorSemestre(segundopreescolar2021.ID)
-						profesoressegundopreescolar2021 = calificacionesmodel.ExtraeDocentesArr(materiassegundopreescolar2021)
-						hombressegundopreescolar2021, mujeressegundopreescolar2021 = calificacionesmodel.HombresyMujeres(segundopreescolar2021.ID)
+						segundopreescolar2022 = calificacionesmodel.ExtraeSemestre(vv.ID)
+						materiassegundopreescolar2022 = calificacionesmodel.ExtraeMateriasPorSemestre(segundopreescolar2022.ID)
+						profesoressegundopreescolar2022 = calificacionesmodel.ExtraeDocentesArr(materiassegundopreescolar2022)
+						hombressegundopreescolar2022, mujeressegundopreescolar2022 = calificacionesmodel.HombresyMujeres(segundopreescolar2022.ID)
 						break
 					}
 					break
@@ -635,19 +635,19 @@ func Semestres(ctx iris.Context) {
 					}
 
 					break
-				case "2021":
+				case "2022":
 					switch vv.Licenciatura {
 					case "Primaria":
-						terceroprimaria2021 = calificacionesmodel.ExtraeSemestre(vv.ID)
-						materiasterceroprimaria2021 = calificacionesmodel.ExtraeMateriasPorSemestre(terceroprimaria2021.ID)
-						profesoresterceroprimaria2021 = calificacionesmodel.ExtraeDocentesArr(materiasterceroprimaria2021)
-						hombresterceroprimaria2021, mujeresterceroprimaria2021 = calificacionesmodel.HombresyMujeres(terceroprimaria2021.ID)
+						terceroprimaria2022 = calificacionesmodel.ExtraeSemestre(vv.ID)
+						materiasterceroprimaria2022 = calificacionesmodel.ExtraeMateriasPorSemestre(terceroprimaria2022.ID)
+						profesoresterceroprimaria2022 = calificacionesmodel.ExtraeDocentesArr(materiasterceroprimaria2022)
+						hombresterceroprimaria2022, mujeresterceroprimaria2022 = calificacionesmodel.HombresyMujeres(terceroprimaria2022.ID)
 						break
 					case "Preescolar":
-						terceropreescolar2021 = calificacionesmodel.ExtraeSemestre(vv.ID)
-						materiasterceropreescolar2021 = calificacionesmodel.ExtraeMateriasPorSemestre(terceropreescolar2021.ID)
-						profesoresterceropreescolar2021 = calificacionesmodel.ExtraeDocentesArr(materiasterceropreescolar2021)
-						hombresterceropreescolar2021, mujeresterceropreescolar2021 = calificacionesmodel.HombresyMujeres(terceropreescolar2021.ID)
+						terceropreescolar2022 = calificacionesmodel.ExtraeSemestre(vv.ID)
+						materiasterceropreescolar2022 = calificacionesmodel.ExtraeMateriasPorSemestre(terceropreescolar2022.ID)
+						profesoresterceropreescolar2022 = calificacionesmodel.ExtraeDocentesArr(materiasterceropreescolar2022)
+						hombresterceropreescolar2022, mujeresterceropreescolar2022 = calificacionesmodel.HombresyMujeres(terceropreescolar2022.ID)
 						break
 					}
 					break
@@ -683,20 +683,20 @@ func Semestres(ctx iris.Context) {
 						break
 					case "Preescolar":
 						cuartopreescolar2018 = calificacionesmodel.ExtraeSemestre(vv.ID)
-						materiascuartopreescolar2021 = calificacionesmodel.ExtraeMateriasPorSemestre(cuartopreescolar2021.ID)
-						profesorescuartopreescolar2021 = calificacionesmodel.ExtraeDocentesArr(materiascuartopreescolar2021)
-						hombrescuartopreescolar2021, mujerescuartopreescolar2021 = calificacionesmodel.HombresyMujeres(cuartopreescolar2021.ID)
+						materiascuartopreescolar2022 = calificacionesmodel.ExtraeMateriasPorSemestre(cuartopreescolar2022.ID)
+						profesorescuartopreescolar2022 = calificacionesmodel.ExtraeDocentesArr(materiascuartopreescolar2022)
+						hombrescuartopreescolar2022, mujerescuartopreescolar2022 = calificacionesmodel.HombresyMujeres(cuartopreescolar2022.ID)
 						break
 					}
 
 					break
-				case "2021":
+				case "2022":
 					switch vv.Licenciatura {
 					case "Primaria":
-						cuartoprimaria2021 = calificacionesmodel.ExtraeSemestre(vv.ID)
-						materiascuartoprimaria2021 = calificacionesmodel.ExtraeMateriasPorSemestre(cuartoprimaria2021.ID)
-						profesorescuartoprimaria2021 = calificacionesmodel.ExtraeDocentesArr(materiascuartoprimaria2021)
-						hombrescuartoprimaria2021, mujerescuartoprimaria2021 = calificacionesmodel.HombresyMujeres(cuartoprimaria2021.ID)
+						cuartoprimaria2022 = calificacionesmodel.ExtraeSemestre(vv.ID)
+						materiascuartoprimaria2022 = calificacionesmodel.ExtraeMateriasPorSemestre(cuartoprimaria2022.ID)
+						profesorescuartoprimaria2022 = calificacionesmodel.ExtraeDocentesArr(materiascuartoprimaria2022)
+						hombrescuartoprimaria2022, mujerescuartoprimaria2022 = calificacionesmodel.HombresyMujeres(cuartoprimaria2022.ID)
 
 						break
 					case "Preescolar":
@@ -746,20 +746,20 @@ func Semestres(ctx iris.Context) {
 					}
 
 					break
-				case "2021":
+				case "2022":
 					switch vv.Licenciatura {
 					case "Primaria":
-						quintoprimaria2021 = calificacionesmodel.ExtraeSemestre(vv.ID)
-						materiasquintoprimaria2021 = calificacionesmodel.ExtraeMateriasPorSemestre(quintoprimaria2021.ID)
-						profesoresquintoprimaria2021 = calificacionesmodel.ExtraeDocentesArr(materiasquintoprimaria2021)
-						hombresquintoprimaria2021, mujeresquintoprimaria2021 = calificacionesmodel.HombresyMujeres(quintoprimaria2021.ID)
+						quintoprimaria2022 = calificacionesmodel.ExtraeSemestre(vv.ID)
+						materiasquintoprimaria2022 = calificacionesmodel.ExtraeMateriasPorSemestre(quintoprimaria2022.ID)
+						profesoresquintoprimaria2022 = calificacionesmodel.ExtraeDocentesArr(materiasquintoprimaria2022)
+						hombresquintoprimaria2022, mujeresquintoprimaria2022 = calificacionesmodel.HombresyMujeres(quintoprimaria2022.ID)
 
 						break
 					case "Preescolar":
-						quintopreescolar2021 = calificacionesmodel.ExtraeSemestre(vv.ID)
-						materiasquintopreescolar2021 = calificacionesmodel.ExtraeMateriasPorSemestre(quintopreescolar2021.ID)
-						profesoresquintopreescolar2021 = calificacionesmodel.ExtraeDocentesArr(materiasquintopreescolar2021)
-						hombresquintopreescolar2021, mujeresquintopreescolar2021 = calificacionesmodel.HombresyMujeres(quintopreescolar2021.ID)
+						quintopreescolar2022 = calificacionesmodel.ExtraeSemestre(vv.ID)
+						materiasquintopreescolar2022 = calificacionesmodel.ExtraeMateriasPorSemestre(quintopreescolar2022.ID)
+						profesoresquintopreescolar2022 = calificacionesmodel.ExtraeDocentesArr(materiasquintopreescolar2022)
+						hombresquintopreescolar2022, mujeresquintopreescolar2022 = calificacionesmodel.HombresyMujeres(quintopreescolar2022.ID)
 						break
 					}
 					break
@@ -802,19 +802,19 @@ func Semestres(ctx iris.Context) {
 					}
 
 					break
-				case "2021":
+				case "2022":
 					switch vv.Licenciatura {
 					case "Primaria":
-						sextoprimaria2021 = calificacionesmodel.ExtraeSemestre(vv.ID)
-						materiassextoprimaria2021 = calificacionesmodel.ExtraeMateriasPorSemestre(sextoprimaria2021.ID)
-						profesoressextoprimaria2021 = calificacionesmodel.ExtraeDocentesArr(materiassextoprimaria2021)
-						hombressextoprimaria2021, mujeressextoprimaria2021 = calificacionesmodel.HombresyMujeres(sextoprimaria2021.ID)
+						sextoprimaria2022 = calificacionesmodel.ExtraeSemestre(vv.ID)
+						materiassextoprimaria2022 = calificacionesmodel.ExtraeMateriasPorSemestre(sextoprimaria2022.ID)
+						profesoressextoprimaria2022 = calificacionesmodel.ExtraeDocentesArr(materiassextoprimaria2022)
+						hombressextoprimaria2022, mujeressextoprimaria2022 = calificacionesmodel.HombresyMujeres(sextoprimaria2022.ID)
 						break
 					case "Preescolar":
-						sextopreescolar2021 = calificacionesmodel.ExtraeSemestre(vv.ID)
-						materiassextopreescolar2021 = calificacionesmodel.ExtraeMateriasPorSemestre(sextopreescolar2021.ID)
-						profesoressextopreescolar2021 = calificacionesmodel.ExtraeDocentesArr(materiassextopreescolar2021)
-						hombressextopreescolar2021, mujeressextopreescolar2021 = calificacionesmodel.HombresyMujeres(sextopreescolar2021.ID)
+						sextopreescolar2022 = calificacionesmodel.ExtraeSemestre(vv.ID)
+						materiassextopreescolar2022 = calificacionesmodel.ExtraeMateriasPorSemestre(sextopreescolar2022.ID)
+						profesoressextopreescolar2022 = calificacionesmodel.ExtraeDocentesArr(materiassextopreescolar2022)
+						hombressextopreescolar2022, mujeressextopreescolar2022 = calificacionesmodel.HombresyMujeres(sextopreescolar2022.ID)
 						break
 					}
 					break
@@ -856,19 +856,19 @@ func Semestres(ctx iris.Context) {
 					}
 
 					break
-				case "2021":
+				case "2022":
 					switch vv.Licenciatura {
 					case "Primaria":
-						septimoprimaria2021 = calificacionesmodel.ExtraeSemestre(vv.ID)
-						materiasseptimoprimaria2021 = calificacionesmodel.ExtraeMateriasPorSemestre(septimoprimaria2021.ID)
-						profesoresseptimoprimaria2021 = calificacionesmodel.ExtraeDocentesArr(materiasseptimoprimaria2021)
-						hombresseptimoprimaria2021, mujeresseptimoprimaria2021 = calificacionesmodel.HombresyMujeres(septimoprimaria2021.ID)
+						septimoprimaria2022 = calificacionesmodel.ExtraeSemestre(vv.ID)
+						materiasseptimoprimaria2022 = calificacionesmodel.ExtraeMateriasPorSemestre(septimoprimaria2022.ID)
+						profesoresseptimoprimaria2022 = calificacionesmodel.ExtraeDocentesArr(materiasseptimoprimaria2022)
+						hombresseptimoprimaria2022, mujeresseptimoprimaria2022 = calificacionesmodel.HombresyMujeres(septimoprimaria2022.ID)
 						break
 					case "Preescolar":
-						septimopreescolar2021 = calificacionesmodel.ExtraeSemestre(vv.ID)
-						materiasseptimopreescolar2021 = calificacionesmodel.ExtraeMateriasPorSemestre(septimopreescolar2021.ID)
-						profesoresseptimopreescolar2021 = calificacionesmodel.ExtraeDocentesArr(materiasseptimopreescolar2021)
-						hombresseptimopreescolar2021, mujeresseptimopreescolar2021 = calificacionesmodel.HombresyMujeres(septimopreescolar2021.ID)
+						septimopreescolar2022 = calificacionesmodel.ExtraeSemestre(vv.ID)
+						materiasseptimopreescolar2022 = calificacionesmodel.ExtraeMateriasPorSemestre(septimopreescolar2022.ID)
+						profesoresseptimopreescolar2022 = calificacionesmodel.ExtraeDocentesArr(materiasseptimopreescolar2022)
+						hombresseptimopreescolar2022, mujeresseptimopreescolar2022 = calificacionesmodel.HombresyMujeres(septimopreescolar2022.ID)
 						break
 					}
 					break
@@ -910,19 +910,19 @@ func Semestres(ctx iris.Context) {
 					}
 
 					break
-				case "2021":
+				case "2022":
 					switch vv.Licenciatura {
 					case "Primaria":
-						octavoprimaria2021 = calificacionesmodel.ExtraeSemestre(vv.ID)
-						materiasoctavoprimaria2021 = calificacionesmodel.ExtraeMateriasPorSemestre(octavoprimaria2021.ID)
-						profesoresoctavoprimaria2021 = calificacionesmodel.ExtraeDocentesArr(materiasoctavoprimaria2021)
-						hombresoctavoprimaria2021, mujeresoctavoprimaria2021 = calificacionesmodel.HombresyMujeres(octavoprimaria2021.ID)
+						octavoprimaria2022 = calificacionesmodel.ExtraeSemestre(vv.ID)
+						materiasoctavoprimaria2022 = calificacionesmodel.ExtraeMateriasPorSemestre(octavoprimaria2022.ID)
+						profesoresoctavoprimaria2022 = calificacionesmodel.ExtraeDocentesArr(materiasoctavoprimaria2022)
+						hombresoctavoprimaria2022, mujeresoctavoprimaria2022 = calificacionesmodel.HombresyMujeres(octavoprimaria2022.ID)
 						break
 					case "Preescolar":
-						octavopreescolar2021 = calificacionesmodel.ExtraeSemestre(vv.ID)
-						materiasoctavopreescolar2021 = calificacionesmodel.ExtraeMateriasPorSemestre(octavopreescolar2021.ID)
-						profesoresoctavopreescolar2021 = calificacionesmodel.ExtraeDocentesArr(materiasoctavopreescolar2021)
-						hombresoctavopreescolar2021, mujeresoctavopreescolar2021 = calificacionesmodel.HombresyMujeres(octavopreescolar2021.ID)
+						octavopreescolar2022 = calificacionesmodel.ExtraeSemestre(vv.ID)
+						materiasoctavopreescolar2022 = calificacionesmodel.ExtraeMateriasPorSemestre(octavopreescolar2022.ID)
+						profesoresoctavopreescolar2022 = calificacionesmodel.ExtraeDocentesArr(materiasoctavopreescolar2022)
+						hombresoctavopreescolar2022, mujeresoctavopreescolar2022 = calificacionesmodel.HombresyMujeres(octavopreescolar2022.ID)
 						break
 					}
 					break
@@ -1256,167 +1256,167 @@ func Semestres(ctx iris.Context) {
 		ctx.ViewData("Aopre2018", hombresoctavopreescolar2018+mujeresoctavopreescolar2018)
 		ctx.ViewData("Hopre2018", hombresoctavopreescolar2018)
 		ctx.ViewData("Muopre2018", mujeresoctavopreescolar2018)
-		//2021 ----------------------------------------------------------------------
+		//2022 ----------------------------------------------------------------------
 		//1
 		//Primaria
 		//Materias
-		ctx.ViewData("Mpp2021", materiasprimeroprimaria2021)
+		ctx.ViewData("Mpp2022", materiasprimeroprimaria2022)
 		//Profesores
-		ctx.ViewData("Ppp2021", profesoresprimeroprimaria2021)
+		ctx.ViewData("Ppp2022", profesoresprimeroprimaria2022)
 		//Hombres y Mujeres
-		ctx.ViewData("App2021", hombresprimeroprimaria2021+mujeresprimeroprimaria2021)
-		ctx.ViewData("Hpp2021", hombresprimeroprimaria2021)
-		ctx.ViewData("Mupp2021", mujeresprimeroprimaria2021)
+		ctx.ViewData("App2022", hombresprimeroprimaria2022+mujeresprimeroprimaria2022)
+		ctx.ViewData("Hpp2022", hombresprimeroprimaria2022)
+		ctx.ViewData("Mupp2022", mujeresprimeroprimaria2022)
 
 		//Preescolar
 		//Materias
-		ctx.ViewData("Mppre2021", materiasprimeropreescolar2021)
+		ctx.ViewData("Mppre2022", materiasprimeropreescolar2022)
 		//Profesores
-		ctx.ViewData("Pppre2021", profesoresprimeropreescolar2021)
+		ctx.ViewData("Pppre2022", profesoresprimeropreescolar2022)
 		//Hombres y Mujeres
-		ctx.ViewData("Appre2021", hombresprimeropreescolar2021+mujeresprimeropreescolar2021)
-		ctx.ViewData("Hppre2021", hombresprimeropreescolar2021)
-		ctx.ViewData("Muppre2021", mujeresprimeropreescolar2021)
+		ctx.ViewData("Appre2022", hombresprimeropreescolar2022+mujeresprimeropreescolar2022)
+		ctx.ViewData("Hppre2022", hombresprimeropreescolar2022)
+		ctx.ViewData("Muppre2022", mujeresprimeropreescolar2022)
 		//2
 		//Primaria
 		//Materias
-		ctx.ViewData("Msp2021", materiassegundoprimaria2021)
+		ctx.ViewData("Msp2022", materiassegundoprimaria2022)
 		//Profesores
-		ctx.ViewData("Psp2021", profesoressegundoprimaria2021)
+		ctx.ViewData("Psp2022", profesoressegundoprimaria2022)
 		//Hombres y Mujeres
-		ctx.ViewData("Asp2021", hombressegundoprimaria2021+mujeressegundoprimaria2021)
-		ctx.ViewData("Hsp2021", hombressegundoprimaria2021)
-		ctx.ViewData("Musp2021", mujeressegundoprimaria2021)
+		ctx.ViewData("Asp2022", hombressegundoprimaria2022+mujeressegundoprimaria2022)
+		ctx.ViewData("Hsp2022", hombressegundoprimaria2022)
+		ctx.ViewData("Musp2022", mujeressegundoprimaria2022)
 
 		//Preescolar
 		//Materias
-		ctx.ViewData("Mspre2021", materiassegundopreescolar2021)
+		ctx.ViewData("Mspre2022", materiassegundopreescolar2022)
 		//Profesores
-		ctx.ViewData("Pspre2021", profesoressegundopreescolar2021)
+		ctx.ViewData("Pspre2022", profesoressegundopreescolar2022)
 		//Hombres y Mujeres
-		ctx.ViewData("Aspre2021", hombressegundopreescolar2021+mujeressegundopreescolar2021)
-		ctx.ViewData("Hspre2021", hombressegundopreescolar2021)
-		ctx.ViewData("Muspre2021", mujeressegundopreescolar2021)
+		ctx.ViewData("Aspre2022", hombressegundopreescolar2022+mujeressegundopreescolar2022)
+		ctx.ViewData("Hspre2022", hombressegundopreescolar2022)
+		ctx.ViewData("Muspre2022", mujeressegundopreescolar2022)
 		//3
 		//Primaria
 		//Materias
-		ctx.ViewData("Mtp2021", materiasterceroprimaria2021)
+		ctx.ViewData("Mtp2022", materiasterceroprimaria2022)
 		//Profesores
-		ctx.ViewData("Ptp2021", profesoresterceroprimaria2021)
+		ctx.ViewData("Ptp2022", profesoresterceroprimaria2022)
 		//Hombres y Mujeres
-		ctx.ViewData("Atp2021", hombresterceroprimaria2021+mujeresterceroprimaria2021)
-		ctx.ViewData("Htp2021", hombresterceroprimaria2021)
-		ctx.ViewData("Mutp2021", mujeresterceroprimaria2021)
+		ctx.ViewData("Atp2022", hombresterceroprimaria2022+mujeresterceroprimaria2022)
+		ctx.ViewData("Htp2022", hombresterceroprimaria2022)
+		ctx.ViewData("Mutp2022", mujeresterceroprimaria2022)
 
 		//Preescolar
 		//Materias
-		ctx.ViewData("Mtpre2021", materiasterceropreescolar2021)
+		ctx.ViewData("Mtpre2022", materiasterceropreescolar2022)
 		//Profesores
-		ctx.ViewData("Ptpre2021", profesoresterceropreescolar2021)
+		ctx.ViewData("Ptpre2022", profesoresterceropreescolar2022)
 		//Hombres y Mujeres
-		ctx.ViewData("Atpre2021", hombresterceropreescolar2021+mujeresterceropreescolar2021)
-		ctx.ViewData("Htpre2021", hombresterceropreescolar2021)
-		ctx.ViewData("Mutpre2021", mujeresterceropreescolar2021)
+		ctx.ViewData("Atpre2022", hombresterceropreescolar2022+mujeresterceropreescolar2022)
+		ctx.ViewData("Htpre2022", hombresterceropreescolar2022)
+		ctx.ViewData("Mutpre2022", mujeresterceropreescolar2022)
 		//4
 		//Primaria
 		//Materias
-		ctx.ViewData("Mcp2021", materiascuartoprimaria2021)
+		ctx.ViewData("Mcp2022", materiascuartoprimaria2022)
 		//Profesores
-		ctx.ViewData("Pcp2021", profesorescuartoprimaria2021)
+		ctx.ViewData("Pcp2022", profesorescuartoprimaria2022)
 		//Hombres y Mujeres
-		ctx.ViewData("Acp2021", hombrescuartoprimaria2021+mujerescuartoprimaria2021)
-		ctx.ViewData("Hcp2021", hombrescuartoprimaria2021)
-		ctx.ViewData("Mucp2021", mujerescuartoprimaria2021)
+		ctx.ViewData("Acp2022", hombrescuartoprimaria2022+mujerescuartoprimaria2022)
+		ctx.ViewData("Hcp2022", hombrescuartoprimaria2022)
+		ctx.ViewData("Mucp2022", mujerescuartoprimaria2022)
 
 		//Preescolar
 		//Materias
-		ctx.ViewData("Mcpre2021", materiascuartopreescolar2021)
+		ctx.ViewData("Mcpre2022", materiascuartopreescolar2022)
 		//Profesores
-		ctx.ViewData("Pcpre2021", profesorescuartopreescolar2021)
+		ctx.ViewData("Pcpre2022", profesorescuartopreescolar2022)
 		//Hombres y Mujeres
-		ctx.ViewData("Acpre2021", hombrescuartopreescolar2021+mujerescuartopreescolar2021)
-		ctx.ViewData("Hcpre2021", hombrescuartopreescolar2021)
-		ctx.ViewData("Mucpre2021", mujerescuartopreescolar2021)
+		ctx.ViewData("Acpre2022", hombrescuartopreescolar2022+mujerescuartopreescolar2022)
+		ctx.ViewData("Hcpre2022", hombrescuartopreescolar2022)
+		ctx.ViewData("Mucpre2022", mujerescuartopreescolar2022)
 		//5
 		//Primaria
 		//Materias
-		ctx.ViewData("Mqp2021", materiasquintoprimaria2021)
+		ctx.ViewData("Mqp2022", materiasquintoprimaria2022)
 		//Profesores
-		ctx.ViewData("Pqp2021", profesoresquintoprimaria2021)
+		ctx.ViewData("Pqp2022", profesoresquintoprimaria2022)
 		//Hombres y Mujeres
-		ctx.ViewData("Aqp2021", hombresquintoprimaria2021+mujeresquintoprimaria2021)
-		ctx.ViewData("Hqp2021", hombresquintoprimaria2021)
-		ctx.ViewData("Muqp2021", mujeresquintoprimaria2021)
+		ctx.ViewData("Aqp2022", hombresquintoprimaria2022+mujeresquintoprimaria2022)
+		ctx.ViewData("Hqp2022", hombresquintoprimaria2022)
+		ctx.ViewData("Muqp2022", mujeresquintoprimaria2022)
 
 		//Preescolar
 		//Materias
-		ctx.ViewData("Mqpre2021", materiasquintopreescolar2021)
+		ctx.ViewData("Mqpre2022", materiasquintopreescolar2022)
 		//Profesores
-		ctx.ViewData("Pqpre2021", profesoresquintopreescolar2021)
+		ctx.ViewData("Pqpre2022", profesoresquintopreescolar2022)
 		//Hombres y Mujeres
-		ctx.ViewData("Aqpre2021", hombresquintopreescolar2021+mujeresquintopreescolar2021)
-		ctx.ViewData("Hqpre2021", hombresquintopreescolar2021)
-		ctx.ViewData("Muqpre2021", mujeresquintopreescolar2021)
+		ctx.ViewData("Aqpre2022", hombresquintopreescolar2022+mujeresquintopreescolar2022)
+		ctx.ViewData("Hqpre2022", hombresquintopreescolar2022)
+		ctx.ViewData("Muqpre2022", mujeresquintopreescolar2022)
 		//6
 		//Primaria
 		//Materias
-		ctx.ViewData("Msxp2021", materiassextoprimaria2021)
+		ctx.ViewData("Msxp2022", materiassextoprimaria2022)
 		//Profesores
-		ctx.ViewData("Psxp2021", profesoressextoprimaria2021)
+		ctx.ViewData("Psxp2022", profesoressextoprimaria2022)
 		//Hombres y Mujeres
-		ctx.ViewData("Asxp2021", hombressextoprimaria2021+mujeressextoprimaria2021)
-		ctx.ViewData("Hsxp2021", hombressextoprimaria2021)
-		ctx.ViewData("Musxp2021", mujeressextoprimaria2021)
+		ctx.ViewData("Asxp2022", hombressextoprimaria2022+mujeressextoprimaria2022)
+		ctx.ViewData("Hsxp2022", hombressextoprimaria2022)
+		ctx.ViewData("Musxp2022", mujeressextoprimaria2022)
 
 		//Preescolar
 		//Materias
-		ctx.ViewData("Msxpre2021", materiassextopreescolar2021)
+		ctx.ViewData("Msxpre2022", materiassextopreescolar2022)
 		//Profesores
-		ctx.ViewData("Psxpre2021", profesoressextopreescolar2021)
+		ctx.ViewData("Psxpre2022", profesoressextopreescolar2022)
 		//Hombres y Mujeres
-		ctx.ViewData("Asxpre2021", hombressextopreescolar2021+mujeressextopreescolar2021)
-		ctx.ViewData("Hsxpre2021", hombressextopreescolar2021)
-		ctx.ViewData("Musxpre2021", mujeressextopreescolar2021)
+		ctx.ViewData("Asxpre2022", hombressextopreescolar2022+mujeressextopreescolar2022)
+		ctx.ViewData("Hsxpre2022", hombressextopreescolar2022)
+		ctx.ViewData("Musxpre2022", mujeressextopreescolar2022)
 		//7
 		//Primaria
 		//Materias
-		ctx.ViewData("Mstp2021", materiasseptimoprimaria2021)
+		ctx.ViewData("Mstp2022", materiasseptimoprimaria2022)
 		//Profesores
-		ctx.ViewData("Pstp2021", profesoresseptimoprimaria2021)
+		ctx.ViewData("Pstp2022", profesoresseptimoprimaria2022)
 		//Hombres y Mujeres
-		ctx.ViewData("Astp2021", hombresseptimoprimaria2021+mujeresseptimoprimaria2021)
-		ctx.ViewData("Hstp2021", hombresseptimoprimaria2021)
-		ctx.ViewData("Mustp2021", mujeresseptimoprimaria2021)
+		ctx.ViewData("Astp2022", hombresseptimoprimaria2022+mujeresseptimoprimaria2022)
+		ctx.ViewData("Hstp2022", hombresseptimoprimaria2022)
+		ctx.ViewData("Mustp2022", mujeresseptimoprimaria2022)
 
 		//Preescolar
 		//Materias
-		ctx.ViewData("Mstpre2021", materiasseptimopreescolar2021)
+		ctx.ViewData("Mstpre2022", materiasseptimopreescolar2022)
 		//Profesores
-		ctx.ViewData("Pstpre2021", profesoresseptimopreescolar2021)
+		ctx.ViewData("Pstpre2022", profesoresseptimopreescolar2022)
 		//Hombres y Mujeres
-		ctx.ViewData("Astpre2021", hombresseptimopreescolar2021+mujeresseptimopreescolar2021)
-		ctx.ViewData("Hstpre2021", hombresseptimopreescolar2021)
-		ctx.ViewData("Mustpre2021", mujeresseptimopreescolar2021)
+		ctx.ViewData("Astpre2022", hombresseptimopreescolar2022+mujeresseptimopreescolar2022)
+		ctx.ViewData("Hstpre2022", hombresseptimopreescolar2022)
+		ctx.ViewData("Mustpre2022", mujeresseptimopreescolar2022)
 		//8
 		//Primaria
 		//Materias
-		ctx.ViewData("Mop2021", materiasoctavoprimaria2021)
+		ctx.ViewData("Mop2022", materiasoctavoprimaria2022)
 		//Profesores
-		ctx.ViewData("Pop2021", profesoresoctavoprimaria2021)
+		ctx.ViewData("Pop2022", profesoresoctavoprimaria2022)
 		//Hombres y Mujeres
-		ctx.ViewData("Aop2021", hombresoctavoprimaria2021+mujeresoctavoprimaria2021)
-		ctx.ViewData("Hop2021", hombresoctavoprimaria2021)
-		ctx.ViewData("Muop2021", mujeresoctavoprimaria2021)
+		ctx.ViewData("Aop2022", hombresoctavoprimaria2022+mujeresoctavoprimaria2022)
+		ctx.ViewData("Hop2022", hombresoctavoprimaria2022)
+		ctx.ViewData("Muop2022", mujeresoctavoprimaria2022)
 
 		//Preescolar
 		//Materias
-		ctx.ViewData("Mopre2021", materiasoctavopreescolar2021)
+		ctx.ViewData("Mopre2022", materiasoctavopreescolar2022)
 		//Profesores
-		ctx.ViewData("Popre2021", profesoresoctavopreescolar2021)
+		ctx.ViewData("Popre2022", profesoresoctavopreescolar2022)
 		//Hombres y Mujeres
-		ctx.ViewData("Aopre2021", hombresoctavopreescolar2021+mujeresoctavopreescolar2021)
-		ctx.ViewData("Hopre2021", hombresoctavopreescolar2021)
-		ctx.ViewData("Muopre2021", mujeresoctavopreescolar2021)
+		ctx.ViewData("Aopre2022", hombresoctavopreescolar2022+mujeresoctavopreescolar2022)
+		ctx.ViewData("Hopre2022", hombresoctavopreescolar2022)
+		ctx.ViewData("Muopre2022", mujeresoctavopreescolar2022)
 
 		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

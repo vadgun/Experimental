@@ -18,7 +18,7 @@ import (
 	usuariosmodel "github.com/vadgun/Experimental/Modelos/UsuariosModel"
 )
 
-//Profile Edita el perfil del usuario logeado con la opcion de subir una imagen que puede ser usada con posterioridad
+// Profile Edita el perfil del usuario logeado con la opcion de subir una imagen que puede ser usada con posterioridad
 func Profile(ctx iris.Context) {
 
 	userOn := indexmodel.GetUserOn(sessioncontroller.Sess.Start(ctx).GetString("UserID"))
@@ -37,7 +37,7 @@ func Profile(ctx iris.Context) {
 
 }
 
-//ActualizaUsuario -> Actualiza el usuario y agrega una imagen a su perfil
+// ActualizaUsuario -> Actualiza el usuario y agrega una imagen a su perfil
 func ActualizaUsuario(ctx iris.Context) {
 
 	userid := ctx.PostValue("userid") //Usuario Alumno, Docente o Administrativo
@@ -94,7 +94,7 @@ func ActualizaUsuario(ctx iris.Context) {
 
 }
 
-//Calificaciones -> Regresa la pagina de inicio
+// Calificaciones -> Regresa la pagina de inicio
 func Calificaciones(ctx iris.Context) {
 	var usuario indexmodel.MongoUser
 	var autorizado bool
@@ -174,7 +174,7 @@ func Calificaciones(ctx iris.Context) {
 	}
 }
 
-//Alumnos -> Regresa la pagina de inicio
+// Alumnos -> Regresa la pagina de inicio
 func Alumnos(ctx iris.Context) {
 	var usuario indexmodel.MongoUser
 	var autorizado bool
@@ -224,7 +224,7 @@ func Alumnos(ctx iris.Context) {
 	}
 }
 
-//ObtenerAlumnosCalif -> Los envia a la pagina de regreso con calificacion
+// ObtenerAlumnosCalif -> Los envia a la pagina de regreso con calificacion
 func ObtenerAlumnosCalif(ctx iris.Context) {
 
 	semestreidstring := ctx.PostValue("semestre")
@@ -352,7 +352,7 @@ func ObtenerAlumnosCalif(ctx iris.Context) {
 
 }
 
-//ObtenerAlumnos -> Los envia a la pagina de regreso
+// ObtenerAlumnos -> Los envia a la pagina de regreso
 func ObtenerAlumnos(ctx iris.Context) {
 
 	semestre := ctx.PostValue("semestre")
@@ -447,7 +447,7 @@ func ObtenerAlumnos(ctx iris.Context) {
 
 }
 
-//Docentes -> Regresa la pagina de inicio
+// Docentes -> Regresa la pagina de inicio
 func Docentes(ctx iris.Context) {
 	var usuario indexmodel.MongoUser
 	var autorizado bool
@@ -497,7 +497,7 @@ func Docentes(ctx iris.Context) {
 	}
 }
 
-//AgregarCalificacion -> Regresa una tabla para capturar la materia con una lista de alumnos inscritos a ese semestre
+// AgregarCalificacion -> Regresa una tabla para capturar la materia con una lista de alumnos inscritos a ese semestre
 func AgregarCalificacion(ctx iris.Context) {
 
 	//Tengo el id de materia. tengo el id de semestre y tengo el id de docente
@@ -593,7 +593,7 @@ func AgregarCalificacion(ctx iris.Context) {
 
 }
 
-//GuardarCalificaciones Guarda la peticion del docente para guardar materias de los alumnos por materia
+// GuardarCalificaciones Guarda la peticion del docente para guardar materias de los alumnos por materia
 func GuardarCalificaciones(ctx iris.Context) {
 
 	numalumnos, _ := ctx.PostValueInt("numalumnos")
@@ -636,7 +636,7 @@ func GuardarCalificaciones(ctx iris.Context) {
 
 }
 
-//CrearFormulario -> Regresa un formulario correspondiente al boton 'Materia' 'Semestre'
+// CrearFormulario -> Regresa un formulario correspondiente al boton 'Materia' 'Semestre'
 func CrearFormulario(ctx iris.Context) {
 
 	data := ctx.PostValue("data")
@@ -663,7 +663,7 @@ func CrearFormulario(ctx iris.Context) {
                         <option value="">selecciona</option>
                         <option value="2012">2012</option>
                         <option value="2018">2018</option>
-                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
                     </select>
                 </div>
                 <label for="licenciatura" class="col-sm-2 col-form-label negrita"> Licenciatura: </label>
@@ -742,7 +742,7 @@ func CrearFormulario(ctx iris.Context) {
                         <option value="">selecciona</option>
                         <option value="2012">2012</option>
                         <option value="2018">2018</option>
-                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
                     </select>
                 </div>
                 <label for="licenciatura" class="col-sm-2 col-form-label negrita"> Licenciatura: </label>
@@ -802,7 +802,7 @@ func CrearFormulario(ctx iris.Context) {
 
 }
 
-//GuardarMateria -> Asigna la materia al semestre
+// GuardarMateria -> Asigna la materia al semestre
 func GuardarMateria(ctx iris.Context) {
 
 	var materia calificacionesmodel.Materia
@@ -840,7 +840,7 @@ func GuardarMateria(ctx iris.Context) {
 
 }
 
-//GuardarSemestre -> Guarda el semestre donde se asignaran las materias
+// GuardarSemestre -> Guarda el semestre donde se asignaran las materias
 func GuardarSemestre(ctx iris.Context) {
 
 	var semestre calificacionesmodel.Semestre
@@ -878,7 +878,7 @@ func check(err error, mensaje string) {
 	}
 }
 
-//CrearUsuario -> Crea el usuario de sistema
+// CrearUsuario -> Crea el usuario de sistema
 func CrearUsuario(Plan, Nombre, semestrenum string) string {
 	var user string
 
@@ -889,7 +889,7 @@ func CrearUsuario(Plan, Nombre, semestrenum string) string {
 	return user
 }
 
-//CrearPassword -> Crea el password del sistema
+// CrearPassword -> Crea el password del sistema
 func CrearPassword(cadena string) string {
 	var pass string
 
@@ -899,7 +899,7 @@ func CrearPassword(cadena string) string {
 
 }
 
-//CargarMasivoAlumnos -> Sube el archivo y lo interpreta para su conversion a la base de datos asi como la creacion de usuarios
+// CargarMasivoAlumnos -> Sube el archivo y lo interpreta para su conversion a la base de datos asi como la creacion de usuarios
 func CargarMasivoAlumnos(ctx iris.Context) {
 
 	var alumnos []calificacionesmodel.Alumno
@@ -1191,7 +1191,7 @@ func CargarMasivoAlumnos(ctx iris.Context) {
 	ctx.HTML(htmlcode)
 }
 
-//ConvierteRomano -> De vuelve una cadena de texto con el numero romano
+// ConvierteRomano -> De vuelve una cadena de texto con el numero romano
 func ConvierteRomano(num string) string {
 
 	var romano string
@@ -1227,7 +1227,7 @@ func ConvierteRomano(num string) string {
 
 }
 
-//GenerarBoleta Obtiene la id de alumno, y genera un documento que se genera y descarga o guarda o abre.
+// GenerarBoleta Obtiene la id de alumno, y genera un documento que se genera y descarga o guarda o abre.
 func GenerarBoleta(ctx iris.Context) {
 	data := ctx.PostValue("data")
 	var htmlcode string
@@ -1420,7 +1420,7 @@ func GenerarBoleta(ctx iris.Context) {
 
 }
 
-//Ligar Herramienta temporal para asignar correctamente los usuarios a los alumnos que les hace falta MongoUser y a los usuarios que esta mal su UserID
+// Ligar Herramienta temporal para asignar correctamente los usuarios a los alumnos que les hace falta MongoUser y a los usuarios que esta mal su UserID
 func Ligar(ctx iris.Context) {
 
 	// userOn := indexmodel.GetUserOn(sessioncontroller.Sess.Start(ctx).GetString("UserID"))
@@ -1481,7 +1481,7 @@ func Ligar(ctx iris.Context) {
 
 }
 
-//ImprimirCalificacion -> Imprime el pdf para la impresion de la boleta
+// ImprimirCalificacion -> Imprime el pdf para la impresion de la boleta
 func ImprimirCalificacion(ctx iris.Context) {
 
 	idalumno := ctx.PostValue("data")
@@ -1570,7 +1570,7 @@ func ImprimirCalificacion(ctx iris.Context) {
 
 }
 
-//ObtenConfig -> Devuelve la configuracon solicitada
+// ObtenConfig -> Devuelve la configuracon solicitada
 func ObtenConfig(ctx iris.Context) {
 
 	tipoconfig := ctx.PostValue("data")
@@ -1670,7 +1670,7 @@ func ObtenConfig(ctx iris.Context) {
 
 }
 
-//GuardaConfiguracion -> Guarda la configuracion previamente solicitada
+// GuardaConfiguracion -> Guarda la configuracion previamente solicitada
 func GuardaConfiguracion(ctx iris.Context) {
 
 	var config calificacionesmodel.Configuracion
@@ -1703,7 +1703,7 @@ func GuardaConfiguracion(ctx iris.Context) {
 
 }
 
-//MesEspanol Regresa el mes en español.
+// MesEspanol Regresa el mes en español.
 func MesEspanol(mes string) string {
 	var mess string
 	switch mes {
@@ -1748,7 +1748,7 @@ func MesEspanol(mes string) string {
 	return mess
 }
 
-//ObtenerDocente -> Regresa el docente con sus materias en tabla a la peticion de asignar materias
+// ObtenerDocente -> Regresa el docente con sus materias en tabla a la peticion de asignar materias
 func ObtenerDocente(ctx iris.Context) {
 	var htmlcode string
 	var nombrecompleto string
@@ -1824,7 +1824,7 @@ func EliminarAlumno(ctx iris.Context) {
 
 }
 
-//PromoverAlumno -> Acepta la peticion
+// PromoverAlumno -> Acepta la peticion
 func PromoverAlumno(ctx iris.Context) {
 
 	idalumno := ctx.PostValue("data")
@@ -2007,7 +2007,7 @@ func BuscarMateria(ctx iris.Context) {
 
 }
 
-//ModificarMateria -> Editar datos en un modal?
+// ModificarMateria -> Editar datos en un modal?
 func ModificarMateria(ctx iris.Context) {
 	idsalumno := ctx.PostValue("data")
 	var materia calificacionesmodel.Materia
@@ -2015,7 +2015,7 @@ func ModificarMateria(ctx iris.Context) {
 	ctx.JSON(materia)
 }
 
-//EditarMateria -> Guarda los datos modificados del alumno previamente solicitado
+// EditarMateria -> Guarda los datos modificados del alumno previamente solicitado
 func EditarMateria(ctx iris.Context) {
 
 	idsmateria := ctx.PostValue("datasM")
